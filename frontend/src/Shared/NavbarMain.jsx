@@ -6,6 +6,7 @@ import { RxCross1 } from "react-icons/rx";
 import MenuBar from "./MenuBar";
 import { BasicContext } from "@/ContextAPIs/BasicProvider";
 import useTotalCart from "@/Hooks/useTotalCart";
+import { Link } from "react-router-dom";
 
 const NavbarMain = () => {
   const [open, setOpen] = useState(false);
@@ -28,7 +29,7 @@ const NavbarMain = () => {
       <div className="hidden md:flex flex-1">
         <FaSearch className="text-2xl text-color_1" />
       </div>
-      <div className="text-4xl text-color_1 font-bold flex-1 flex justify-center">LOGO</div>
+      <Link to='/' className="text-4xl text-color_1 font-bold flex-1 flex justify-center">LOGO</Link>
       <div className="flex items-center gap-4 flex-1 justify-end">
         <div className="md:hidden">
           <FaSearch className="text-2xl text-color_1" />

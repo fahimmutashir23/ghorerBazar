@@ -14,7 +14,7 @@ const Layout = () => {
       <NavbarTop />
       <NavbarMain />
       <CategoryBar />
-      <div className="bg-white">
+      <div className="bg-white py-4">
         <Outlet />
       </div>
       <Footer />

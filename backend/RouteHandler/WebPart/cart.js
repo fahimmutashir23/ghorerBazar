@@ -44,14 +44,12 @@ router.get("/get-cart", async (req, res) => {
         },
       },
     ]);
-    const totalProduct = await Cart.estimatedDocumentCount();
 
     res.json({
       status_code: 200,
       message: "Successfully Loaded Data",
       result: productDetails,
-      totalAmount: totalAmount?.total || 0,
-      totalProduct
+      totalAmount: totalAmount?.total || 0
     });
   } catch (error) {
     res.json(error);

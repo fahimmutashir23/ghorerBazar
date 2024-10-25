@@ -17,7 +17,6 @@ const CartBar = () => {
   const [cart, cartLoading, cartFetch] = useGetCart();
   const [, , totalCartFetch] = useTotalCart();
   const [isOpen, setIsOpen] = useState(false);
-  console.log(isOpen);
 
   const handleDelete = async (id) => {
     const res = await axiosPublic.delete(`/api/delete-cart/${id}`, {

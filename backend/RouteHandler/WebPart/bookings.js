@@ -1,35 +1,44 @@
 const express = require("express");
 const router = express.Router();
-const loginCheck = require("../../Middleware/checkLogin");
 const Bookings = require("../../Schemas/Bookings/bookings");
 const { generateOrderId } = require("../../Utils/generateOrderId");
+const deleteCartData = require("./Partial/deleteCartABook");
+const loginCheck = require("../../Middleware/checkLogin");
 
 router.post("/save-bookings", async (req, res) => {
-  const orderId = await generateOrderId();
+  const invoiceId = await generateOrderId();
+  const userId = req.cookies.userId;
   try {
-    const newBookings = new Bookings(req.body);
-    newBookings.invoiceId = orderId;
+    const info = {
+      ...req.body, userId, invoiceId
+    }
+
+    const newBookings = new Bookings(info);
     const result = await newBookings.save();
     if (result) {
       const productDetails = await Bookings.findById(result._id)
         .populate("products.productId")
         .exec();
-        
-      res.json({
-        status_code: 200,
-        message: "Bookings Successfully",
-        result: productDetails,
-      });
+      if(productDetails){
+        deleteCartData(userId);
+          res.json({
+            status_code: 200,
+            message: "Bookings Successfully",
+            result: productDetails,
+          });
+      }
     }
   } catch (error) {
     res.json(error);
   }
 });
 
-router.post("/get-bookings-w-phone", async (req, res) => {
+router.post("/get-bookings-w-id", loginCheck, async (req, res) => {
   try {
-    const phone = parseInt(req.body.phone);
-    const result = await Bookings.find({ phone }).exec();
+    const invoiceId = req.body.invoiceId;
+    const result = await Bookings.findOne({ invoiceId })
+    .populate('products.productId')
+    .exec();
     res.json({
       success: true,
       status_code: 200,

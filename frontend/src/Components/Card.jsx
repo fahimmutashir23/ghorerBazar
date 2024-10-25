@@ -1,15 +1,19 @@
+import { BasicContext } from "@/ContextAPIs/BasicProvider";
 import useAxiosPublic from "@/Hooks/useAxiosPublic";
 import useGetCart from "@/Hooks/useGetCart";
 import useTotalCart from "@/Hooks/useTotalCart";
+import { useContext } from "react";
 import { toast } from "react-toastify";
 
 const Card = ({ data }) => {
   const axiosPublic = useAxiosPublic();
   const [ ,  , cartFetch] = useGetCart();
-  const [ , , totalCartFetch] = useTotalCart()
+  const [ , , totalCartFetch] = useTotalCart();
+  const { setCartBar } = useContext(BasicContext);
 
   const handleAddToCart = async (data) => {
     const info = {
+      productId: data._id,
       name: data.name,
       images: data.images[0],
       price: data.price,
@@ -21,6 +25,7 @@ const Card = ({ data }) => {
         toast.success(res.data.message);
         cartFetch();
         totalCartFetch();
+        setCartBar(true)
       }
     } catch (error) {
       toast.error(error.response.data.message);

@@ -2,8 +2,13 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const bookingsSchema = new mongoose.Schema({
+    userId: {
+      type: String,
+      require: true
+    },
     invoiceId: {
       type: String,
+      require: true
     },
     name: {
       type: String,
@@ -15,13 +20,13 @@ const bookingsSchema = new mongoose.Schema({
     },
     email: {
       type: String,
-      required: [true, 'Please Enter Your email'],
+      default: null
     },
     address: {
       type: String,
       required: true,
     },
-    price: {
+    totalAmount: {
       type: Number,
       required: true,
     },

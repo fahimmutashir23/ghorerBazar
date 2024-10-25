@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdDelete } from "react-icons/md";
 import { GrStatusUnknown } from "react-icons/gr";
@@ -9,15 +9,20 @@ import Loader from "../../../Utils/Loader";
 import useGetCollectionLength from "../../../Hooks/useGetCollectionLength";
 import { Paginator } from "primereact/paginator";
 import { IoSearchSharp } from "react-icons/io5";
+import InvoiceModal from "../Invoice/InvoiceModal";
+import { BasicContext } from "@/ContextAPIs/BasicProvider";
+import { IoMdEye } from "react-icons/io";
 
 const BookingsList = () => {
   const [popOpen, setPopOpen] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
   const axiosSecure = useAxiosSecure();
   const [phone, setPhone] = useState();
+  const {setInvoiceId} = useContext(BasicContext);
   const [collectionData, collectionLoading] = useGetCollectionLength();
   const [first, setFirst] = useState(0);
   const [rows, setRows] = useState(10);
-  const [page, setPage] = useState(0)
+  const [page, setPage] = useState(0);
 
   const togglePopOpen = (idx) => {
     setPopOpen((prevIdx) => (prevIdx === idx ? null : idx));
@@ -28,12 +33,15 @@ const BookingsList = () => {
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["bookings"],
+    queryKey: ["booking"],
     queryFn: async () => {
-      const res = await axiosSecure(`/api/get-bookings-list?phone=${phone}&page=${page}&limit=${rows}`);
+      const res = await axiosSecure(
+        `/api/get-bookings-list?phone=${phone}&page=${page}&limit=${rows}`
+      );
       return res.data;
     },
   });
+
 
 
   const handleDelete = async (id) => {
@@ -51,8 +59,8 @@ const BookingsList = () => {
   const handleActiveInactive = async (id, statusCode) => {
     try {
       const status = {
-      status : statusCode === 'pending' ? 'confirm' : 'pending'
-      }
+        status: statusCode === "pending" ? "confirm" : "pending",
+      };
       const res = await axiosSecure.put(`/api/update-booking/${id}`, status);
       if (res.data) {
         toast.success("Bookings Update Successfully");
@@ -70,21 +78,25 @@ const BookingsList = () => {
   };
 
   useEffect(() => {
-    refetch()
-  }, [page, phone])
+    refetch();
+  }, [page, phone]);
+
+  const openInvoice = (invoiceId) => {
+    setInvoiceId(invoiceId);
+    setIsOpen(true);
+  }
 
   // const handleSearch = async () => {
-    
-    // const res = await axiosPublic.post('/api/get-bookings-w-phone', {phone: searchValue})
-    // if( res.data.success){
-      
-    // }
+
+  // const res = await axiosPublic.post('/api/get-bookings-w-phone', {phone: searchValue})
+  // if( res.data.success){
+
+  // }
   // }
 
   if (isLoading || collectionLoading) {
     return <Loader />;
   }
-
 
   return (
     <div className=" rounded-md py-2 px-3">
@@ -98,8 +110,17 @@ const BookingsList = () => {
             </button>
           </div>
           <div className="w-full flex-1 flex items-stretch">
-            <input type="search" onChange={e => setPhone(e.target.value)} className="px-2 py-2 w-full border-2 border-gray-700 focus:outline-none" />
-            <button onClick={() => setPhone(phone)} className="px-4 bg-gray-700 text-white"><IoSearchSharp className="text-3xl" /></button>
+            <input
+              type="search"
+              onChange={(e) => setPhone(e.target.value)}
+              className="px-2 py-2 w-full border-2 border-gray-700 focus:outline-none"
+            />
+            <button
+              onClick={() => setPhone(phone)}
+              className="px-4 bg-gray-700 text-white"
+            >
+              <IoSearchSharp className="text-3xl" />
+            </button>
           </div>
         </div>
       </div>
@@ -108,10 +129,9 @@ const BookingsList = () => {
           {/* head */}
           <thead className="h-[40px]">
             <tr className="uppercase text-center h-[40px] bg-gray-700 text-white font-bold ">
-            <th className="text-lg border w-3/12">Customer Name</th>
-            <th className="text-lg border w-1/12">Mobile</th>
-            <th className="text-lg border w-4/12">Product Name</th>
-              <th className="text-lg border w-1/12">Category</th>
+              <th className="text-lg border w-3/12">Customer Name</th>
+              <th className="text-lg border w-1/12">Mobile</th>
+              <th className="text-lg border w-4/12">Product Name</th>
               <th className="text-lg border">Price</th>
               <th className="text-lg border">OrderId</th>
               <th className="text-lg border">Address</th>
@@ -135,21 +155,16 @@ const BookingsList = () => {
                 <td
                   className={`px-6 pt-2 font-semibold text-lg whitespace-nowrap text-center border  text-black `}
                 >
-                  {data.products.map(product => (
-                    <li className="list-item" key={product._id}>{product?.productId?.name} ({product?.quantity})</li>
-                  ))}
+                  {data.products.map((product) => {
+                    return <li className="list-item" key={product._id}>
+                    {product?.productId.name} ({product?.quantity})
+                  </li>
+                  })}
                 </td>
                 <td
                   className={`px-6 pt-2 font-semibold text-lg whitespace-nowrap text-center border  text-black `}
                 >
-                  {data.products.map(product => (
-                    <li className="list-item" key={product._id}>{product.productId?.category}</li>
-                  ))}
-                </td>
-                <td
-                  className={`px-6 pt-2 font-semibold text-lg whitespace-nowrap text-center border  text-black `}
-                >
-                  {data.price}
+                  {data.totalAmount}
                 </td>
                 <td
                   className={`px-6 pt-2 font-semibold text-lg whitespace-nowrap text-center border  text-black `}
@@ -164,7 +179,15 @@ const BookingsList = () => {
                 <td
                   className={`px-6 pt-2 font-semibold text-lg whitespace-nowrap text-center border  text-black`}
                 >
-                  <span className={`${data.status === 'pending' ? "bg_status_secondary" : "bg_status_primary"}`}>{data.status}</span>
+                  <span
+                    className={`${
+                      data.status === "pending"
+                        ? "bg_status_secondary"
+                        : "bg_status_primary"
+                    }`}
+                  >
+                    {data.status}
+                  </span>
                 </td>
                 <td className="border ">
                   <button
@@ -185,11 +208,22 @@ const BookingsList = () => {
                           <MdDelete /> Delete
                         </li>
                         <li
-                          onClick={() => handleActiveInactive(data._id, data.status)}
+                          onClick={() =>
+                            handleActiveInactive(data._id, data.status)
+                          }
                           className="w-full p-2 font_standard transition-all flex items-center list_hover gap-2"
                         >
-                         <GrStatusUnknown />
-                         {data.status === 'pending' ? 'Confirm' : 'Pending'}
+                          <GrStatusUnknown />
+                          {data.status === "pending" ? "Confirm" : "Pending"}
+                        </li>
+                        <li
+                          onClick={() =>
+                            openInvoice(data.invoiceId)
+                          }
+                          className="w-full p-2 font_standard transition-all flex items-center list_hover gap-2"
+                        >
+                          <IoMdEye />
+                          View Invoice
                         </li>
                       </ul>
                     </div>
@@ -199,7 +233,14 @@ const BookingsList = () => {
             ))}
           </tbody>
         </table>
-        <Paginator className="bg-gray-700 max-w-fit mx-auto mt-2 text-white" first={first} rows={rows} totalRecords={collectionData.booking} onPageChange={onPageChange} />
+        {isOpen && <InvoiceModal isOpen={isOpen} setIsOpen={setIsOpen} />}
+        <Paginator
+          className="bg-gray-700 max-w-fit mx-auto mt-2 text-white"
+          first={first}
+          rows={rows}
+          totalRecords={collectionData.booking}
+          onPageChange={onPageChange}
+        />
       </div>
     </div>
   );

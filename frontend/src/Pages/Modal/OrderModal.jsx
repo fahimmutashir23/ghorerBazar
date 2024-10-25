@@ -3,12 +3,18 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { IoMdClose } from "react-icons/io";
 import { toast } from "react-toastify";
-import { IoAddCircleOutline } from "react-icons/io5";
 import useAxiosPublic from "@/Hooks/useAxiosPublic";
+import useGetCart from "@/Hooks/useGetCart";
+import { useNavigate } from "react-router-dom";
+import useTotalCart from "@/Hooks/useTotalCart";
 
 const OrderModal = ({ isOpen, setIsOpen }) => {
   const [animate, setAnimate] = useState(false);
   const axiosSecure = useAxiosPublic();
+  const [cart, , cartFetch] = useGetCart();
+  const [, , totalCartFetch] = useTotalCart();
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   
   
 
@@ -21,36 +27,40 @@ const OrderModal = ({ isOpen, setIsOpen }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoader(true)
+    setLoading(true);
     const name = e.target.name.value;
-    const brand = e.target.brand.value;
-    const price = e.target.price.value;
-    const category = e.target.category.value;
-    const images = e.target.image.files[0];
+    const phone = e.target.phone.value;
+    const email = e.target.email.value;
+    const address = e.target.address.value;
     const details = e.target.details.value;
 
-    const formData = new FormData()
-    formData.append('name', name)
-    formData.append('price', price)
-    formData.append('brand', brand)
-    formData.append('category', category)
-    formData.append('details', details)
-    formData.append('images', images)
+    const info = {
+      name,
+      phone,
+      email,
+      address,
+      details,
+      totalAmount: cart.totalAmount,
+      products: cart.result.map((item) => (
+        {productId: item.productId, quantity: item.quantity}
+      ))
+    }
 
     try {
-      const res = await axiosSecure.post("/api/create-product", formData);
-      if (res.data.success) {
-        setIsOpen(false)
-        fetchData();
-        collectionFetch()
+      const res = await axiosSecure.post("/api/save-bookings", info, {withCredentials: true});
+      if (res.data.status_code === 200) {
         toast.success(res.data.message);
+        cartFetch();
+        totalCartFetch();
         e.target.reset()
-        setLoader(false)
+        setLoading(false)
+        setIsOpen(false)
+        navigate('/invoice', {state: res.data.result})
       }
     } catch (error) {
-      fetchData()
+      setLoading(false)
       toast.error(error.response.data)
-      setLoader(false)
+      setIsOpen(false)
     }
   };
 
@@ -88,21 +98,21 @@ const OrderModal = ({ isOpen, setIsOpen }) => {
                   <Dialog.Panel className="w-[96%] md:w-[90%] lg:w-[75%] xl:w-[910px] max-w-md:w-[60%] transform rounded-md text-left align-middle shadow-xl transition-all my-10 pb-0 bg-white">
                     <Dialog.Title
                       as="h3"
-                      className="border px-4 text-xl bg-gray-700 text-white flex items-center justify-between h-14"
+                      className="border px-4 text-xl bg-color_1 text-white flex items-center justify-between h-14"
                     >
-                      <h6 className="py-2 text-2xl font-semibold">Add Product</h6>
+                      <h6 className="py-2 text-2xl font-semibold">Make Order</h6>
                       <button
                         onClick={() => setIsOpen(false)}
                         className="text_color close-button "
                       >
-                        <IoMdClose />
+                        <IoMdClose className="text-2xl" />
                       </button>
                     </Dialog.Title>
                     <form onSubmit={handleSubmit}>
                       <div className="m-4 grid grid-cols-1 lg:grid-cols-2 gap-2">
                         <div className="">
                           <label className="font-semibold">
-                            Product Name
+                            Name
                             <span className="text-red-400 ml-1">
                               (required)
                             </span>{" "}
@@ -110,67 +120,52 @@ const OrderModal = ({ isOpen, setIsOpen }) => {
                           <input
                             type="text"
                             name="name"
-                            className="bg-white h-12 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
+                            className="bg-white h-10 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                             placeholder="Type Here"
                             required
                           />
                         </div>
                         <div className="">
                           <label className="font-semibold">
-                            Brand Name
-                            <span className="text-red-400 ml-1">
-                              (required)
-                            </span>{" "}
-                          </label>
-                          <input
-                            type="text"
-                            name="brand"
-                            className="bg-white h-12 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
-                            placeholder="Type Here"
-                            required
-                          />
-                        </div>
-                        <div className="">
-                          <label className="font-semibold">
-                            Product Price
+                            Phone
                             <span className="text-red-400 ml-1">
                               (required)
                             </span>{" "}
                           </label>
                           <input
                             type="number"
-                            name="price"
-                            className="bg-white h-12 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
+                            name="phone"
+                            className="bg-white h-10 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                             placeholder="Type Here"
                             required
                           />
                         </div>
                         <div className="">
                           <label className="font-semibold">
-                            Product Category
+                            Address
                             <span className="text-red-400 ml-1">
                               (required)
                             </span>{" "}
                           </label>
                           <input
                             type="text"
-                            name="category"
-                            className="bg-white h-12 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
+                            name="address"
+                            className="bg-white h-10 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                             placeholder="Type Here"
                             required
                           />
                         </div>
                         <div className="">
                           <label className="font-semibold">
-                            Product Image
+                            Email
                             <span className="text-red-400 ml-1">
-                              (required)
+                              
                             </span>{" "}
                           </label>
                           <input
-                            type="file"
-                            name="image"
-                            className="bg-white mt-3 focus:ring-0 px-4 focus:border w-full focus:outline-none"
+                            type="email"
+                            name="email"
+                            className="bg-white h-10 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                             placeholder="Type Here"
                             required
                           />
@@ -190,16 +185,16 @@ const OrderModal = ({ isOpen, setIsOpen }) => {
                             required 
                             rows="5"></textarea>
                         </div>
-                      <div className="border text-xl bg-gray-700 flex items-center justify-between">
+                      <div className="border flex-row-reverse text-xl bg-color_1 flex items-center justify-between">
                         <button
-                          type="submit"
                           className="button_primary"
+                          disabled={loading}
                         >
-                          Save
+                          {loading ? "loading..." : "Submit"}
                         </button>
                         <button
                           type="button"
-                          className="button_secondary"
+                          className="button_delete"
                           onClick={() => setIsOpen(false)}
                         >
                           Cancel

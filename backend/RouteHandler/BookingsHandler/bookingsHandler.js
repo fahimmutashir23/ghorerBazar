@@ -13,10 +13,11 @@ router.get("/get-bookings-list", loginCheck, async (req, res) => {
     if (phone) query.phone = phone;
 
     const result = await Bookings.find(query)
-      .populate("products.productId")
+      .populate('products.productId')
       .skip(page * limit)
       .limit(limit)
       .exec();
+
     res.json({
       status_code: 200,
       message: "Successfully Loaded Data",

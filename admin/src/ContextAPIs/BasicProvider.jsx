@@ -7,6 +7,7 @@ const BasicProvider = ({ children }) => {
   const [open, setOpen] = useState(true);
   const sidebarRef = useRef(null);
   const [sidebarOpen, setSideBarOpen] = useState(true);
+  const [invoiceId, setInvoiceId] = useState(null);
 
 
   const info = {
@@ -15,6 +16,8 @@ const BasicProvider = ({ children }) => {
     open,
     setOpen,
     sidebarRef,
+    invoiceId,
+    setInvoiceId
   };
   return <BasicContext.Provider value={info}>{children}</BasicContext.Provider>;
 };

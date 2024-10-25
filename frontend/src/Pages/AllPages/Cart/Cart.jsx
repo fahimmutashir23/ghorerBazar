@@ -1,8 +1,10 @@
 import useAxiosPublic from "@/Hooks/useAxiosPublic";
 import useGetCart from "@/Hooks/useGetCart";
 import useTotalCart from "@/Hooks/useTotalCart";
+import OrderModal from "@/Pages/Modal/OrderModal";
 import PageHeader from "@/Shared/PageHeader";
 import Loader2 from "@/Utils/Loader2";
+import { useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
 
@@ -10,6 +12,7 @@ const Cart = () => {
   const axiosPublic = useAxiosPublic();
   const [cart, cartLoading, cartFetch] = useGetCart();
   const [, , totalCartFetch] = useTotalCart();
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleDelete = async (id) => {
     const res = await axiosPublic.delete(`/api/delete-cart/${id}`, {
@@ -65,10 +68,11 @@ const Cart = () => {
           <p className="flex justify-between font-semibold md:text-xl">
             <span>Total Price</span> <span>{cart.totalAmount}/-</span>
           </p>
-          <button className="button_primary w-full mt-4">Checkout</button>
+          <button onClick={() => setIsOpen(true)} className="button_primary w-full mt-4">Checkout</button>
           </div>
         </div>
       </div>
+      <OrderModal isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   );
 };
