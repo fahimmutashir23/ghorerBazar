@@ -5,10 +5,12 @@ import { MdMenu } from "react-icons/md";
 import { RxCross1 } from "react-icons/rx";
 import MenuBar from "./MenuBar";
 import { BasicContext } from "@/ContextAPIs/BasicProvider";
+import useTotalCart from "@/Hooks/useTotalCart";
 
 const NavbarMain = () => {
   const [open, setOpen] = useState(false);
   const { setCartBar } = useContext(BasicContext);
+  const [totalCart] = useTotalCart();
 
   return (
     <div className="flex justify-between items-center py-4 px-2 lg:px-6 max-w-6xl mx-auto">
@@ -31,9 +33,11 @@ const NavbarMain = () => {
         <div className="md:hidden">
           <FaSearch className="text-2xl text-color_1" />
         </div>
-        <div 
+        <div
+        className="relative"
         onClick={() => setCartBar(true)}
         >
+          <span className="absolute -top-3.5 -right-6 h-7 w-7 rounded-full bg-color_1 border-white border-2 text-sm font-medium flex items-center justify-center text-white">{totalCart}</span>
           <FaCartShopping className="text-2xl text-color_1 hover:cursor-pointer hover:scale-105" />
         </div>
       </div>

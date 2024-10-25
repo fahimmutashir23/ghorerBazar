@@ -8,7 +8,7 @@ const useGetProduct = (page, rows) => {
     const {data:products, isLoading:productLoading, refetch:productFetch} = useQuery({
         queryKey: ["get-web-product"],
         queryFn: async () => {
-            const res = await axiosPublic(`/api/get-all-products`);
+            const res = await axiosPublic(`/api/get-all-products`, {withCredentials: true});
             return res.data;
         }
     })

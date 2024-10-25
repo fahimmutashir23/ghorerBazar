@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const Product = require("../../Schemas/Product/product");
+const userId = require("../../Middleware/userId");
 
-router.get("/get-all-products", async (req, res) => {
+router.get("/get-all-products", userId, async (req, res) => {
   const { page, limit } = req.query;
   const totalProducts = await Product.estimatedDocumentCount();
   try {

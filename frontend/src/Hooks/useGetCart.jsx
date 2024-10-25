@@ -1,20 +1,18 @@
 import { useQuery } from '@tanstack/react-query';
 import useAxiosPublic from './useAxiosPublic';
-import useUser from '@/Security/useUser';
 
 const useGetCart = () => {
     const axiosPublic = useAxiosPublic();
-    const [userData] = useUser();
 
-    const {data:products, isLoading:productLoading, refetch:productFetch} = useQuery({
+    const {data:cart, isLoading:cartLoading, refetch:cartFetch} = useQuery({
         queryKey: ["get-cart"],
         queryFn: async () => {
-            const res = await axiosPublic(`/api/get-cart/${userData._id}`);
+            const res = await axiosPublic(`/api/get-cart`, {withCredentials: true});
             return res.data;
         }
     })
 
-    return [products, productLoading, productFetch];
+    return [cart, cartLoading, cartFetch];
 };
 
 export default useGetCart;

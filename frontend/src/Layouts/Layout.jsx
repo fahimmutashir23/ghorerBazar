@@ -3,7 +3,6 @@ import NavbarTop from "@/Shared/NavbarTop";
 import CategoryBar from "@/Shared/CategoryBar";
 import Footer from "@/Shared/Footer";
 import Copyright from "@/Shared/Copyright";
-import Cart from "@/Shared/Cart";
 import TopArrow from "@/Shared/TopArrow";
 import NavbarMain from "@/Shared/NavbarMain";
 import CartBar from "@/Components/CartBar";
@@ -15,14 +14,14 @@ const Layout = () => {
       <NavbarTop />
       <NavbarMain />
       <CategoryBar />
-      <div className="max-w-7xl mx-auto">
+      <div className="bg-white">
         <Outlet />
       </div>
       <Footer />
       <Copyright />
-      <div className="fixed z-50 right-0 bottom-24 md:bottom-[100px] ">
+      {/* <div className="fixed z-50 right-0 bottom-24 md:bottom-[100px] ">
         <Cart />
-      </div>
+      </div> */}
       {/* <div className="fixed z-50 right-0 bottom-24 hidden md:block">
         <StickySideBar />
       </div> */}

@@ -1,11 +1,17 @@
 const express = require("express");
 const router = express.Router();
 const Cart = require("../../Schemas/Cart/cart");
+const userId = require("../../Middleware/userId");
 
-router.post("/save-cart", async (req, res) => {
+router.post("/save-cart", userId, async (req, res) => {
   try {
-    const newCart = new Cart(req.body);
-    
+    const info = {
+      ...req.body,
+      userId: req.userId,
+    };
+
+    const newCart = new Cart(info);
+
     const result = await newCart.save();
     if (result) {
       res.json({
@@ -18,38 +24,67 @@ router.post("/save-cart", async (req, res) => {
   }
 });
 
-router.get("/get-cart/:id", async (req, res) => {
-    const orderId = await generateOrderId();
-    try {
-      const newBookings = new Bookings(req.body);
-      newBookings.invoiceId = orderId;
-      const result = await newBookings.save();
-      if (result) {
-        const productDetails = await Bookings.findById(result._id)
-          .populate("products.productId")
-          .exec();
-          
-        res.json({
-          status_code: 200,
-          message: "Bookings Successfully",
-          result: productDetails,
-        });
-      }
-    } catch (error) {
-      res.json(error);
-    }
-  });
-
-router.post("/delete-cart", async (req, res) => {
+router.get("/get-cart", async (req, res) => {
+  const userId = req.cookies.userId;
   try {
-    const phone = parseInt(req.body.phone);
-    const result = await Bookings.find({ phone }).exec();
+    const productDetails = await Cart.find({ userId });
+    const [totalAmount] = await Cart.aggregate([
+      {
+        $match: { userId },
+      },
+      {
+        $addFields: {
+          totalAmount: { $multiply: ["$price", "$quantity"] },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          total: { $sum: "$totalAmount" },
+        },
+      },
+    ]);
+    const totalProduct = await Cart.estimatedDocumentCount();
+
     res.json({
-      success: true,
       status_code: 200,
       message: "Successfully Loaded Data",
-      result: result.length === 0 ? "data not found" : result,
+      result: productDetails,
+      totalAmount: totalAmount?.total || 0,
+      totalProduct
     });
+  } catch (error) {
+    res.json(error);
+  }
+});
+
+router.get("/get-total-cart", async (req, res) => {
+  const userId = req.cookies.userId;
+  try {
+    const totalProduct = await Cart.countDocuments({userId});
+
+    res.json({
+      status_code: 200,
+      message: "Successfully Loaded Data",
+      totalProduct
+    });
+  } catch (error) {
+    res.json(error);
+  }
+});
+
+router.delete("/delete-cart/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const result = await Cart.deleteOne({ userId: req.cookies.userId, _id : id })
+    
+    if(result){
+      res.json({
+        success: true,
+        status_code: 200,
+        message: "Successfully Loaded Data",
+      });
+    }
   } catch (error) {
     res.json(error);
   }

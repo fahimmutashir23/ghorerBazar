@@ -33,7 +33,7 @@ const Home = () => {
   }, [timeLeft]);
 
   return (
-    <div>
+    <div className="max-w-7xl mx-auto">
       <AllProduct />
     </div>
   );

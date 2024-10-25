@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cookieParser = require('cookie-parser');
 const app = express();
 const path = require('path');
 require("dotenv").config();
@@ -14,11 +15,13 @@ const corsOptions = {
     'http://localhost:5000',
     'https://tech-hub-backend-lake.vercel.app'
   ],
-  Credentials: true,
+  Credential: true,
+  credentials: true,
   optionSuccessStatus : 200
 };
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors(corsOptions));
 
 //===================================== All Handler Call===========================================//
@@ -43,7 +46,6 @@ const brand = require("./RouteHandler/BrandHandler/brandHandler");
 const webProducts = require("./RouteHandler/WebPart/webProduct");
 const webBookings = require("./RouteHandler/WebPart/bookings");
 const webCart = require("./RouteHandler/WebPart/cart");
-const deviceIp = require("./Utils/getIp");
 
 // ======================================== Image Folder ===========================================//
 const UPLOAD_FOLDER = path.join(__dirname, './Upload/product/images');
@@ -87,7 +89,6 @@ app.use("/api", brand);
 app.use("/api", webProducts);
 app.use("/api", webBookings);
 app.use("/api", webCart);
-app.use("/api", deviceIp);
 
 app.get("/", (req, res) => {
   res.send("Tech Hub is running!");

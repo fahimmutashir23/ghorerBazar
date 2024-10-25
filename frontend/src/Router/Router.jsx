@@ -4,6 +4,7 @@ import AdminLogin from "../Pages/AdminPages/AdminAuth/AdminLogin";
 import AdminRegistration from "../Pages/AdminPages/AdminAuth/AdminRegistration";
 import ErrorPage from "../Utils/ErrorPage";
 import Home from "@/Pages/Home/Home";
+import Cart from "@/Pages/AllPages/Cart/Cart";
 
 const Router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ const Router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/cart",
+        element: <Cart />,
       },
     ],
   },

@@ -1,9 +1,12 @@
 import useAxiosPublic from "@/Hooks/useAxiosPublic";
-import axios from "axios";
+import useGetCart from "@/Hooks/useGetCart";
+import useTotalCart from "@/Hooks/useTotalCart";
 import { toast } from "react-toastify";
 
 const Card = ({ data }) => {
   const axiosPublic = useAxiosPublic();
+  const [ ,  , cartFetch] = useGetCart();
+  const [ , , totalCartFetch] = useTotalCart()
 
   const handleAddToCart = async (data) => {
     const info = {
@@ -11,14 +14,13 @@ const Card = ({ data }) => {
       images: data.images[0],
       price: data.price,
     }
-
-    const ip = await axios.get('https://api.ipify.org?format=json')
-    console.log(ip.data);
   
     try {
-      const res = await axiosPublic.post(`/api/save-cart`, info)
+      const res = await axiosPublic.post(`/api/save-cart`, info, {withCredentials: true})
       if(res.data.status_code === 200){
         toast.success(res.data.message);
+        cartFetch();
+        totalCartFetch();
       }
     } catch (error) {
       toast.error(error.response.data.message);
