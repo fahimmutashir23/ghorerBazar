@@ -1,5 +1,5 @@
 export const navItem = [
-    { name: "All Categories", path: "/allCat" },
+    { name: "All Categories", path: "/allCategory" },
     { name: "Offer", path: "/offer" },
     { name: "Sharisha Oil", path: "/sharisha" },
     { name: "Ghi (ঘি)", path: "/ghi" },

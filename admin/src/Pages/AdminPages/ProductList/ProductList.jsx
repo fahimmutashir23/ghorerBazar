@@ -6,9 +6,7 @@ import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import AddProductModal from "./AddProductModal";
-import Loader from "../../../Utils/Loader";
 import UpdateProductModal from "./UpdateProductModal";
-import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import useGetCollectionLength from "../../../Hooks/useGetCollectionLength";
 import { Paginator } from 'primereact/paginator';
 import Loader2 from "../../../Utils/Loader2";
@@ -17,9 +15,8 @@ const ProductList = () => {
   const [popOpen, setPopOpen] = useState(null);
   const [loader, setLoader] = useState(false)
   const axiosSecure = useAxiosSecure();
-  const axiosPublic = useAxiosPublic();
   const [isOpen, setIsOpen] = useState(false);
-  const [collectionData, collectionLoading, collectionFetch] = useGetCollectionLength();
+  const [collectionData, , collectionFetch] = useGetCollectionLength();
   const [first, setFirst] = useState(0);
   const [rows, setRows] = useState(10);
   const [page, setPage] = useState(0)
@@ -38,7 +35,7 @@ const ProductList = () => {
   } = useQuery({
     queryKey: ["product"],
     queryFn: async () => {
-      const res = await axiosPublic(`/api/get-product-list?page=${page}&limit=${rows}`);
+      const res = await axiosSecure(`/api/get-product-list?page=${page}&limit=${rows}`);
       return res.data;
     },
   });
@@ -70,13 +67,14 @@ const ProductList = () => {
     refetch()
   }, [page])
 
-  if (isLoading || collectionLoading) {
-    return <Loader />;
+
+  if (isLoading) {
+    return <Loader2 />;
   }
   
   return (
     <div className=" rounded-md py-2 px-3">
-       {loader && <Loader2 />}
+      {loader && <Loader2 />}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-0  w-full">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-0 bg-gray-100 mb-2 w-full ">
           <div className="flex">
@@ -102,7 +100,7 @@ const ProductList = () => {
             </tr>
           </thead>
           <tbody className="text-center">
-            {products.result.map((data, idx) => (
+            {products?.result.map((data, idx) => (
               <tr key={idx}>
                 <td
                   className={`px-6 pt-2 font-semibold text-lg whitespace-nowrap text-left border  text-black `}

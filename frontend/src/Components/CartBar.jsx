@@ -39,7 +39,7 @@ const CartBar = () => {
     >
       <div className="flex items-center justify-between px-3">
         <h1 className="font-medium text-2xl">Shopping Cart</h1>
-        <Link className="flex items-center gap-2 text-color_1 font-semibold" to='/cart'>
+        <Link onClick={() => setCartBar(false)} className="flex items-center gap-2 text-color_1 font-semibold" to='/cart'>
         View Cart
           <FaExternalLinkAlt className="mb-1" />
         </Link>
@@ -80,12 +80,12 @@ const CartBar = () => {
           </div>
         ))}
       </div>
-      <div className="bg-white p-3">
+      {cart.result.length > 0 && <div className="bg-white p-3">
         <p className="flex justify-between font-semibold md:text-xl">
           <span>Total Price</span> <span>{cart.totalAmount}/-</span>
         </p>
         <button onClick={() => setIsOpen(true)} className="button_primary w-full mt-4">Checkout</button>
-      </div>
+      </div>}
       <OrderModal isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   );

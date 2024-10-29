@@ -64,12 +64,12 @@ const Cart = () => {
           ))}
         </div>
         <div className="p-3 my-4 flex justify-end">
-          <div className="w-full max-w-xl border p-3">
+          {cart.result.length > 0 && <div className="w-full max-w-xl border p-3">
           <p className="flex justify-between font-semibold md:text-xl">
             <span>Total Price</span> <span>{cart.totalAmount}/-</span>
           </p>
           <button onClick={() => setIsOpen(true)} className="button_primary w-full mt-4">Checkout</button>
-          </div>
+          </div>}
         </div>
       </div>
       <OrderModal isOpen={isOpen} setIsOpen={setIsOpen} />
