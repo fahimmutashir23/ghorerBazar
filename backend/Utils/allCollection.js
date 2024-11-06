@@ -78,7 +78,7 @@ router.post("/get-all-collection-length", loginCheck, async (req, res) => {
         }
       }
     ]
-    const stockAmount = await Purchase.aggregate(stockPipeline)
+    const [stockAmount] = await Purchase.aggregate(stockPipeline)
 
     res.json({
       message: "Successfully Loaded Data",
@@ -93,7 +93,7 @@ router.post("/get-all-collection-length", loginCheck, async (req, res) => {
         stockCategory,
         sales,
         brand,
-        stock : {stock, stockAmount},
+        stock : {stock, stockAmount: stockAmount ? stockAmount : 0},
         expense: {
           expense,
           totalExpense,

@@ -8,7 +8,7 @@ import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Loader from "../../../Utils/Loader";
 import { IoMdSettings } from "react-icons/io";
 import { useLocation, useNavigate } from "react-router-dom";
-import useRoleAccessApi from "../../../Hooks/useRoleAccessApi";
+import useRoleAccessApi from "../../../Hooks/Apis/useRoleAccessApi";
 
 const UpdateRole = () => {
   const axiosSecure = useAxiosSecure();

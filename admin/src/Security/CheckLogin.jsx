@@ -15,7 +15,6 @@ const CheckLogin = ({ children }) => {
   const token = localStorage.getItem("token");
   const baseUrl = url
 
-
   useEffect(() => {
     if (!token) {
       return (
@@ -31,7 +30,7 @@ const CheckLogin = ({ children }) => {
       })
       .then((res) => {
         if(isLoading) return setLoader(true)
-        if (res.data.userId === userData._id) {
+        if (res.data.userId === userData._doc._id) {
           setGo(true);
           setLoader(false)
         } else {

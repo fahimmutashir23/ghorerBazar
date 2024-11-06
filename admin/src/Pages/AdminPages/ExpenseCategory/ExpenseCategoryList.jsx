@@ -6,7 +6,7 @@ import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Loader from "../../../Utils/Loader";
-import useGetCollectionLength from "../../../Hooks/useGetCollectionLength";
+import useGetCollectionLength from "@/Hooks/Apis/useGetCollectionLength";
 import { Paginator } from "primereact/paginator";
 import AddExpenseCategoryModal from "./AddExpenseCategoryModal";
 import UpdateExpenseCategoryModal from "./UpdateExpenseCategoryModal";

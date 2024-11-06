@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 const productSchema = new mongoose.Schema({
     name: {
@@ -18,17 +19,46 @@ const productSchema = new mongoose.Schema({
       required: true,
     },
     category: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: 'Category',
       required: true,
-    },
+    },  
     details: {
       type: String,
       required: true,
     },
-    sale: {
+    sold: {
       type: Number,
       default: 0
     },
+    stock: {
+      type: Number,
+      require: true
+    },
+    discount: {
+      type: Number,
+      default: 0
+    },
+    tags: [
+      {
+        type: String
+      }
+    ],
+    reviews: [
+      {
+        userName: String,
+        comment: String,
+        rating: {
+          type: Number,
+          min: 1,
+          max: 5
+        },
+        createdAt: {
+          type: Date,
+          default: Date.now
+        }
+      }
+    ],
   }, {timestamps : true});
 
   module.exports = mongoose.model("Product", productSchema)

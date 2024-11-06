@@ -42,7 +42,6 @@ router.get("/get-create-role", loginCheck, async (req, res) => {
 router.post("/save-role", loginCheck, async (req, res) => {
   try {
     const newRole = new Role(req.body);
-    console.log(newRole);
 
     const filter = { name: { $in: newRole.permissions } };
     const roleGroup = await RoleGroup.find(filter);

@@ -33,7 +33,7 @@ router.get("/report/monthly-sales", loginCheck, async (req, res) => {
       success: true,
       message: "Successfully loaded data",
       status_code: 200,
-      report
+      report: report ? report : 0
     });
   } catch (error) {
     res.status(500).json({

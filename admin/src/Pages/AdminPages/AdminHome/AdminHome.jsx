@@ -1,8 +1,8 @@
-import useGetCollectionLength from "../../../Hooks/useGetCollectionLength";
+import useGetCollectionLength from "@/Hooks/Apis/useGetCollectionLength";
 import Loader2 from "@/Utils/Loader2";
 import BarCharts from "@/Components/Charts/BarCharts";
-import useBulkSales from "@/Hooks/Reports/BulkReports/useBulkSales";
-import useMonthlySale from "@/Hooks/Reports/MonthlyReport/useMonthlySale";
+import useBulkSales from "@/Hooks/Apis/Reports/useBulkSales";
+import useMonthlySale from "@/Hooks/Apis/Reports/useMonthlySale";
 const colors = [
   { id: 0, name: "Tomato", hex: "bg-[#FF1347]" },
   { id: 1, name: "LightSkyBlue", hex: "bg-[#00DD]" },
@@ -27,15 +27,14 @@ const colors = [
 ];
 
 const AdminHome = () => {
-  const [ collectionData, collectionLoading ] = useGetCollectionLength();
-  const [ bulkSale, bulkLoading ] = useBulkSales();
+  const [ collectionData ] = useGetCollectionLength();
+  const [ bulkSale ] = useBulkSales();
   const [ monthlySale ] = useMonthlySale();
 
- 
-  if ( bulkLoading || collectionLoading) {
+
+  if (!bulkSale || !collectionData) {
     return <Loader2 />;
   }
-
 
   const statCard = [
     { text: "Total Product in Web", value: collectionData.product || 0 },
@@ -43,7 +42,7 @@ const AdminHome = () => {
     { text: "Today's Sale", value: bulkSale.todayAmount || 0 },
     { text: "Total Revenue", value: collectionData.revenue || 0 },
     { text: "Total Expense", value: collectionData.expense?.totalExpense || 0 },
-    { text: "Total Stock", value: collectionData.stock.stockAmount[0]?.totalSum || 0 },
+    { text: "Total Stock", value: collectionData.stock.stockAmount.totalSum || 0 },
     { text: "Total User", value: collectionData.user || 0 },
   ];
 
@@ -65,9 +64,9 @@ const AdminHome = () => {
         );
       })}
     </div>
-    {/* <div className="grid grid-cols-1 lg:grid-cols-2">
+    <div className="grid grid-cols-1 lg:grid-cols-2">
       <BarCharts monthlySale={monthlySale} />
-    </div> */}
+    </div>
     </div>
   );
 };

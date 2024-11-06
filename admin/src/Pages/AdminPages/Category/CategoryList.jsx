@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { BiEdit } from "react-icons/bi";
@@ -8,9 +7,10 @@ import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Loader from "../../../Utils/Loader";
 import AddCategoryModal from "./AddCategoryModal";
 import UpdateCategoryModal from "./UpdateCategoryModal";
-import useGetCollectionLength from "../../../Hooks/useGetCollectionLength";
+import useGetCollectionLength from "../../../Hooks/Apis/useGetCollectionLength";
 import { Paginator } from "primereact/paginator";
 import Loader2 from "../../../Utils/Loader2";
+import useGetProductCat from "@/Hooks/Apis/useGetProductCat";
 
 const CategoryList = () => {
   const [popOpen, setPopOpen] = useState(null);
@@ -22,22 +22,11 @@ const CategoryList = () => {
   const [first, setFirst] = useState(0);
   const [rows, setRows] = useState(10);
   const [page, setPage] = useState(0)
+  const [productCat, productCatLoading, productCatFetch] = useGetProductCat(page, rows)
 
   const togglePopOpen = (idx) => {
     setPopOpen((prevIdx) => (prevIdx === idx ? null : idx));
   };
-
-  const {
-    data: products = [],
-    isLoading,
-    refetch,
-  } = useQuery({
-    queryKey: ["category"],
-    queryFn: async () => {
-      const res = await axiosSecure(`/api/get-category-list?page=${page}&limit=${rows}`);
-      return res.data;
-    },
-  });
 
   const handleUpdate = async (data) => {
     setData(data)
@@ -49,7 +38,7 @@ const CategoryList = () => {
       const res = await axiosSecure.delete(`/api/delete-category/${id}`);
       if (res.data) {
         toast.success("Category Deleted Successfully");
-        refetch();
+        productCatFetch();
         collectionFetch()
       }
     } catch (error) {
@@ -64,10 +53,10 @@ const CategoryList = () => {
   };
 
   useEffect(() => {
-    refetch()
+    productCatFetch()
   }, [page])
 
-  if (isLoading || collectionLoading) {
+  if (productCatLoading || collectionLoading) {
     return <Loader />;
   }
 
@@ -83,7 +72,7 @@ const CategoryList = () => {
               All( {collectionData.category} )
             </button>
           </div>
-          <AddCategoryModal collectionFetch={collectionFetch} setLoader={setLoader} fetchData={refetch} />
+          <AddCategoryModal collectionFetch={collectionFetch} setLoader={setLoader} fetchData={productCatFetch} />
         </div>
       </div>
       <div className="overflow-x-auto ">
@@ -96,7 +85,7 @@ const CategoryList = () => {
             </tr>
           </thead>
           <tbody className="text-center">
-            {products.result.map((data, idx) => (
+            {productCat.result.map((data, idx) => (
               <tr key={idx}>
                 <td
                   className={`px-6 pt-2 font-semibold text-lg whitespace-nowrap text-center border  text-black `}
@@ -137,7 +126,7 @@ const CategoryList = () => {
             ))}
           </tbody>
         </table>
-        <UpdateCategoryModal data={data} fetchData={refetch} isOpen={isOpen} setIsOpen={setIsOpen} />
+        <UpdateCategoryModal data={data} fetchData={productCatFetch} isOpen={isOpen} setIsOpen={setIsOpen} />
         <Paginator className="bg-gray-700 max-w-fit mx-auto mt-2 text-white" first={first} rows={rows} totalRecords={collectionData.category} onPageChange={onPageChange} />
       </div>
     </div>

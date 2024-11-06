@@ -148,7 +148,7 @@ const LeftBar = () => {
                     </Link>
                   </li>
                 }
-                {
+                {/* {
                   <li
                     className={` px-p_primary my-1 hover:cursor-pointer hover:rounded-rounded_primary hover: duration-200   ${
                       selected === "/admin/contact"
@@ -513,7 +513,7 @@ const LeftBar = () => {
                       }
                     </ul>
                   </li>
-                }
+                } */}
               </ul>
             </li>
           }

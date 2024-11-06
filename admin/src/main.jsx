@@ -14,8 +14,8 @@ const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ToastContainer
-      position="top-right"
-      autoClose={1000}
+      position="top-center"
+      autoClose={500}
       hideProgressBar={false}
       newestOnTop={false}
       closeOnClick
@@ -23,9 +23,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       pauseOnFocusLoss
       draggable
       pauseOnHover
-      theme="light"
+      theme="dark"
       transition={Slide}
-      />
+    />
     <BasicProvider>
       <OrderProvider>
         <QueryClientProvider client={queryClient}>

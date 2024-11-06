@@ -1,11 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt = require('bcryptjs');
+const bcrypt = require("bcryptjs");
 const loginCheck = require("../../Middleware/checkLogin");
 const User = require("../../Schemas/User/userSchema");
 const Role = require("../../Schemas/Role/role");
-const { upload, compressImage } = require("../../Utils/Multer/uploadUpdateProfile");
-
+const {
+  upload,
+  compressImage,
+} = require("../../Utils/Multer/uploadUpdateProfile");
+const getUserInfo = require("../../Utils/getUserInfo");
 
 router.get("/get-users", loginCheck, async (req, res) => {
   const { page, limit, email, phone } = req.query;
@@ -31,22 +34,38 @@ router.get("/get-users", loginCheck, async (req, res) => {
 });
 
 router.get("/get-create-users", loginCheck, async (req, res) => {
-  try {
-    const result = await Role.find({}, "roleName -_id").exec();
+  const userInfo = await getUserInfo(req.user.userId);
 
-    res.json({
-      success: true,
-      message: "Successfully Loaded Data",
-      status_code: 200,
-      result: result,
-    });
+  try {
+    if (userInfo.role === "super admin") {
+      const result = await Role.find(
+        { roleName: { $nin: ["super admin"] } },
+        "roleName -_id"
+      ).exec();
+      res.json({
+        success: true,
+        message: "Successfully Loaded Data",
+        status_code: 200,
+        result: result,
+      });
+    } else {
+      const result = await Role.find(
+        { roleName: { $nin: ["super admin", "admin"] } },
+        "roleName -_id"
+      ).exec();
+      res.json({
+        success: true,
+        message: "Successfully Loaded Data",
+        status_code: 200,
+        result: result,
+      });
+    }
   } catch (error) {
     res.json(error);
   }
 });
 
-router.post("/create-users", async (req, res) => {
-
+router.post("/create-users", loginCheck, async (req, res) => {
   upload.array("images", 1)(req, res, async (err) => {
     if (err) {
       return res.status(400).json({
@@ -61,20 +80,20 @@ router.post("/create-users", async (req, res) => {
       }
 
       const newUser = new User(req.body);
-      newUser.image = req.files ? req.files[0].filename : null
+      newUser.image = req.files ? req.files[0].filename : null;
 
       const filterMail = { email: newUser.email };
       const filterPhone = { phone: newUser.phone };
-  
+
       const findMail = await User.findOne(filterMail);
       if (findMail) {
-        return res.json({ message: "Email already exist" });
+        return res.json({ message: "Email already exist", status_code: 409 });
       }
       const findPhone = await User.findOne(filterPhone);
-      if(findPhone){
-        return res.json({ message: "Phone already exist" });
+      if (findPhone) {
+        return res.json({ message: "Phone already exist", status_code: 409 });
       }
-  
+
       const result = await newUser.save();
       res.json({
         success: true,
@@ -85,13 +104,11 @@ router.post("/create-users", async (req, res) => {
     } catch (error) {
       res.json({
         success: false,
-        message: error
+        message: error,
       });
     }
-  })
-
+  });
 });
-
 
 router.delete("/delete-user/:id", loginCheck, async (req, res) => {
   try {

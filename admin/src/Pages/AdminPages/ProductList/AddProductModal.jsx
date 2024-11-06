@@ -5,11 +5,34 @@ import { IoMdClose } from "react-icons/io";
 import { toast } from "react-toastify";
 import { IoAddCircleOutline } from "react-icons/io5";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import ImageUploading from "react-images-uploading";
+import uploadIcon from "@/assets/asset/upload.png";
+import useGetProductCat from "@/Hooks/Apis/useGetProductCat";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "/components/ui/select";
+import Loader2 from "@/Utils/Loader2";
+
+const page = ''
+const rows = ''
 
 const AddProductModal = ({ fetchData, setLoader, collectionFetch }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [animate, setAnimate] = useState(false);
   const axiosSecure = useAxiosSecure();
+  const [productCat, productCatLoading] = useGetProductCat(page, rows);
+  const [cat, setCat] = useState(null)
+  const [images, setImages] = useState([]);
+  const maxNumber = 69;
+
+
+  const imgPreviewer = (imageList, addUpdateIndex) => {
+    setImages(imageList);
+  };
   
   
 
@@ -26,17 +49,19 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch }) => {
     const name = e.target.name.value;
     const brand = e.target.brand.value;
     const price = e.target.price.value;
-    const category = e.target.category.value;
-    const images = e.target.image.files[0];
+    const stock = e.target.stock.value;
+    const discount = e.target.discount.value;
     const details = e.target.details.value;
 
     const formData = new FormData()
     formData.append('name', name)
     formData.append('price', price)
     formData.append('brand', brand)
-    formData.append('category', category)
+    formData.append('category', cat)
+    formData.append('discount', discount)
+    formData.append('stock', stock)
     formData.append('details', details)
-    formData.append('images', images)
+    formData.append('images', images[0].file)
 
     try {
       const res = await axiosSecure.post("/api/create-product", formData);
@@ -54,6 +79,8 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch }) => {
       setLoader(false)
     }
   };
+
+  if(productCatLoading) return <Loader2 />
 
   return (
     <>
@@ -109,7 +136,7 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch }) => {
                     </Dialog.Title>
                     <form onSubmit={handleSubmit}>
                       <div className="m-4 grid grid-cols-1 lg:grid-cols-2 gap-2">
-                        <div className="">
+                        <div className="row-span-1">
                           <label className="font-semibold">
                             Product Name
                             <span className="text-red-400 ml-1">
@@ -119,12 +146,12 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch }) => {
                           <input
                             type="text"
                             name="name"
-                            className="bg-white h-12 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
+                            className="bg-white h-10 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                             placeholder="Type Here"
                             required
                           />
                         </div>
-                        <div className="">
+                        <div className="row-span-1">
                           <label className="font-semibold">
                             Brand Name
                             <span className="text-red-400 ml-1">
@@ -134,12 +161,12 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch }) => {
                           <input
                             type="text"
                             name="brand"
-                            className="bg-white h-12 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
+                            className="bg-white h-10 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                             placeholder="Type Here"
                             required
                           />
                         </div>
-                        <div className="">
+                        <div className="row-span-1">
                           <label className="font-semibold">
                             Product Price
                             <span className="text-red-400 ml-1">
@@ -149,49 +176,144 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch }) => {
                           <input
                             type="number"
                             name="price"
-                            className="bg-white h-12 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
+                            className="bg-white h-10 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                             placeholder="Type Here"
                             required
                           />
                         </div>
-                        <div className="">
+                        <div className="row-span-1">
                           <label className="font-semibold">
                             Product Category
                             <span className="text-red-400 ml-1">
                               (required)
                             </span>{" "}
                           </label>
+                          <Select onValueChange={(value) => setCat(value)}>
+                            <SelectTrigger className="bg-white focus:ring-0 px-2 focus:border w-full focus:outline-none border border-black rounded-sm">
+                              <SelectValue placeholder="Select Category" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {productCat.result.map((item, idx) => (
+                                <SelectItem key={idx} value={item._id}>
+                                  {item.name}
+                                </SelectItem>
+                              ))}
+                              {/* <SelectItem value="1">Daily</SelectItem> */}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="row-span-1">
+                          <label className="font-semibold">
+                            Product Stock
+                            <span className="text-red-400 ml-1">
+                              (required)
+                            </span>{" "}
+                          </label>
                           <input
-                            type="text"
-                            name="category"
-                            className="bg-white h-12 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
+                            type="number"
+                            name="stock"
+                            className="bg-white h-10 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                             placeholder="Type Here"
                             required
                           />
                         </div>
-                        <div className="">
+                        <div className="row-span-2">
                           <label className="font-semibold">
                             Product Image
                             <span className="text-red-400 ml-1">
                               (required)
                             </span>{" "}
                           </label>
-                          <input
-                            type="file"
-                            name="image"
-                            className="bg-white mt-3 focus:ring-0 px-4 focus:border w-full focus:outline-none"
-                            placeholder="Type Here"
-                            required
-                          />
+                          <ImageUploading
+                            value={images}
+                            onChange={imgPreviewer}
+                            maxNumber={maxNumber}
+                            dataURLKey="data_url"
+                          >
+                            {({
+                              imageList,
+                              onImageUpload,
+                              onImageRemoveAll,
+                              onImageUpdate,
+                              onImageRemove,
+                              isDragging,
+                              dragProps,
+                            }) => (
+                              <div className="p-2 border border-gray-700 rounded-sm focus:outline-none focus:border-2 focus:border-gray-700 flex items-center justify-center">
+                                {images.length === 0 && (
+                                  <button
+                                    className=""
+                                    style={
+                                      isDragging ? { color: "red" } : undefined
+                                    }
+                                    onClick={onImageUpload}
+                                    {...dragProps}
+                                  >
+                                    <img
+                                      src={uploadIcon}
+                                      className="w-12 md:w-1/5 object-cover mx-auto"
+                                      alt=""
+                                    />
+                                    Click or Drop here
+                                  </button>
+                                )}
+                                {imageList.map((image, index) => (
+                                  <div key={index} className="">
+                                    <div className="w-32 h-28 mx-auto">
+                                      <img
+                                        src={image["data_url"]}
+                                        alt="data"
+                                        className="w-full h-full object-cover"
+                                      />
+                                    </div>
+                                    <div className="mt-2 flex gap-2 items-center justify-center">
+                                      <button
+                                        className="bg-blue-500 text-white px-3 rounded-sm"
+                                        onClick={() => onImageUpdate(index)}
+                                      >
+                                        Update
+                                      </button>
+                                      <button
+                                        className="bg-blue-500 text-white px-3 rounded-sm"
+                                        onClick={() => onImageRemove(index)}
+                                      >
+                                        Remove
+                                      </button>
+                                    </div>
+                                  </div>
+                                ))}
+                                {/* <button
+                                        className="bg-blue-500 text-white px-3 rounded-sm"
+                                        onClick={onImageRemoveAll}
+                                      >
+                                        Remove all images
+                                      </button> */}
+                              </div>
+                            )}
+                          </ImageUploading>
                         </div>
-                      </div>
-                        <div className="px-4">
+                        <div className="row-span-1">
                           <label className="font-semibold">
-                            Product Details
+                            Product Discount
                             <span className="text-red-400 ml-1">
                               (required)
                             </span>{" "}
                           </label>
+                          <input
+                            type="number"
+                            name="discount"
+                            className="bg-white h-10 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
+                            placeholder="Type Here"
+                            required
+                          />
+                        </div>
+                        <div className="col-span-2">
+                          <div className="font-semibold">
+                            Product Details
+                            <span className="text-red-400 ml-1">
+                              (required)
+                            </span>{" "}
+                          </div>
                           <textarea 
                           name="details"
                             className="bg-white focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
@@ -199,6 +321,7 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch }) => {
                             required 
                             rows="5"></textarea>
                         </div>
+                      </div>
                       <div className="border text-xl bg-gray-700 flex items-center justify-between">
                         <button
                           type="submit"

@@ -8,7 +8,7 @@ import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { IoMdSettings } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../../Utils/Loader";
-import useRoleAccessApi from "../../../Hooks/useRoleAccessApi";
+import useRoleAccessApi from "../../../Hooks/Apis/useRoleAccessApi";
 
 const RoleList2 = () => {
   const axiosSecure = useAxiosSecure();

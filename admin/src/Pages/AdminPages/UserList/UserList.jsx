@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import AddUserModal from "./AddUserModal";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Loader from "../../../Utils/Loader";
-import useGetCollectionLength from "../../../Hooks/useGetCollectionLength";
+import useGetCollectionLength from "@/Hooks/Apis/useGetCollectionLength";
 import { Paginator } from "primereact/paginator";
 import { IoAddCircleOutline, IoSearchSharp } from "react-icons/io5";
 import useHasAccess from "../../../Hooks/useHasAccess";
@@ -109,8 +109,8 @@ const UserList = () => {
         </div>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="table border ">
+      <div className="overflow-x-auto pb-16">
+        <table className="table border">
           {/* head */}
           <thead className="h-[40px] bg-bg_slate text-_white">
             <tr className="uppercase text-center h-[40px] font-bold">

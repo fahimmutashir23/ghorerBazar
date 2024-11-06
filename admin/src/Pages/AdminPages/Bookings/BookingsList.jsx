@@ -6,19 +6,19 @@ import { GrStatusUnknown } from "react-icons/gr";
 import { toast } from "react-toastify";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Loader from "../../../Utils/Loader";
-import useGetCollectionLength from "../../../Hooks/useGetCollectionLength";
+import useGetCollectionLength from "../../../Hooks/Apis/useGetCollectionLength";
 import { Paginator } from "primereact/paginator";
 import { IoSearchSharp } from "react-icons/io5";
-import InvoiceModal from "../Invoice/InvoiceModal";
 import { BasicContext } from "@/ContextAPIs/BasicProvider";
 import { IoMdEye } from "react-icons/io";
+import InvoiceModal from "../Invoice/InvoiceModal";
 
 const BookingsList = () => {
   const [popOpen, setPopOpen] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const {setInvoiceId} = useContext(BasicContext);
   const axiosSecure = useAxiosSecure();
   const [phone, setPhone] = useState();
-  const {setInvoiceId} = useContext(BasicContext);
   const [collectionData, collectionLoading] = useGetCollectionLength();
   const [first, setFirst] = useState(0);
   const [rows, setRows] = useState(10);
@@ -33,7 +33,7 @@ const BookingsList = () => {
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["booking"],
+    queryKey: ["bookings"],
     queryFn: async () => {
       const res = await axiosSecure(
         `/api/get-bookings-list?phone=${phone}&page=${page}&limit=${rows}`
@@ -41,8 +41,6 @@ const BookingsList = () => {
       return res.data;
     },
   });
-
-
 
   const handleDelete = async (id) => {
     try {
@@ -132,6 +130,7 @@ const BookingsList = () => {
               <th className="text-lg border w-3/12">Customer Name</th>
               <th className="text-lg border w-1/12">Mobile</th>
               <th className="text-lg border w-4/12">Product Name</th>
+              <th className="text-lg border w-1/12">Category</th>
               <th className="text-lg border">Price</th>
               <th className="text-lg border">OrderId</th>
               <th className="text-lg border">Address</th>
@@ -155,16 +154,25 @@ const BookingsList = () => {
                 <td
                   className={`px-6 pt-2 font-semibold text-lg whitespace-nowrap text-center border  text-black `}
                 >
-                  {data.products.map((product) => {
-                    return <li className="list-item" key={product._id}>
-                    {product?.productId.name} ({product?.quantity})
-                  </li>
-                  })}
+                  {data.products.map((product) => (
+                    <li className="list-item" key={product._id}>
+                      {product?.productId?.name} ({product?.quantity})
+                    </li>
+                  ))}
                 </td>
                 <td
                   className={`px-6 pt-2 font-semibold text-lg whitespace-nowrap text-center border  text-black `}
                 >
-                  {data.totalAmount}
+                  {data.products.map((product) => (
+                    <li className="list-item" key={product._id}>
+                      {product.productId?.category}
+                    </li>
+                  ))}
+                </td>
+                <td
+                  className={`px-6 pt-2 font-semibold text-lg whitespace-nowrap text-center border  text-black `}
+                >
+                  {data.price}
                 </td>
                 <td
                   className={`px-6 pt-2 font-semibold text-lg whitespace-nowrap text-center border  text-black `}

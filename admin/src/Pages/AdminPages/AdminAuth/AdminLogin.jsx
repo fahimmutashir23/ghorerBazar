@@ -121,7 +121,7 @@ const AdminLogin = () => {
             <div id="reader"></div>
             <p>
               If you are not an account please{" "}
-              <Link className="text-blue-600" to="/admin/register">
+              <Link className="text-blue-600" to="/admin/registration">
                 Register
               </Link>
             </p>

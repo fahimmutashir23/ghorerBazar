@@ -1,6 +1,5 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const cookieParser = require('cookie-parser');
 const app = express();
 const path = require('path');
 require("dotenv").config();
@@ -15,13 +14,11 @@ const corsOptions = {
     'http://localhost:5000',
     'https://tech-hub-backend-lake.vercel.app'
   ],
-  Credential: true,
-  credentials: true,
+  Credentials: true,
   optionSuccessStatus : 200
 };
 
 app.use(express.json());
-app.use(cookieParser());
 app.use(cors(corsOptions));
 
 //===================================== All Handler Call===========================================//

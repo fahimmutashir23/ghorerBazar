@@ -6,10 +6,26 @@ import { IoMdClose } from "react-icons/io";
 import { toast } from "react-toastify";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "/components/ui/select";
+import ImageUploading from "react-images-uploading";
+import uploadIcon from "@/assets/asset/upload.png";
 
 const AddUserModal = ({ fetchData, isOpen, setIsOpen, collectionFetch }) => {
   const [animate, setAnimate] = useState(false);
   const axiosSecure = useAxiosSecure();
+  const [role, setRole] = useState(null);
+  const [images, setImages] = useState([]);
+  const maxNumber = 69;
+
+  const imgPreviewer = (imageList, addUpdateIndex) => {
+    setImages(imageList);
+  };
 
   const { data: roleData = [] } = useQuery({
     queryKey: ["role_data"],
@@ -34,9 +50,6 @@ const AddUserModal = ({ fetchData, isOpen, setIsOpen, collectionFetch }) => {
     const password = e.target.password.value;
     const password_confirmation = e.target.password_confirmation.value;
     const gender = e.target.gender.value;
-    const roles = e.target.roles.value;
-    const image = e.target?.image?.files[0] || null;
-
 
     if (password !== password_confirmation) {
       return toast.error("password does not matched");
@@ -52,20 +65,22 @@ const AddUserModal = ({ fetchData, isOpen, setIsOpen, collectionFetch }) => {
     formData.append("email", email);
     formData.append("password", password);
     formData.append("gender", gender);
-    formData.append("role", roles);
-    image && formData.append("images", image);
+    formData.append("role", role);
+    images && formData.append("images", images);
 
     try {
       const res = await axiosSecure.post(`/api/create-users`, formData);
-      console.log(res.data);
-      if (res.data.success) {
+      if (res.data.status_code === 409) {
+        return toast.error(res.data.message);
+      }
+      if (res.data.status_code === 200) {
         fetchData();
-        collectionFetch()
+        collectionFetch();
         toast.success(res.data.message);
-        setIsOpen(false)
+        setIsOpen(false);
       }
     } catch (error) {
-      setIsOpen(false)
+      setIsOpen(false);
       toast.error(error.response.data.message);
     }
   };
@@ -102,17 +117,18 @@ const AddUserModal = ({ fetchData, isOpen, setIsOpen, collectionFetch }) => {
                   leaveTo="opacity-0"
                 >
                   <Dialog.Panel className="w-[96%] md:w-[90%] lg:w-[75%] xl:w-[910px] max-w-md:w-[60%] transform rounded-md bg-_white text-left align-middle shadow-xl transition-all my-10 pb-0">
-                    <Dialog.Title
-                      className="border px-4 py-2.5 bg-bg_selected text-_white text-xl flex items-center justify-between pr-4"
-                    >
+                    <Dialog.Title className="border px-4 py-2.5 bg-bg_selected text-_white text-xl flex items-center justify-between pr-4">
                       <h6 className="">Add New User</h6>
-                      <button onClick={() => setIsOpen(false)} className="text-2xl">
+                      <button
+                        onClick={() => setIsOpen(false)}
+                        className="text-2xl"
+                      >
                         <IoMdClose />
                       </button>
                     </Dialog.Title>
                     <form onSubmit={handleSubmit}>
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-gap_primary m-4">
-                        <div className="form-control">
+                        <div className="form-control row-span-1">
                           <label className="">
                             <span className="font-semibold label-text">
                               Full Name*
@@ -126,7 +142,7 @@ const AddUserModal = ({ fetchData, isOpen, setIsOpen, collectionFetch }) => {
                             required
                           />
                         </div>
-                        <div className="form-control">
+                        <div className="form-control row-span-1">
                           <label className="">
                             <span className="font-semibold label-text">
                               Phone*
@@ -140,7 +156,7 @@ const AddUserModal = ({ fetchData, isOpen, setIsOpen, collectionFetch }) => {
                             required
                           />
                         </div>
-                        <div className="form-control">
+                        <div className="form-control row-span-1">
                           <label className="">
                             <span className="font-semibold label-text">
                               Email*
@@ -154,7 +170,7 @@ const AddUserModal = ({ fetchData, isOpen, setIsOpen, collectionFetch }) => {
                             required
                           />
                         </div>
-                        <div className="form-control">
+                        <div className="form-control row-span-1">
                           <label className="">
                             <span className="font-semibold label-text">
                               Password*
@@ -168,7 +184,7 @@ const AddUserModal = ({ fetchData, isOpen, setIsOpen, collectionFetch }) => {
                             required
                           />
                         </div>
-                        <div className="form-control">
+                        <div className="form-control row-span-1">
                           <label className="">
                             <span className="font-semibold label-text">
                               Confirm Password*
@@ -182,7 +198,81 @@ const AddUserModal = ({ fetchData, isOpen, setIsOpen, collectionFetch }) => {
                             required
                           />
                         </div>
-                        <div className="form-control">
+                        <div className="form-control row-span-3">
+                          <label className="">
+                            <span className="font-semibold label-text">
+                              Image
+                            </span>
+                          </label>
+                          <ImageUploading
+                            value={images}
+                            onChange={imgPreviewer}
+                            maxNumber={maxNumber}
+                            dataURLKey="data_url"
+                          >
+                            {({
+                              imageList,
+                              onImageUpload,
+                              onImageRemoveAll,
+                              onImageUpdate,
+                              onImageRemove,
+                              isDragging,
+                              dragProps,
+                            }) => (
+                              <div className="p-2 border border-gray-700 rounded-sm focus:outline-none focus:border-2 focus:border-gray-700 h-full flex items-center justify-center">
+                                {images.length === 0 && (
+                                  <button
+                                    className=""
+                                    style={
+                                      isDragging ? { color: "red" } : undefined
+                                    }
+                                    onClick={onImageUpload}
+                                    {...dragProps}
+                                  >
+                                    <img
+                                      src={uploadIcon}
+                                      className="w-12 md:w-1/4 object-cover mx-auto"
+                                      alt=""
+                                    />
+                                    Click or Drop here
+                                  </button>
+                                )}
+                                {imageList.map((image, index) => (
+                                  <div key={index} className="">
+                                    <div className="w-32 h-28 mx-auto">
+                                      <img
+                                        src={image["data_url"]}
+                                        alt="data"
+                                        className="w-full h-full object-cover"
+                                      />
+                                    </div>
+                                    <div className="mt-2 flex gap-2 items-center justify-center">
+                                      <button
+                                        className="bg-blue-500 text-white px-3 rounded-sm"
+                                        onClick={() => onImageUpdate(index)}
+                                      >
+                                        Update
+                                      </button>
+                                      <button
+                                        className="bg-blue-500 text-white px-3 rounded-sm"
+                                        onClick={() => onImageRemove(index)}
+                                      >
+                                        Remove
+                                      </button>
+                                    </div>
+                                  </div>
+                                ))}
+                                {/* <button
+                                        className="bg-blue-500 text-white px-3 rounded-sm"
+                                        onClick={onImageRemoveAll}
+                                      >
+                                        Remove all images
+                                      </button> */}
+                              </div>
+                            )}
+                          </ImageUploading>
+                        </div>
+                        <div className="form-control row-span-1">
                           <label className="">
                             <span className="font-semibold label-text">
                               Gender{" "}
@@ -201,41 +291,29 @@ const AddUserModal = ({ fetchData, isOpen, setIsOpen, collectionFetch }) => {
                             <option value="Others">Others</option>
                           </select>
                         </div>
-                        <div className="form-control">
-                          <label className="">
-                            <span className="font-semibold label-text">
-                              Image
-                            </span>
-                          </label>
-                          <input type="file" className="" name="image" id="" />
-                        </div>
-                        <div className="form-control">
+                        <div className="form-control row-span-1">
                           <label className="">
                             <span className="font-semibold label-text">
                               Select Role*{" "}
                             </span>
                           </label>
-                          <select
-                            name="roles"
-                            className="p-2 border border-gray-700 rounded-sm focus:outline-none focus:border-2 focus:border-gray-700"
-                            required
-                          >
-                            <option value="" disabled selected>
-                              Select Role
-                            </option>
-                            {roleData.map((item, idx) => (
-                              <option key={idx} value={item.roleName}>
-                                {item.roleName}
-                              </option>
-                            ))}
-                          </select>
+                          <Select onValueChange={(value) => setRole(value)}>
+                            <SelectTrigger className="bg-white focus:ring-0 px-2 focus:border w-full focus:outline-none border border-black rounded-sm">
+                              <SelectValue placeholder="Select Role" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {roleData.map((item, idx) => (
+                                <SelectItem key={idx} value={item.roleName}>
+                                  {item.roleName}
+                                </SelectItem>
+                              ))}
+                              {/* <SelectItem value="1">Daily</SelectItem> */}
+                            </SelectContent>
+                          </Select>
                         </div>
                       </div>
                       <div className="border bg-bg_selected text-white text-xl flex justify-between items-center flex-row-reverse gap-2">
-                        <button
-                          type="submit"
-                          className="button_primary"
-                        >
+                        <button type="submit" className="button_primary">
                           Save
                         </button>
                         <button

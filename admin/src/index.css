@@ -61,7 +61,7 @@
 
 /* =================== Button ========================== */
 .button_primary {
-  background-color: #FC8934;
+  background-color: #6f00ff;
   color: white;
   border-radius: 2px;
   font-size: 16px;
@@ -72,7 +72,7 @@
 }
 
 .button_primary:hover {
-  transform: scale(1.02);
+  background-color: #29439A;
 }
 
 .button_secondary {

@@ -13,14 +13,14 @@ router.get("/profile", loginCheck,  async (req, res) => {
  
   try {
     const result = await User.findOne({id}).exec();
-    // const role = await Role.findOne({roleName : result.role})
-    // const data = { ...result._doc, userPermissionData : role.permissions }
+    const role = await Role.findOne({roleName : result.role})
+    const data = { ...result, userPermissionData : role.permissions }
     if(result){
       res.json({
         success: true,
         message: "Successfully Loaded Data",
         status_code: 200,
-        result
+        result: data
       });
     }
   } catch (error) {
@@ -148,8 +148,6 @@ router.patch("/profile-update", loginCheck, async (req, res) => {
         if (req.files && req.files.length > 0) {
           updatedDoc.$set.logo = req.files ? req.files.map(file => file.filename) : []
         }
-
-        console.log(updatedDoc);
 
         const result = await Profile.findOneAndUpdate({_id: id}, updatedDoc, {new: true});
         res.status(200).json({

@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { FaEye } from "react-icons/fa6";
 import useAxiosSecure from "@/Hooks/useAxiosSecure";
 import Loader from "@/Utils/Loader";
-import useGetCollectionLength from "@/Hooks/useGetCollectionLength";
+import useGetCollectionLength from "@/Hooks/Apis/useGetCollectionLength";
 
 const SalesList = () => {
   const [popOpen, setPopOpen] = useState(null);

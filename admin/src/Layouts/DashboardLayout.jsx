@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { BasicContext } from "../ContextAPIs/BasicProvider";
 import { Outlet } from "react-router-dom";
 import LeftBar from "../Components/LeftBar/LeftBar";
-import AdminNavbar from "../Pages/AdminPages/MenuBar/AdminNavbar";
+// import AdminNavbar from "../Pages/AdminPages/MenuBar/AdminNavbar";
 import useSmallScreen from "../Hooks/useSmallScreen";
 import AdminNavbarTop from "../Shared/AdminNavbarTop";
 import Copyright from "../Shared/Copyright";
@@ -29,7 +29,7 @@ const DashboardLayout = () => {
             )}
             <AdminNavbarTop />
             <div className="overflow-y-auto h-[calc(100vh-56px)]">
-              <div className="min-h-[calc(100vh-136px)]">
+              <div className="min-h-[calc(100vh-110px)]">
               <Outlet />
               </div>
               <Copyright />

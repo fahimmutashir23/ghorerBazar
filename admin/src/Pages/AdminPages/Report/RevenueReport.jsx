@@ -6,7 +6,7 @@ import { GrStatusUnknown } from "react-icons/gr";
 import { toast } from "react-toastify";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Loader from "../../../Utils/Loader";
-import useGetCollectionLength from "../../../Hooks/useGetCollectionLength";
+import useGetCollectionLength from "@/Hooks/Apis/useGetCollectionLength";
 import { Paginator } from "primereact/paginator";
 import { IoSearchSharp } from "react-icons/io5";
 import {

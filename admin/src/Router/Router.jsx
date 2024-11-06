@@ -178,9 +178,9 @@ const Router = createBrowserRouter([
   {
     path: "/admin/login",
     element: (
-      <CheckNotLogin>
+      // <CheckNotLogin>
         <AdminLogin />
-      </CheckNotLogin>
+      // </CheckNotLogin>
     ),
   },
   {

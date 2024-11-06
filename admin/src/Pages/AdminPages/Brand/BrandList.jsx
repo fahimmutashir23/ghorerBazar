@@ -6,7 +6,7 @@ import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
 import { Paginator } from "primereact/paginator";
 import useAxiosSecure from "@/Hooks/useAxiosSecure";
-import useGetCollectionLength from "@/Hooks/useGetCollectionLength";
+import useGetCollectionLength from "@/Hooks/Apis/useGetCollectionLength";
 import Loader from "@/Utils/Loader";
 import Loader2 from "@/Utils/Loader2";
 import AddBrand from "./AddBrand";

@@ -80,7 +80,6 @@ router.get('/validate-token', async (req, res) => {
 router.get("/logout", loginCheck,  async (req, res) => {
   try {
     const email = req.email.email;
-    console.log(email);
     const token = createJwtTokenForLogOut(email)
     return res.json({
       success: true,

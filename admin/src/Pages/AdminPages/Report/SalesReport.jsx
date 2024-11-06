@@ -3,7 +3,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { toast } from "react-toastify";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Loader from "../../../Utils/Loader";
-import useGetCollectionLength from "../../../Hooks/useGetCollectionLength";
+import useGetCollectionLength from "@/Hooks/Apis/useGetCollectionLength";
 import { Paginator } from "primereact/paginator";
 import {
   Select,
@@ -16,7 +16,7 @@ import { DatePickerWithRange } from "./DatePicker";
 import { addDays, format } from "date-fns";
 import { IoMdEye } from "react-icons/io";
 import { Link } from "react-router-dom";
-import useBulkSales from "@/Hooks/Reports/BulkReports/useBulkSales";
+import useBulkSales from "@/Hooks/Apis/Reports/useBulkSales";
 
 
 const SalesReport = () => {

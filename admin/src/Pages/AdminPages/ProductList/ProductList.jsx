@@ -6,8 +6,10 @@ import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import AddProductModal from "./AddProductModal";
+import Loader from "../../../Utils/Loader";
 import UpdateProductModal from "./UpdateProductModal";
-import useGetCollectionLength from "../../../Hooks/useGetCollectionLength";
+import useAxiosPublic from "../../../Hooks/useAxiosPublic";
+import useGetCollectionLength from "@/Hooks/Apis/useGetCollectionLength";
 import { Paginator } from 'primereact/paginator';
 import Loader2 from "../../../Utils/Loader2";
 
@@ -15,8 +17,9 @@ const ProductList = () => {
   const [popOpen, setPopOpen] = useState(null);
   const [loader, setLoader] = useState(false)
   const axiosSecure = useAxiosSecure();
+  const axiosPublic = useAxiosPublic();
   const [isOpen, setIsOpen] = useState(false);
-  const [collectionData, , collectionFetch] = useGetCollectionLength();
+  const [collectionData, collectionLoading, collectionFetch] = useGetCollectionLength();
   const [first, setFirst] = useState(0);
   const [rows, setRows] = useState(10);
   const [page, setPage] = useState(0)
@@ -35,7 +38,7 @@ const ProductList = () => {
   } = useQuery({
     queryKey: ["product"],
     queryFn: async () => {
-      const res = await axiosSecure(`/api/get-product-list?page=${page}&limit=${rows}`);
+      const res = await axiosPublic(`/api/get-product-list?page=${page}&limit=${rows}`);
       return res.data;
     },
   });
@@ -67,14 +70,13 @@ const ProductList = () => {
     refetch()
   }, [page])
 
-
-  if (isLoading) {
+  if (isLoading || collectionLoading) {
     return <Loader2 />;
   }
   
   return (
     <div className=" rounded-md py-2 px-3">
-      {loader && <Loader2 />}
+       {loader && <Loader2 />}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-0  w-full">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-0 bg-gray-100 mb-2 w-full ">
           <div className="flex">
@@ -87,20 +89,22 @@ const ProductList = () => {
           <AddProductModal collectionFetch={collectionFetch} setLoader={setLoader} fetchData={refetch} />
         </div>
       </div>
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto pb-32 ">
         <table className="table border border-blue-900">
           {/* head */}
           <thead className="h-[40px]">
             <tr className="uppercase text-center h-[40px] bg-gray-700 text-white font-bold ">
               <th className="text-lg border">Product Name</th>
               <th className="text-lg border">Product Category</th>
-              <th className="text-lg border">Price</th>
               <th className="text-lg border">Brand</th>
+              <th className="text-lg border">Price</th>
+              <th className="text-lg border">Discount</th>
+              <th className="text-lg border">Stock</th>
               <th className="text-lg border">Actions</th>
             </tr>
           </thead>
           <tbody className="text-center">
-            {products?.result.map((data, idx) => (
+            {products.result.map((data, idx) => (
               <tr key={idx}>
                 <td
                   className={`px-6 pt-2 font-semibold text-lg whitespace-nowrap text-left border  text-black `}
@@ -110,7 +114,12 @@ const ProductList = () => {
                 <td
                   className={`px-6 pt-2 font-semibold text-lg whitespace-nowrap text-center border  text-black `}
                 >
-                  {data.category}
+                  {data.category.name}
+                </td>
+                <td
+                  className={`px-6 pt-2 font-semibold text-lg whitespace-nowrap text-center border  text-black `}
+                >
+                  {data.brand}
                 </td>
                 <td
                   className={`px-6 pt-2 font-semibold text-lg whitespace-nowrap text-center border  text-black `}
@@ -120,7 +129,12 @@ const ProductList = () => {
                 <td
                   className={`px-6 pt-2 font-semibold text-lg whitespace-nowrap text-center border  text-black `}
                 >
-                  {data.brand}
+                  {data.discount}
+                </td>
+                <td
+                  className={`px-6 pt-2 font-semibold text-lg whitespace-nowrap text-center border  text-black `}
+                >
+                  {data.stock}
                 </td>
                 <td className="border ">
                   <button

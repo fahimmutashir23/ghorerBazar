@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import Loader2 from "@/Utils/Loader2";
-import useGetBrand from "@/Hooks/GetBrand/useGetBrand";
+import useGetBrand from "@/Hooks/Apis/useGetBrand";
 import {
   Select,
   SelectContent,
