@@ -16,25 +16,26 @@ import {
   SelectValue,
 } from "/components/ui/select";
 import Loader2 from "@/Utils/Loader2";
+import Selects from "react-select";
+import useGetTag from "@/Hooks/Apis/useGetTag";
 
-const page = ''
-const rows = ''
+const page = "";
+const rows = "";
 
 const AddProductModal = ({ fetchData, setLoader, collectionFetch }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [animate, setAnimate] = useState(false);
   const axiosSecure = useAxiosSecure();
   const [productCat, productCatLoading] = useGetProductCat(page, rows);
-  const [cat, setCat] = useState(null)
+  const [tag, tagLoading] = useGetTag(page, rows);
+  const [cat, setCat] = useState(null);
+  const [selectedTags, setSelectedTags] = useState([]);
   const [images, setImages] = useState([]);
   const maxNumber = 69;
-
 
   const imgPreviewer = (imageList, addUpdateIndex) => {
     setImages(imageList);
   };
-  
-  
 
   const handleAnimate = () => {
     setAnimate(true);
@@ -45,42 +46,51 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoader(true)
+    setLoader(true);
     const name = e.target.name.value;
     const brand = e.target.brand.value;
     const price = e.target.price.value;
     const stock = e.target.stock.value;
     const discount = e.target.discount.value;
     const details = e.target.details.value;
+    const tags = selectedTags.map(tag => tag.value)
 
-    const formData = new FormData()
-    formData.append('name', name)
-    formData.append('price', price)
-    formData.append('brand', brand)
-    formData.append('category', cat)
-    formData.append('discount', discount)
-    formData.append('stock', stock)
-    formData.append('details', details)
-    formData.append('images', images[0].file)
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("price", price);
+    formData.append("brand", brand);
+    formData.append("category", cat);
+    formData.append("discount", discount);
+    formData.append("stock", stock);
+    formData.append("details", details);
+    tags.forEach(tags => formData.append("tags", tags));
+    formData.append("images", images[0].file);
 
     try {
       const res = await axiosSecure.post("/api/create-product", formData);
       if (res.data.success) {
-        setIsOpen(false)
+        setIsOpen(false);
         fetchData();
-        collectionFetch()
+        collectionFetch();
         toast.success(res.data.message);
-        e.target.reset()
-        setLoader(false)
+        e.target.reset();
+        setLoader(false);
       }
     } catch (error) {
-      fetchData()
-      toast.error(error.response.data)
-      setLoader(false)
+      fetchData();
+      toast.error(error.response.data);
+      setLoader(false);
     }
   };
 
-  if(productCatLoading) return <Loader2 />
+  if (productCatLoading || tagLoading) return <Loader2 />;
+
+  const options = tag.result.map(item => (
+    {
+      value: item._id,
+      label: item.name,
+    }
+  ))
 
   return (
     <>
@@ -126,7 +136,9 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch }) => {
                       as="h3"
                       className="border px-4 text-xl bg-gray-700 text-white flex items-center justify-between h-14"
                     >
-                      <h6 className="py-2 text-2xl font-semibold">Add Product</h6>
+                      <h6 className="py-2 text-2xl font-semibold">
+                        Add Product
+                      </h6>
                       <button
                         onClick={() => setIsOpen(false)}
                         className="text_color close-button "
@@ -188,7 +200,7 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch }) => {
                               (required)
                             </span>{" "}
                           </label>
-                          <Select onValueChange={(value) => setCat(value)}>
+                          <Select required onValueChange={(value) => setCat(value)}>
                             <SelectTrigger className="bg-white focus:ring-0 px-2 focus:border w-full focus:outline-none border border-black rounded-sm">
                               <SelectValue placeholder="Select Category" />
                             </SelectTrigger>
@@ -217,7 +229,7 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch }) => {
                             required
                           />
                         </div>
-                        <div className="row-span-2">
+                        <div className="row-span-3">
                           <label className="font-semibold">
                             Product Image
                             <span className="text-red-400 ml-1">
@@ -239,7 +251,7 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch }) => {
                               isDragging,
                               dragProps,
                             }) => (
-                              <div className="p-2 border border-gray-700 rounded-sm focus:outline-none focus:border-2 focus:border-gray-700 flex items-center justify-center">
+                              <div className="p-2 border border-gray-700 rounded-sm focus:outline-none focus:border-2 focus:border-gray-700 h-full flex items-center justify-center">
                                 {images.length === 0 && (
                                   <button
                                     className=""
@@ -294,6 +306,21 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch }) => {
                         </div>
                         <div className="row-span-1">
                           <label className="font-semibold">
+                            Tag
+                            <span className="text-red-400 ml-1"></span>{" "}
+                          </label>
+                          <Selects
+                            isMulti
+                            name="tags"
+                            options={options}
+                            onChange={(value) => setSelectedTags(value)}
+                            className="bg-white h-10 focus:ring-0 focus:border-0 w-full focus:outline-none border border-black basic-multi-select"
+                            classNamePrefix="select"
+                            required
+                          />
+                        </div>
+                        <div className="row-span-1">
+                          <label className="font-semibold">
                             Product Discount
                             <span className="text-red-400 ml-1">
                               (required)
@@ -314,19 +341,17 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch }) => {
                               (required)
                             </span>{" "}
                           </div>
-                          <textarea 
-                          name="details"
+                          <textarea
+                            name="details"
                             className="bg-white focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                             placeholder="Type Here"
-                            required 
-                            rows="5"></textarea>
+                            required
+                            rows="5"
+                          ></textarea>
                         </div>
                       </div>
                       <div className="border text-xl bg-gray-700 flex items-center justify-between">
-                        <button
-                          type="submit"
-                          className="button_primary"
-                        >
+                        <button type="submit" className="button_primary">
                           Save
                         </button>
                         <button

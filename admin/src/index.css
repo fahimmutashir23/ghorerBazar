@@ -371,3 +371,14 @@ input[type="checkbox"]::after {
 input[type="checkbox"]:checked::after {
   opacity: 1;
 }
+
+/* React Select */
+.css-13cymwt-control{
+  border-color: black !important;
+  border-width: 0px !important;
+  box-shadow: 0 0 0 black !important;
+}
+.css-13cymwt-control:hover{
+  border-color: black !important;
+  border-width: 0px !important;
+}

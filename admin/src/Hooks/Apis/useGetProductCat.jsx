@@ -16,7 +16,6 @@ const useGetProductCat = (page, rows) => {
       return res.data;
     },
   });
-  console.log(page, rows);
   return [productCat, productCatLoading, productCatFetch];
 };
 

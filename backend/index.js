@@ -40,6 +40,8 @@ const report = require("./RouteHandler/Report/report");
 const bulkReport = require("./RouteHandler/Report/bulkReport");
 const monthlyReport = require("./RouteHandler/Report/monthWiseReport");
 const brand = require("./RouteHandler/BrandHandler/brandHandler");
+const tag = require("./RouteHandler/Tag/tagHandler");
+// web part ===================================================
 const webProducts = require("./RouteHandler/WebPart/webProduct");
 const webBookings = require("./RouteHandler/WebPart/bookings");
 const webCart = require("./RouteHandler/WebPart/cart");
@@ -83,6 +85,7 @@ app.use("/api", report);
 app.use("/api", bulkReport);
 app.use("/api", monthlyReport);
 app.use("/api", brand);
+app.use("/api", tag);
 app.use("/api", webProducts);
 app.use("/api", webBookings);
 app.use("/api", webCart);
