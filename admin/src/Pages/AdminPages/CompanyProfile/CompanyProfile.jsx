@@ -3,10 +3,9 @@ import { IoAddCircleOutline } from "react-icons/io5";
 import AddCompanyModal from "./AddCompanyModal";
 import Loader2 from "../../../Utils/Loader2";
 import { url } from "../../../../connection";
-import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
-import Loader from "../../../Utils/Loader";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
+import UpdateCompanyModal from "./UpdateCompanyModal";
 
 const CompanyProfile = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,7 +22,7 @@ const CompanyProfile = () => {
   })
 
   if(isLoading){
-    return <Loader />
+    return <Loader2 />
   }
 
   return (
@@ -35,9 +34,12 @@ const CompanyProfile = () => {
           className="text-text_lg bg-gray-700 text-white px-5 py-2 font-bold duration-500 flex items-center gap-2 hover:bg-gray-800 mx-auto"
         >
           <IoAddCircleOutline className="text-2xl font-bold" />
-          <span className="mt-1">Update Company Profile</span>
+          <span className="mt-1">
+            {data?._id ? "Update Company Profile" : "Create Company Profile"}
+          </span>
         </button>
-        <div className="mt-2">
+
+        {data && <div className="mt-2">
             <div className="h-24 w-24 overflow-hidden flex justify-center mx-auto">
             <img src={`${imgUrl}${data.logo[0]}`} className="w-full h-full object-cover" alt="" />
             </div>
@@ -60,15 +62,21 @@ const CompanyProfile = () => {
             ></iframe>
           </div>
             </ul>
-        </div>
+        </div>}
       </div>
-      <AddCompanyModal
+      {!data?._id && <AddCompanyModal
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        setLoader={setLoader}
+        fetchData={refetch}
+      />}
+      {data?._id && <UpdateCompanyModal
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         setLoader={setLoader}
         fetchData={refetch}
         data={data}
-      />
+      />}
     </div>
   );
 };

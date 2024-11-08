@@ -5,7 +5,8 @@ const loginCheck = require("../../Middleware/checkLogin");
 const User = require('../../Schemas/User/userSchema');
 const Role = require('../../Schemas/Role/role');
 const Profile = require('../../Schemas/Profile/companyProfile');
-const { upload, compressImage } = require("../../Utils/Multer/profileLogo");
+const { upload, compressImage } = require("../../Utils/Multer/uploadUpdateProfile");
+const { uploadProfile, compressImageProfile } = require("../../Utils/Multer/profileLogo");
 
 
 router.get("/profile", loginCheck,  async (req, res) => {
@@ -29,10 +30,9 @@ router.get("/profile", loginCheck,  async (req, res) => {
 });
 
 router.patch("/profile-update", loginCheck, async (req, res) => {
-    const filter = {_id : req.user.userID}
+    const filter = {_id : req.user.userId}
     upload.array("images", 1)(req, res, async (err) => {
         if (err) {
-            
           return res.status(400).json({
             success: false,
             message: err.message,
@@ -45,28 +45,28 @@ router.patch("/profile-update", loginCheck, async (req, res) => {
           }
           
           const newProduct = (req.body);
-          
-          const updateDoc = {
-            $set: {
-                name: newProduct.name,
-                phone: newProduct.phone,
-                gender: newProduct.gender,
-                address: newProduct.address,
-            }
-          }
 
           if (req.files && req.files.length > 0) {
-            updateDoc.$set.image = req.files[0].filename;
-          }
+            const updateDoc = {
+              $set: {
+                  name: newProduct.name,
+                  phone: newProduct.phone,
+                  gender: newProduct.gender,
+                  address: newProduct.address,
+                  image: req.files[0].filename
+              }
+            }
 
-          const result = await User.findOneAndUpdate(filter, updateDoc, {
-            new: true,
-          });
-          res.status(200).json({
-            success: true,
-            message: "Profile Update successfully",
-            result: result,
-          });
+            const result = await User.updateOne(filter, updateDoc, {
+              new: true,
+            });
+           
+            res.status(200).json({
+              success: true,
+              message: "Profile Update successfully",
+              result: result,
+            });
+          }
         } catch (error) {
           res.status(500).json({
             success: false,
@@ -80,7 +80,7 @@ router.patch("/profile-update", loginCheck, async (req, res) => {
 
   // Company Profile
   router.post("/create-company-profile", loginCheck, async(req, res) => {
-    upload.array("logo", 1)(req, res, async (err) => {
+    uploadProfile.array("logo", 1)(req, res, async (err) => {
       if (err) {
         return res.status(400).json({
           success: false,
@@ -90,13 +90,14 @@ router.patch("/profile-update", loginCheck, async (req, res) => {
   
       try {
         if (req.files && req.files.length > 0) {
-          await compressImage(req, res, () => {});
+          await compressImageProfile(req, res, () => {});
         }
   
         const newProduct = new Profile(req.body);
         newProduct.logo = req.files ? req.files.map(file => file.filename) : [];
 
         const result = await newProduct.save();
+        
         res.status(200).json({
           success: true,
           message: "Profile created successfully",
@@ -134,10 +135,10 @@ router.patch("/profile-update", loginCheck, async (req, res) => {
           $set : {
             name: update.name,
             address: {
-              shopName : update.shopName,
-              phone: {phone1: update.phone1, phone2: update.phone2},
-              map: update.map,
-              email: update.email
+              shopName : update.address.shopName,
+              phone: {phone1: update?.address.phone?.phone1, phone2: update.address.phone.phone2},
+              map: update.address.map,
+              email: update.address.email
             },
             ownerName : update.ownerName,
             category: update.category,
@@ -149,7 +150,7 @@ router.patch("/profile-update", loginCheck, async (req, res) => {
           updatedDoc.$set.logo = req.files ? req.files.map(file => file.filename) : []
         }
 
-        const result = await Profile.findOneAndUpdate({_id: id}, updatedDoc, {new: true});
+        const result = await Profile.updateOne({_id: id}, updatedDoc, {new: true});
         res.status(200).json({
           success: true,
           message: "Profile Update successfully",

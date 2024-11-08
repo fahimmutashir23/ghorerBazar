@@ -21,13 +21,13 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-const upload = multer({
+const uploadProfile = multer({
   storage: storage,
   fileFilter
 });
 
 
-const compressImage = async (req, res, next) => {
+const compressImageProfile = async (req, res, next) => {
   if (!req.files || req.files.length === 0) {
     return next();
   }
@@ -58,6 +58,6 @@ const compressImage = async (req, res, next) => {
 };
 
 module.exports = {
-  upload,
-  compressImage,
+  uploadProfile,
+  compressImageProfile,
 };

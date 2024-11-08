@@ -6,11 +6,12 @@ import { toast } from "react-toastify";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { ImUpload } from "react-icons/im";
 
-const AddCompanyModal = ({
+const UpdateCompanyModal = ({
   fetchData,
   setLoader,
   isOpen,
   setIsOpen,
+  data
 }) => {
   const [animate, setAnimate] = useState(false);
   const axiosSecure = useAxiosSecure();
@@ -43,14 +44,14 @@ const AddCompanyModal = ({
     const phone1 = e.target.phone1.value;
     const phone2 = e.target?.phone2?.value || null;
     const email = e.target?.email?.value || null;
-    const map = e.target.map.value;
+    const map = e.target?.map?.value || null;
     const details = e.target.details.value;
 
     const formData = new FormData();
     formData.append("name", name);
     formData.append("ownerName", owner);
     formData.append("address[shopName]", shopAdd);
-    formData.append("address[map]", map);
+    map && formData.append("address[map]", map);
     formData.append("address[phone][phone1]", phone1);
     phone2 && formData.append("address[phone][phone2]", phone2);
     email && formData.append("address[email]", email);
@@ -59,7 +60,7 @@ const AddCompanyModal = ({
     logo && formData.append("logo", logo)
 
     try {
-      const res = await axiosSecure.post(`/api/create-company-profile`, formData);
+      const res = await axiosSecure.put(`/api/edit-company-profile/${data._id}`, formData);
       if (res.data.success) {
         setIsOpen(false);
         fetchData();
@@ -111,7 +112,7 @@ const AddCompanyModal = ({
                       className="border px-4 text-xl bg-gray-700 text-white flex items-center justify-between h-14"
                     >
                       <h6 className="py-2 text-2xl font-semibold">
-                        Add Company
+                        Update Company
                       </h6>
                       <button
                         onClick={() => setIsOpen(false)}
@@ -132,6 +133,7 @@ const AddCompanyModal = ({
                           <input
                             type="text"
                             name="name"
+                            defaultValue={data?.name}
                             className="bg-white h-10 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                             placeholder="Type Here"
                             required
@@ -147,6 +149,7 @@ const AddCompanyModal = ({
                           <input
                             type="text"
                             name="shopAdd"
+                            defaultValue={data?.address.shopName}
                             className="bg-white h-10 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                             placeholder="Type Here"
                             required
@@ -162,6 +165,7 @@ const AddCompanyModal = ({
                           <input
                             type="text"
                             name="owner"
+                            defaultValue={data?.ownerName}
                             className="bg-white h-10 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                             placeholder="Type Here"
                             required
@@ -177,6 +181,7 @@ const AddCompanyModal = ({
                           <input
                             type="text"
                             name="category"
+                            defaultValue={data?.category}
                             className="bg-white h-10 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                             placeholder="Type Here"
                             required
@@ -192,6 +197,7 @@ const AddCompanyModal = ({
                           <input
                             type="number"
                             name="phone1"
+                            defaultValue={data?.address.phone.phone1}
                             className="bg-white h-10 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                             placeholder="Type Here"
                             required
@@ -204,6 +210,7 @@ const AddCompanyModal = ({
                           <input
                             type="number"
                             name="phone2"
+                            defaultValue={data?.address.phone.phone2}
                             className="bg-white h-10 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                             placeholder="Type Here"
                           />
@@ -216,6 +223,7 @@ const AddCompanyModal = ({
                           <input
                             type="email"
                             name="email"
+                            defaultValue={data?.address.email}
                             className="bg-white h-10 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                             placeholder="Type Here"
                           />
@@ -230,6 +238,7 @@ const AddCompanyModal = ({
                           <input
                             type="text"
                             name="map"
+                            defaultValue={data?.address.map}
                             className="bg-white h-10 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                             placeholder="Type Here"
                           />
@@ -279,6 +288,7 @@ const AddCompanyModal = ({
                           </label>
                           <textarea
                             name="details"
+                            defaultValue={data?.details}
                             className="bg-white focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                             placeholder="Type Here"
                             required
@@ -310,4 +320,4 @@ const AddCompanyModal = ({
   );
 };
 
-export default AddCompanyModal;
+export default UpdateCompanyModal;

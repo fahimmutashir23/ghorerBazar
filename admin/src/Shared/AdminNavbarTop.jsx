@@ -9,6 +9,7 @@ import useAxiosSecure from "../Hooks/useAxiosSecure";
 import useUser from "../Security/useUser";
 import { url } from "../../connection";
 import { TfiWorld } from "react-icons/tfi";
+import getGreeting from "@/Utils/getGreeting";
 
 const AdminNavbarTop = () => {
   const { open, setOpen, sidebarRef } = useContext(BasicContext);
@@ -16,7 +17,7 @@ const AdminNavbarTop = () => {
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   const [userData, ,refetch] = useUser();
-  const imgUrl = `${url}/upload/profile/images/`
+  const imgUrl = `${url}/Upload/profile/images/`
   
 
   const handleLogout = async () => {
@@ -64,8 +65,8 @@ const AdminNavbarTop = () => {
 
   return (
     <div className="bg-white py-2 w-full shadow-md border-b-1 ">
-      <ul className="flex gap-gap_primary justify-between px-p_secondary ">
-        <div className="flex items-center gap-gap_primary text-text_sm font-semibold  ">
+      <ul className="flex gap-4 justify-between px-4 items-center">
+        <div className="flex items-center gap-4 text-text_sm font-semibold  ">
           <MdMenu
             onClick={() => setOpen(!open)}
             className="text-text_xxl cursor-pointer text-black lg:hidden"
@@ -74,17 +75,21 @@ const AdminNavbarTop = () => {
           <TfiWorld className="text-2xl text-gray-500" />
           </a>
         </div>
-        <div className="hidden lg:block"></div>
+
+        <div className="hidden lg:flex gap-2 text-lg font-medium">
+          <span className="text-red-900">{getGreeting()}</span>
+          <span className="text-blue-500">{userData._doc.name}</span>
+        </div>
 
         <div
           className="flex flex-col items-center justify-center text-text_sm font-semibold relative group"
         >
           <div className="flex items-center gap-8">
           <h1 className="text-blue-500 text-xl font-medium">{userData?.name}</h1>
-         {userData?.image ? 
+         {userData?._doc.image ? 
          <img
             className="w-[40px] h-[40px] rounded-full"
-            src={`${imgUrl}${userData?.image}`}
+            src={`${imgUrl}${userData?._doc.image}`}
             alt=""
           /> : 
           <FaUserCircle className="w-[40px] h-[40px] rounded-full text-black" />}

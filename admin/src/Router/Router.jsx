@@ -67,10 +67,10 @@ const Router = createBrowserRouter([
         path: "/admin/profile",
         element: <Profile />,
       },
-      {
-        path: "/admin/contact",
-        element: <Contact />,
-      },
+      // {
+      //   path: "/admin/contact",
+      //   element: <Contact />,
+      // },
       // Expense
       // {
       //   path: "/admin/expenseCategory",

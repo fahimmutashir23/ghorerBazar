@@ -77,10 +77,10 @@ router.get('/validate-token', async (req, res) => {
   }
 });
 
-router.get("/logout", loginCheck,  async (req, res) => {
+router.get("/logout", loginCheck, async (req, res) => {
   try {
-    const email = req.email.email;
-    const token = createJwtTokenForLogOut(email)
+    const id = req.user.userId;
+    const token = createJwtTokenForLogOut(id)
     return res.json({
       success: true,
       status_code: 200,

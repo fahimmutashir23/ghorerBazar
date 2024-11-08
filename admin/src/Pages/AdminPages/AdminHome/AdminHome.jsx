@@ -42,7 +42,7 @@ const AdminHome = () => {
     { text: "Today's Sale", value: bulkSale.todayAmount || 0 },
     { text: "Total Revenue", value: collectionData.revenue || 0 },
     { text: "Total Expense", value: collectionData.expense?.totalExpense || 0 },
-    { text: "Total Stock", value: collectionData.stock.stockAmount.totalSum || 0 },
+    { text: "Total Stock", value: collectionData?.stock?.stockAmount?.totalSum || 0 },
     { text: "Total User", value: collectionData.user || 0 },
   ];
 
