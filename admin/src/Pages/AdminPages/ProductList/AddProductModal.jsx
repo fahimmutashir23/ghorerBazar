@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { IoMdClose } from "react-icons/io";
@@ -18,6 +18,7 @@ import {
 import Loader2 from "@/Utils/Loader2";
 import Selects from "react-select";
 import useGetTag from "@/Hooks/Apis/useGetTag";
+import { Editor } from "@tinymce/tinymce-react";
 
 const page = "";
 const rows = "";
@@ -32,6 +33,7 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch }) => {
   const [selectedTags, setSelectedTags] = useState([]);
   const [images, setImages] = useState([]);
   const maxNumber = 69;
+  const editorRef = useRef(null);
 
   const imgPreviewer = (imageList, addUpdateIndex) => {
     setImages(imageList);
@@ -44,6 +46,12 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch }) => {
     }, 1000);
   };
 
+  const log = () => {
+    if (editorRef.current) {
+      console.log(editorRef.current.getContent());
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoader(true);
@@ -52,8 +60,10 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch }) => {
     const price = e.target.price.value;
     const stock = e.target.stock.value;
     const discount = e.target.discount.value;
-    const details = e.target.details.value;
-    const tags = selectedTags.map(tag => tag.value)
+    // const details = e.target.details.value;
+    const tags = selectedTags.map((tag) => tag.value);
+    const detailsMsg = editorRef.current.getContent();
+    console.log(detailsMsg);
 
     const formData = new FormData();
     formData.append("name", name);
@@ -62,8 +72,8 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch }) => {
     formData.append("category", cat);
     formData.append("discount", discount);
     formData.append("stock", stock);
-    formData.append("details", details);
-    tags.forEach(tags => formData.append("tags", tags));
+    formData.append("details", detailsMsg);
+    tags.forEach((tags) => formData.append("tags", tags));
     formData.append("images", images[0].file);
 
     try {
@@ -85,12 +95,10 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch }) => {
 
   if (productCatLoading || tagLoading) return <Loader2 />;
 
-  const options = tag.result.map(item => (
-    {
-      value: item._id,
-      label: item.name,
-    }
-  ))
+  const options = tag.result.map((item) => ({
+    value: item._id,
+    label: item.name,
+  }));
 
   return (
     <>
@@ -200,7 +208,10 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch }) => {
                               (required)
                             </span>{" "}
                           </label>
-                          <Select required onValueChange={(value) => setCat(value)}>
+                          <Select
+                            required
+                            onValueChange={(value) => setCat(value)}
+                          >
                             <SelectTrigger className="bg-white focus:ring-0 px-2 focus:border w-full focus:outline-none border border-black rounded-sm">
                               <SelectValue placeholder="Select Category" />
                             </SelectTrigger>
@@ -251,7 +262,7 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch }) => {
                               isDragging,
                               dragProps,
                             }) => (
-                              <div className="p-2 border border-gray-700 rounded-sm focus:outline-none focus:border-2 focus:border-gray-700 h-full flex items-center justify-center">
+                              <div className="p-2 border border-gray-700 rounded-sm focus:outline-none focus:border-2 focus:border-gray-700 flex h-[89%] items-center justify-center">
                                 {images.length === 0 && (
                                   <button
                                     className=""
@@ -334,7 +345,7 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch }) => {
                             required
                           />
                         </div>
-                        <div className="col-span-2">
+                        {/* <div className="col-span-2">
                           <div className="font-semibold">
                             Product Details
                             <span className="text-red-400 ml-1">
@@ -348,6 +359,97 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch }) => {
                             required
                             rows="5"
                           ></textarea>
+                        </div> */}
+                        <div className="w-full col-span-2">
+                          <Editor
+                            apiKey="o3o68zojm5jurxvnyz70j6b405p78660x8irfa1ctpqmz1cv"
+                            onInit={(_evt, editor) =>
+                              (editorRef.current = editor)
+                            }
+                            init={{
+                              height: 400,
+                              
+                              menubar: true,
+                              plugins: [
+                                // Core editing features
+                                "anchor",
+                                "autolink",
+                                "charmap",
+                                "codesample",
+                                "emoticons",
+                                "image",
+                                "link",
+                                "lists",
+                                "media",
+                                "searchreplace",
+                                "table",
+                                "visualblocks",
+                                "wordcount",
+                                // Your account includes a free trial of TinyMCE premium features
+                                // Try the most popular premium features until Nov 24, 2024:
+                                "checklist",
+                                "mediaembed",
+                                "casechange",
+                                "export",
+                                "formatpainter",
+                                "pageembed",
+                                "a11ychecker",
+                                "tinymcespellchecker",
+                                "permanentpen",
+                                "powerpaste",
+                                "advtable",
+                                "advcode",
+                                "editimage",
+                                "advtemplate",
+                                "ai",
+                                "mentions",
+                                "tinycomments",
+                                "tableofcontents",
+                                "footnotes",
+                                "mergetags",
+                                "autocorrect",
+                                "typography",
+                                "inlinecss",
+                                "markdown",
+                                // Early access to document converters
+                                "importword",
+                                "exportword",
+                                "exportpdf",
+                              ],
+                              toolbar:
+                                "undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat",
+                              tinycomments_mode: "embedded",
+                              tinycomments_author: "Author name",
+                              mergetags_list: [
+                                { value: "First.Name", title: "First Name" },
+                                { value: "Email", title: "Email" },
+                              ],
+                              ai_request: (request, respondWith) =>
+                                respondWith.string(() =>
+                                  Promise.reject(
+                                    "See docs to implement AI Assistant"
+                                  )
+                                ),
+                              exportpdf_converter_options: {
+                                format: "Letter",
+                                margin_top: "1in",
+                                margin_right: "1in",
+                                margin_bottom: "1in",
+                                margin_left: "1in",
+                              },
+                              exportword_converter_options: {
+                                document: { size: "Letter" },
+                              },
+                              importword_converter_options: {
+                                formatting: {
+                                  styles: "inline",
+                                  resets: "inline",
+                                  defaults: "inline",
+                                },
+                              },
+                            }}
+                            initialValue="Type Here"
+                          />
                         </div>
                       </div>
                       <div className="border text-xl bg-gray-700 flex items-center justify-between">

@@ -7,6 +7,7 @@ import Home from "@/Pages/Home/Home";
 import Cart from "@/Pages/AllPages/Cart/Cart";
 import Invoice from "@/Pages/AllPages/Invoice/Invoice";
 import AllCategory from "@/Pages/AllPages/Category/AllCategory/AllCategory";
+import ProductDetails from "@/Pages/AllPages/ProductDetails/ProductDetails";
 
 const Router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const Router = createBrowserRouter([
       {
         path: "/allCategory",
         element: <AllCategory />,
+      },
+      {
+        path: "/productDetails/:id",
+        element: <ProductDetails />,
       },
       {
         path: "/invoice",

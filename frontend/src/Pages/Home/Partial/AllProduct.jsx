@@ -1,7 +1,7 @@
 import Card from "@/Components/Card";
 import useGetProduct from "@/Hooks/useGetProduct";
 import { useState } from "react";
-import { Paginator } from 'primereact/paginator';
+// import { Paginator } from 'primereact/paginator';
 import Loader2 from "@/Utils/Loader2";
 
 const AllProduct = () => {

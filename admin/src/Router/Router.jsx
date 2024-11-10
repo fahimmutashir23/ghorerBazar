@@ -32,6 +32,7 @@ import CompanyProfile from "../Pages/AdminPages/CompanyProfile/CompanyProfile";
 // import RevenueReport from "@/Pages/AdminPages/Report/RevenueReport";
 // import BrandList from "@/Pages/AdminPages/Brand/BrandList";
 import TagList from "@/Pages/AdminPages/Tag/TagList";
+import DeliveryChargeList from "@/Pages/AdminPages/DeliveryCharge/DeliveryChargeList";
 
 const Router = createBrowserRouter([
   {
@@ -62,6 +63,10 @@ const Router = createBrowserRouter([
       {
         path: "/admin/tag",
         element: <TagList />,
+      },
+      {
+        path: "/admin/delivery_charge",
+        element: <DeliveryChargeList />,
       },
       {
         path: "/admin/profile",

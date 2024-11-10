@@ -30,11 +30,11 @@ router.get("/get-all-products", userId, async (req, res) => {
   }
 });
 
-router.get("/get-product/:id", async (req, res) => {
+router.get("/get-product-details/:id", async (req, res) => {
   const id = req.params.id;
   const filter = { _id: id };
   try {
-    const result = await Product.findOne(filter);
+    const result = await Product.findOne(filter).populate("category");
     res.json({
       message: "Successfully Loaded Data",
       status_code: 200,

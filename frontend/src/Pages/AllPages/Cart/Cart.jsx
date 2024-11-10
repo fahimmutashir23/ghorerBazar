@@ -51,7 +51,7 @@ const Cart = () => {
               <h3 className="font-semibold text-xl">TK {item.price}</h3>
               <div className="bg-color_1 text-white py-1 px-3 rounded-sm flex items-center gap-8">
                 <button className="text-xl font-bold flex-1">+</button>
-                <span className="text-xl font-bold flex-1">00</span>
+                <span className="text-xl font-bold flex-1">{item.quantity}</span>
                 <button className="text-xl font-bold flex-1">-</button>
               </div>
               <button
