@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cookieParser = require('cookie-parser');
 const app = express();
 const path = require('path');
 require("dotenv").config();
@@ -8,17 +9,19 @@ const port = process.env.PORT || 5000;
 
 const corsOptions = {
   origin: [
+    'http://localhost:5174',
     'https://understood-linen.surge.sh',
     'http://localhost:5173',
-    'http://localhost:5174',
     'http://localhost:5000',
     'https://tech-hub-backend-lake.vercel.app'
   ],
-  Credentials: true,
+  Credential: true,
+  credentials: true,
   optionSuccessStatus : 200
 };
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors(corsOptions));
 
 //===================================== All Handler Call===========================================//

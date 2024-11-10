@@ -1,0 +1,10 @@
+1. Make a Details page.
+2. Make all category page.
+3. Make Filtering system.
+
+Backend:
+1. Make a related products api.
+2. make a Delivery charge crud.
+
+Admin:
+1. Make a Delivery Charge page.
