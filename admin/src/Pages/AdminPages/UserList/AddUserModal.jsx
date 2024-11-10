@@ -66,13 +66,14 @@ const AddUserModal = ({ fetchData, isOpen, setIsOpen, collectionFetch }) => {
     formData.append("password", password);
     formData.append("gender", gender);
     formData.append("role", role);
-    images && formData.append("images", images);
+    formData.append("image", images[0].file);
 
     try {
       const res = await axiosSecure.post(`/api/create-users`, formData);
       if (res.data.status_code === 409) {
         return toast.error(res.data.message);
       }
+
       if (res.data.status_code === 200) {
         fetchData();
         collectionFetch();

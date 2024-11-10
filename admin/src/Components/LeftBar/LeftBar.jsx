@@ -83,7 +83,7 @@ const LeftBar = () => {
                   </li>
                 }
                 
-                {
+                {hasAccess?.some((item) => item === "tag-list") &&
                   <li
                     className={` px-p_primary my-1 hover:cursor-pointer hover:rounded-rounded_primary hover: duration-200  ${
                       selected === "/admin/tag"
@@ -105,7 +105,7 @@ const LeftBar = () => {
                     </Link>
                   </li>
                 }
-                {
+                {hasAccess?.some((item) => item === "delivery-list") &&
                   <li
                     className={` px-p_primary my-1 hover:cursor-pointer hover:rounded-rounded_primary hover: duration-200  ${
                       selected === "/admin/delivery_charge"
@@ -127,7 +127,7 @@ const LeftBar = () => {
                     </Link>
                   </li>
                 }
-                {
+                {hasAccess?.some((item) => item === "category-list") &&
                   <li
                     className={` px-p_primary my-1 hover:cursor-pointer hover:rounded-rounded_primary hover: duration-200   ${
                       selected === "/admin/categoryList"
@@ -149,7 +149,7 @@ const LeftBar = () => {
                     </Link>
                   </li>
                 }
-                {
+                {hasAccess?.some((item) => item === "product-list") &&
                   <li
                     className={` px-p_primary my-1 hover:cursor-pointer hover:rounded-rounded_primary hover: duration-200  ${
                       selected === "/admin/productList"
@@ -171,7 +171,7 @@ const LeftBar = () => {
                     </Link>
                   </li>
                 }
-                {
+                {hasAccess?.some((item) => item === "bookings-list") &&
                   <li
                     className={` px-p_primary my-1 hover:cursor-pointer hover:rounded-rounded_primary hover: duration-200  ${
                       selected === "/admin/bookingsList"

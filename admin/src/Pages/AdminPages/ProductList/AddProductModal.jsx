@@ -63,7 +63,6 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch }) => {
     // const details = e.target.details.value;
     const tags = selectedTags.map((tag) => tag.value);
     const detailsMsg = editorRef.current.getContent();
-    console.log(detailsMsg);
 
     const formData = new FormData();
     formData.append("name", name);

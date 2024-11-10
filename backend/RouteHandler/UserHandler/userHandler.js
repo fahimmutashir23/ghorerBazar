@@ -66,7 +66,7 @@ router.get("/get-create-users", loginCheck, async (req, res) => {
 });
 
 router.post("/create-users", loginCheck, async (req, res) => {
-  upload.array("images", 1)(req, res, async (err) => {
+  upload.array("image", 1)(req, res, async (err) => {
     if (err) {
       return res.status(400).json({
         success: false,
@@ -93,6 +93,8 @@ router.post("/create-users", loginCheck, async (req, res) => {
       if (findPhone) {
         return res.json({ message: "Phone already exist", status_code: 409 });
       }
+
+      console.log(newUser);
 
       const result = await newUser.save();
       res.json({

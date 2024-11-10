@@ -188,7 +188,7 @@ const UserList = () => {
                       } right-[14px] top-[24px] rounded-md rounded-tr-sm duration-300 origin-top-right w-44`}
                     >
                       <ul className="text_color text-left">
-                        {hasAccess?.some(item => item === 'user-edit') &&
+                        {/* {hasAccess?.some(item => item === 'user-edit') &&
                           <li
                           onClick={() =>
                             handleActiveInactive(data._id, data.status)
@@ -198,7 +198,7 @@ const UserList = () => {
                           {data.status === 1 ? <IoMdEyeOff /> : <IoMdEye />}{" "}
                           {data.status === 1 ? "Inactive" : "Active"}
                         </li>
-                        }
+                        } */}
                         {hasAccess?.some(item => item === 'user-delete') &&
                           <li
                             onClick={() => handleDelete(data._id)}

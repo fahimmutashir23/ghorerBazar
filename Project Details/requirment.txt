@@ -1,12 +1,6 @@
-1. Make a Details page.
 2. Make all category page.
 3. Make Filtering system.
+4. booking system.
 
 Backend:
 1. Make a related products api.
-2. make a Delivery charge crud.
-
-Admin:
-1. Make a Delivery Charge page.
-2. solve user problem
-3. restricted role syste and create role

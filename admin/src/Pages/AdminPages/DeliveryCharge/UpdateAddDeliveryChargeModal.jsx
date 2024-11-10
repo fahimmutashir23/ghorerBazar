@@ -3,7 +3,6 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { IoMdClose } from "react-icons/io";
 import { toast } from "react-toastify";
-import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const UpdateAddDeliveryChargeModal = ({ fetchData, data, isOpen, setIsOpen }) => {

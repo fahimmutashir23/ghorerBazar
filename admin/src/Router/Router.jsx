@@ -10,7 +10,7 @@ import CheckLogin from "../Security/CheckLogin";
 import ErrorPage from "../Utils/ErrorPage";
 // import CheckNotLogin from "../Security/CheckNotLogin";
 import Profile from "../Pages/AdminPages/Profile/Profile";
-import Contact from "../Pages/AdminPages/Contact/Contact";
+// import Contact from "../Pages/AdminPages/Contact/Contact";
 // import ExpenseCategoryList from "../Pages/AdminPages/ExpenseCategory/ExpenseCategoryList";
 // import ExpenseList from "../Pages/AdminPages/ExpenseList/ExpenseList";
 // import ExpenseCreate from "../Pages/AdminPages/ExpenseList/ExpenseCreate";
@@ -50,23 +50,33 @@ const Router = createBrowserRouter([
       },
       {
         path: "/admin/productList",
-        element: <ProductList />,
+        element: <AccessComponents accessName='product-list'>
+          <ProductList />
+        </AccessComponents>,
       },
       {
         path: "/admin/categoryList",
-        element: <CategoryList />,
+        element: <AccessComponents accessName='category-list'>
+          <CategoryList />
+        </AccessComponents>,
       },
       {
         path: "/admin/bookingsList",
-        element: <BookingsList />,
+        element: <AccessComponents accessName='bookings-list'>
+          <BookingsList />
+        </AccessComponents>,
       },
       {
         path: "/admin/tag",
-        element: <TagList />,
+        element: <AccessComponents accessName='tag-list'>
+          <TagList />
+        </AccessComponents>,
       },
       {
         path: "/admin/delivery_charge",
-        element: <DeliveryChargeList />,
+        element: <AccessComponents accessName='delivery-list'>
+          <DeliveryChargeList />
+        </AccessComponents>,
       },
       {
         path: "/admin/profile",
