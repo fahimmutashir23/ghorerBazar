@@ -49,6 +49,7 @@ const webProducts = require("./RouteHandler/WebPart/webProduct");
 const webBookings = require("./RouteHandler/WebPart/bookings");
 const webCart = require("./RouteHandler/WebPart/cart");
 const deliveryCharge = require("./RouteHandler/WebPart/delivery");
+const categoryWeb = require("./RouteHandler/WebPart/categories");
 
 // ======================================== Image Folder ===========================================//
 const UPLOAD_FOLDER = path.join(__dirname, './Upload/product/images');
@@ -94,6 +95,7 @@ app.use("/api", webProducts);
 app.use("/api", webBookings);
 app.use("/api", webCart);
 app.use("/api", deliveryCharge);
+app.use("/api", categoryWeb);
 
 app.get("/", (req, res) => {
   res.send("Tech Hub is running!");

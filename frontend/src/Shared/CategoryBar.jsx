@@ -1,7 +1,14 @@
 import { NavLink } from "react-router-dom";
-import { navItem } from "@/Utils/navItems";
+import useGetCategories from "@/Hooks/useGetCategories";
+import { Loader2 } from "lucide-react";
+import { useContext } from "react";
+import { BasicContext } from "@/ContextAPIs/BasicProvider";
 
 const CategoryBar = () => {
+  const [categories, categoriesLoading] = useGetCategories();
+  const { setCategoryId } = useContext(BasicContext);
+
+  if (categoriesLoading) return <Loader2 />;
 
   return (
     <div className="bg-gray-200 hidden md:flex">
@@ -25,11 +32,20 @@ const CategoryBar = () => {
 
         <div className="hidden lg:flex">
           <ul className="flex flex-wrap items-center gap-14 px-0 w-full">
-            {navItem.map((name, idx) => {
+            <li onClick={() => setCategoryId(null)}>
+              <NavLink
+                to={`/allCategory`}
+                className={`text-black text-xl group border-black duration-300`}
+              >
+                All Categories
+                <div className="h-[1.5px] w-0 group-hover:w-full duration-300 bg-black"></div>
+              </NavLink>
+            </li>
+            {categories.map((name, idx) => {
               return (
-                <li key={idx}>
+                <li onClick={() => setCategoryId(name._id)} key={idx}>
                   <NavLink
-                    to={name.path}
+                  to='/allCategory'
                     className={`text-black text-xl group border-black duration-300`}
                   >
                     {name.name}
