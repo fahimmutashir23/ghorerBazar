@@ -4,8 +4,6 @@ import { useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { FaCartPlus } from "react-icons/fa";
 import { MdShoppingCart } from "react-icons/md";
-import { RadioButton } from "primereact/radiobutton";
-import { url } from "../../../../connection";
 import Loader2 from "@/Utils/Loader2";
 import ImageZoom from "./Partial/ImageZoom/ImageZoom";
 import DetailsTab from "./Partial/DetailsTab";
@@ -14,9 +12,9 @@ import useGetCart from "@/Hooks/useGetCart";
 import useTotalCart from "@/Hooks/useTotalCart";
 import { BasicContext } from "@/ContextAPIs/BasicProvider";
 import useDeliveryCharge from "@/Hooks/useDeliveryCharge";
+import { imgUrl } from "@/Utils/imageUrl";
 
 const ProductDetails = () => {
-  const imgUrl = `${url}/Upload/product/images/`;
   const { id } = useParams();
   const [quantity, setQuantity] = useState(1);
   const [ingredient, setIngredient] = useState("BDT");
@@ -96,7 +94,7 @@ const ProductDetails = () => {
             <div className="border-2 rounded-md hover:border-green_color w-full h-full overflow-hidden">
               <ImageZoom
                 className="rounded-md w-full h-full object-cover"
-                image={`${imgUrl}${singleProduct.images[0]}`}
+                image={`${imgUrl.product}${singleProduct.images[0]}`}
               />
             </div>
 

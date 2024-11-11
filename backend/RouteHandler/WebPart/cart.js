@@ -49,7 +49,7 @@ router.get("/get-cart", async (req, res) => {
       status_code: 200,
       message: "Successfully Loaded Data",
       result: productDetails,
-      totalAmount: totalAmount?.total || 0
+      totalAmount: totalAmount?.total || 0,
     });
   } catch (error) {
     res.json(error);
@@ -59,12 +59,40 @@ router.get("/get-cart", async (req, res) => {
 router.get("/get-total-cart", async (req, res) => {
   const userId = req.cookies.userId;
   try {
-    const totalProduct = await Cart.countDocuments({userId});
+    const totalProduct = await Cart.countDocuments({ userId });
 
     res.json({
       status_code: 200,
       message: "Successfully Loaded Data",
-      totalProduct
+      totalProduct,
+    });
+  } catch (error) {
+    res.json(error);
+  }
+});
+
+router.put("/update-cart/:id", async (req, res) => {
+  // const userId = req.cookies.userId;
+  const id = req.params.id;
+  const { quantity } = req.body;
+
+  if (quantity < 1) {
+    return res.status(400).json({ message: "Quantity must be at least 1" });
+  }
+  try {
+    const totalProduct = await Cart.updateOne(
+      { _id: id },
+      {
+        $set: {
+          quantity,
+        },
+      }
+    );
+
+    res.json({
+      status_code: 200,
+      message: "Successfully Loaded Data",
+      totalProduct,
     });
   } catch (error) {
     res.json(error);
@@ -74,9 +102,12 @@ router.get("/get-total-cart", async (req, res) => {
 router.delete("/delete-cart/:id", async (req, res) => {
   const id = req.params.id;
   try {
-    const result = await Cart.deleteOne({ userId: req.cookies.userId, _id : id })
-    
-    if(result){
+    const result = await Cart.deleteOne({
+      userId: req.cookies.userId,
+      _id: id,
+    });
+
+    if (result) {
       res.json({
         success: true,
         status_code: 200,

@@ -4,22 +4,66 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import { useCollapse } from "react-collapsed";
 import PageHeader from "@/Shared/PageHeader";
 import Loader2 from "@/Utils/Loader2";
-import { url } from "../../../../../connection";
 import { BasicContext } from "@/ContextAPIs/BasicProvider";
 import useGetCategories from "@/Hooks/useGetCategories";
 import { Slider } from "@/Components/ui/slider";
+import useGetCart from "@/Hooks/useGetCart";
+import useTotalCart from "@/Hooks/useTotalCart";
+import { toast } from "react-toastify";
+import useAxiosPublic from "@/Hooks/useAxiosPublic";
+import { imgUrl } from "@/Utils/imageUrl";
 
 const AllCategory = () => {
-  const imgUrl = `${url}/Upload/product/images/`;
+  const axiosPublic = useAxiosPublic();
   const [isExpanded, setIsExpanded] = useState(true);
-  const { catBasedProduct, isLoading } = useContext(BasicContext);
+  const {
+    catBasedProduct,
+    isLoading,
+    range,
+    setRange,
+    categoryId,
+    setCategoryId,
+    setCartBar,
+  } = useContext(BasicContext);
   const [categories, categoriesLoading] = useGetCategories();
-  const [range, setRange] = useState([0]);
+  const [, , cartFetch] = useGetCart();
+  const [, , totalCartFetch] = useTotalCart();
+
+  const handleCheckboxChange = (_id) => {
+    setCategoryId(() =>
+      categoryId?.includes(_id)
+        ? categoryId.filter((id) => id !== _id)
+        : [...categoryId, _id]
+    );
+  };
 
   const {
     getCollapseProps: getCategoryCollapseProps,
     getToggleProps: getCategoryToggleProps,
   } = useCollapse({ isExpanded });
+
+  const handleAddToCart = async (data) => {
+    const info = {
+      productId: data._id,
+      name: data.name,
+      images: data.images[0],
+      price: data.price,
+    };
+
+    try {
+      const res = await axiosPublic.post(`/api/save-cart`, info, {
+        withCredentials: true,
+      });
+      if (res.data.status_code === 200) {
+        toast.success(res.data.message);
+        cartFetch();
+        totalCartFetch();
+        setCartBar(true);
+      }
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
 
   if (isLoading || categoriesLoading) return <Loader2 />;
 
@@ -51,8 +95,8 @@ const AllCategory = () => {
                       <input
                         type="checkbox"
                         id={idx}
-                        // checked={selectedCategories.includes(idx)}
-                        // onChange={() => handleCategoryChange(idx)}
+                        // checked={categoryId?.includes(category._id)}
+                        onChange={() => handleCheckboxChange(category._id)}
                       />
                       <label htmlFor={idx}>{category.name}</label>
                     </div>
@@ -75,13 +119,13 @@ const AllCategory = () => {
                   step={50}
                 />
                 <div className=" flex justify-center">
-                <input
-                  type="number"
-                  defaultValue={0}
-                  value={range}
-                  onChange={(e) => setRange([parseInt(e.target.value)])}
-                  className="mt-2 w-20 text-center border-color_1 border-2 text-lg font-medium"
-                />
+                  <input
+                    type="number"
+                    defaultValue={0}
+                    value={range}
+                    onChange={(e) => setRange([parseInt(e.target.value)])}
+                    className="mt-2 w-20 text-center border-color_1 border-2 text-lg font-medium"
+                  />
                 </div>
               </div>
             </div>
@@ -99,16 +143,15 @@ const AllCategory = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3">
               {catBasedProduct.result?.map((product) => {
                 return (
-                  <Link
-                    key={product.id}
-                    to={`/productDetails/${product.id}`}
-                    className="transition duration-300 ease-in-out shadow-sm hover:shadow-2xl h-full rounded-md bg-white hover:border-green_color "
+                  <div
+                    key={product._id}
+                    className="transition duration-300 ease-in-out shadow-sm hover:shadow-lg h-full rounded-md bg-white hover:border-green-500"
                   >
                     <div className="relative rounded-md flex flex-col justify-between group  h-full border-2 hover:border-2 hover:border-green_color">
                       <div className="w-full md:h-[230px] flex justify-center items-center relative p-1 rounded-md">
                         <img
                           className="w-full h-full object-cover"
-                          src={`${imgUrl}${product.images}`}
+                          src={`${imgUrl.product}${product.images}`}
                           alt={product.name}
                         />
                       </div>
@@ -129,12 +172,23 @@ const AllCategory = () => {
                         />
                       </div> */}
                       <div className="px-2 pb-4">
-                        <button className="bg-footer_color  text-black font-bold py-p_8px w-[100%] mx-auto border-green_color">
-                          See Details
+                        <button
+                          onClick={() => handleAddToCart(product)}
+                          className="bg-color_1 py-1 font-medium text-white hover:scale-105 duration-300 w-full my-2"
+                        >
+                          Quick Add
                         </button>
+                        <Link
+                          to={`/productDetails/${product._id}`}
+                          className="w-full"
+                        >
+                          <button className="bg-color_1 py-1 font-medium text-white hover:scale-105 duration-300 w-full">
+                            Quick Add
+                          </button>
+                        </Link>
                       </div>
                     </div>
-                  </Link>
+                  </div>
                 );
               })}
             </div>

@@ -35,9 +35,12 @@ router.get("/get-all-products", userId, async (req, res) => {
 
 router.post("/get-products-by-cat", async (req, res) => {
   const { page, limit } = req.query;
-  const id = req.body.categoryId;
-  let query = {};
-  if (id) query = { category: id };
+  const {id, price} = req.body;
+  let query = {stock: { $gt: 0 }};
+  if (id.length !== 0) query = {...query, category: Array.isArray(id) ? { $in: id } : id };
+  if (price) query = {...query, price: {$lte: price} };
+
+
   const totalProducts = await Product.estimatedDocumentCount();
   try {
     const result = await Product.find(query, {

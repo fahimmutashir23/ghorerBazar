@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Bookings = require("../../Schemas/Bookings/bookings");
+const Products = require("../../Schemas/Product/product");
 const { generateOrderId } = require("../../Utils/generateOrderId");
 const deleteCartData = require("./Partial/deleteCartABook");
 const loginCheck = require("../../Middleware/checkLogin");
@@ -20,6 +21,7 @@ router.post("/save-bookings", async (req, res) => {
         .populate("products.productId")
         .exec();
       if(productDetails){
+
         deleteCartData(userId);
           res.json({
             status_code: 200,

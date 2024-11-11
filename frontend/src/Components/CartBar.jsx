@@ -3,6 +3,7 @@ import useAxiosPublic from "@/Hooks/useAxiosPublic";
 import useGetCart from "@/Hooks/useGetCart";
 import useTotalCart from "@/Hooks/useTotalCart";
 import OrderModal from "@/Pages/Modal/OrderModal";
+import { imgUrl } from "@/Utils/imageUrl";
 import Loader2 from "@/Utils/Loader2";
 import { useContext, useState } from "react";
 import { FaExternalLinkAlt } from "react-icons/fa";
@@ -17,6 +18,7 @@ const CartBar = () => {
   const [cart, cartLoading, cartFetch] = useGetCart();
   const [, , totalCartFetch] = useTotalCart();
   const [isOpen, setIsOpen] = useState(false);
+  const [desiredQuantities, setDesiredQuantities] = useState({});
 
   const handleDelete = async (id) => {
     const res = await axiosPublic.delete(`/api/delete-cart/${id}`, {
@@ -29,7 +31,51 @@ const CartBar = () => {
     }
   };
 
+  const setQuantity = async (id, quantity) => {
+    try {
+      const res = await axiosPublic.put(
+        `/api/update-cart/${id}`,
+        { quantity },
+        { withCredentials: true }
+      );
+
+      if (res.data.status_code === 200) {
+        cartFetch();
+        totalCartFetch();
+      }
+    } catch (error) {
+      console.error("Error updating quantity:", error);
+    }
+  };
+
+  // Handle changes in quantity input
+  const handleQuantityChange = (id, quantity) => {
+    setDesiredQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [id]: quantity,
+    }));
+  };
+
   if (cartLoading) return <Loader2 />;
+
+  // Increase quantity by 1
+  const incrementQuantity = (id) => {
+    const newQuantity =
+      (desiredQuantities[id] ||
+        cart.result.find((item) => item._id === id).quantity) + 1;
+    handleQuantityChange(id, newQuantity);
+    setQuantity(id, newQuantity);
+  };
+
+  // Decrease quantity by 1
+  const decrementQuantity = (id) => {
+    const currentQuantity =
+      desiredQuantities[id] ||
+      cart.result.find((item) => item._id === id).quantity;
+    const newQuantity = Math.max(currentQuantity - 1, 1);
+    handleQuantityChange(id, newQuantity);
+    setQuantity(id, newQuantity);
+  };
 
   return (
     <div
@@ -39,8 +85,12 @@ const CartBar = () => {
     >
       <div className="flex items-center justify-between px-3">
         <h1 className="font-medium text-2xl">Shopping Cart</h1>
-        <Link onClick={() => setCartBar(false)} className="flex items-center gap-2 text-color_1 font-semibold" to='/cart'>
-        View Cart
+        <Link
+          onClick={() => setCartBar(false)}
+          className="flex items-center gap-2 text-color_1 font-semibold"
+          to="/cart"
+        >
+          View Cart
           <FaExternalLinkAlt className="mb-1" />
         </Link>
         <IoClose
@@ -55,7 +105,7 @@ const CartBar = () => {
           <div key={item._id} className="flex gap-3 px-3">
             <div className="w-1/3 border p-2 h-28">
               <img
-                src={item.images}
+                src={`${imgUrl.product}${item.images}`}
                 className="w-full h-full object-cover"
                 alt=""
               />
@@ -64,10 +114,34 @@ const CartBar = () => {
               <h1 className="font-medium text-xl">{item.name}</h1>
               <h3 className="font-semibold text-xl">TK {item.price}</h3>
               <div className="flex gap-3">
-                <div className="bg-color_1 text-white py-1 px-3 rounded-sm flex gap-8">
-                  <button className="text-xl font-bold flex-1">+</button>
-                  <span className="text-xl font-bold flex-1">{item.quantity}</span>
-                  <button className="text-xl font-bold flex-1">-</button>
+                <div className="bg-color_1 text-white py-1 px-3 rounded-sm flex">
+                  <button
+                    onClick={() => decrementQuantity(item._id)}
+                    className="font-bold px-2 text-2xl text-white"
+                  >
+                    -
+                  </button>
+                  <input
+                    type="number"
+                    min="0"
+                    value={desiredQuantities[item._id] || item.quantity}
+                    onChange={(e) =>
+                      handleQuantityChange(
+                        item._id,
+                        parseInt(e.target.value) || 1
+                      )
+                    }
+                    onBlur={(e) =>
+                      setQuantity(item._id, parseInt(e.target.value) || 1)
+                    }
+                    className="p-1 w-16 text-xl text-center bg-transparent"
+                  />
+                  <button
+                    onClick={() => incrementQuantity(item._id)}
+                    className="font-bold px-2 text-2xl text-white"
+                  >
+                    +
+                  </button>
                 </div>
                 <button
                   onClick={() => handleDelete(item._id)}
@@ -80,12 +154,19 @@ const CartBar = () => {
           </div>
         ))}
       </div>
-      {cart.result.length > 0 && <div className="bg-white p-3">
-        <p className="flex justify-between font-semibold md:text-xl">
-          <span>Total Price</span> <span>{cart.totalAmount}/-</span>
-        </p>
-        <button onClick={() => setIsOpen(true)} className="button_primary w-full mt-4">Checkout</button>
-      </div>}
+      {cart.result.length > 0 && (
+        <div className="bg-white p-3">
+          <p className="flex justify-between font-semibold md:text-xl">
+            <span>Total Price</span> <span>{cart.totalAmount}/-</span>
+          </p>
+          <button
+            onClick={() => setIsOpen(true)}
+            className="button_primary w-full mt-4"
+          >
+            Checkout
+          </button>
+        </div>
+      )}
       <OrderModal isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   );

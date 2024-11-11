@@ -12,20 +12,29 @@ const BasicProvider = ({ children }) => {
   const [sidebarOpen, setSideBarOpen] = useState(true);
   const [cartBar, setCartBar] = useState(false);
   // filter state
-  const [categoryId, setCategoryId] = useState(null);
+  const [categoryId, setCategoryId] = useState([]);
+  const [range, setRange] = useState([0]);
+
 
   // fetch product based on category Id
-  const {data:catBasedProduct, isLoading, refetch} = useQuery({
+  const {
+    data: catBasedProduct,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["get-cat-data"],
     queryFn: async () => {
-      const res = await axiosPublic.post(`/api/get-products-by-cat`, {categoryId})
-      return res.data
-    }
-  })
+      const res = await axiosPublic.post(`/api/get-products-by-cat`, {
+        id: categoryId,
+        price: range[0]
+      });
+      return res.data;
+    },
+  });
 
   useEffect(() => {
     refetch();
-  }, [categoryId])
+  }, [categoryId, range]);
 
   const info = {
     sidebarOpen,
@@ -37,8 +46,10 @@ const BasicProvider = ({ children }) => {
     setCartBar,
     categoryId,
     setCategoryId,
+    range,
+    setRange,
     catBasedProduct,
-    isLoading
+    isLoading,
   };
   return <BasicContext.Provider value={info}>{children}</BasicContext.Provider>;
 };
