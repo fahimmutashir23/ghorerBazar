@@ -33,6 +33,7 @@ import CompanyProfile from "../Pages/AdminPages/CompanyProfile/CompanyProfile";
 // import BrandList from "@/Pages/AdminPages/Brand/BrandList";
 import TagList from "@/Pages/AdminPages/Tag/TagList";
 import DeliveryChargeList from "@/Pages/AdminPages/DeliveryCharge/DeliveryChargeList";
+import BannerList from "@/Pages/AdminPages/Settings/Banner/BannerList";
 
 const Router = createBrowserRouter([
   {
@@ -186,6 +187,14 @@ const Router = createBrowserRouter([
         element: (
           <AccessComponents accessName="settings-list">
             <CompanyProfile />
+          </AccessComponents>
+        ),
+      },
+      {
+        path: "/admin/banner",
+        element: (
+          <AccessComponents accessName="settings-list">
+            <BannerList />
           </AccessComponents>
         ),
       },

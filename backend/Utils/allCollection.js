@@ -14,6 +14,8 @@ const Purchase = require("../Schemas/Purchase/purchase");
 const Sales = require("../Schemas/Sale/sale");
 const Brand = require("../Schemas/Brand/brand");
 const Tag = require("../Schemas/Tag/tag");
+const banner = require("../Schemas/Profile/banner");
+const deliveryCharge = require("../Schemas/Develivery/deliveryCharge");
 
 router.post("/get-all-collection-length", loginCheck, async (req, res) => {
   const { date, from, to, lastMonth, lastWeek } = req.body;
@@ -30,6 +32,8 @@ router.post("/get-all-collection-length", loginCheck, async (req, res) => {
     const sales = await Sales.estimatedDocumentCount();
     const brand = await Brand.estimatedDocumentCount();
     const tags = await Tag.estimatedDocumentCount();
+    const banners = await banner.estimatedDocumentCount();
+    const delivery = await deliveryCharge.estimatedDocumentCount();
 
 
     const unwindStage = {
@@ -96,6 +100,8 @@ router.post("/get-all-collection-length", loginCheck, async (req, res) => {
         sales,
         brand,
         tags,
+        banners,
+        delivery,
         stock : {stock, stockAmount: stockAmount ? stockAmount : 0},
         expense: {
           expense,

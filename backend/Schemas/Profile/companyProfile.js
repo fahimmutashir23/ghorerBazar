@@ -35,6 +35,10 @@ const companyProfileSchema = new mongoose.Schema({
     details: {
       type: String,
       required: true,
+    },
+    webBanner: {
+      type: Array,
+      default: null,
     }
   }, {timestamps : true});
 

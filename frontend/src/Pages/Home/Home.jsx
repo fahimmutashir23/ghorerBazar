@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import AllProduct from "./Partial/AllProduct";
+import Banner from "./Partial/Banner";
 
 const Home = () => {
   const targetDate = "2024-06-01T23:59:59";
@@ -34,6 +35,7 @@ const Home = () => {
 
   return (
     <div className="max-w-7xl mx-auto">
+      <Banner />
       <AllProduct />
     </div>
   );

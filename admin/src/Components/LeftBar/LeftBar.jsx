@@ -688,6 +688,26 @@ const LeftBar = () => {
                       {
                         <li
                           className={` px-p_primary my-1 hover:cursor-pointer hover:rounded-rounded_primary hover: duration-200   ${
+                            selected === "/admin/banner"
+                              ? "bg-bg_selected rounded-rounded_primary text-white hover:text-white font-medium hover:bg-bg_selected "
+                              : "text-[#585c66] font-medium hover:text-[#585c66] hover:bg-gray-300"
+                          }`}
+                          onClick={() => handleClick("/admin/banner")}
+                        >
+                          <Link
+                            to="/admin/banner"
+                            className="flex items-center  gap-2 py-p_primary"
+                          >
+                            <span className="bg-bg_selected text-white p-1 rounded-rounded_primary text-md"></span>
+                            <span className="text-md font_sans font-medium ">
+                              Banner List
+                            </span>
+                          </Link>
+                        </li>
+                      }
+                      {
+                        <li
+                          className={` px-p_primary my-1 hover:cursor-pointer hover:rounded-rounded_primary hover: duration-200   ${
                             selected === "/admin/company"
                               ? "bg-bg_selected rounded-rounded_primary text-white hover:text-white font-medium hover:bg-bg_selected "
                               : "text-[#585c66] font-medium hover:text-[#585c66] hover:bg-gray-300"
