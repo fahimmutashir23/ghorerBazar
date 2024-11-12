@@ -14,7 +14,8 @@ const BasicProvider = ({ children }) => {
   // filter state
   const [categoryId, setCategoryId] = useState([]);
   const [range, setRange] = useState([0]);
-
+  // Delivery Charge
+  const [delCharge, setDelCharge] = useState(0);
 
   // fetch product based on category Id
   const {
@@ -26,7 +27,7 @@ const BasicProvider = ({ children }) => {
     queryFn: async () => {
       const res = await axiosPublic.post(`/api/get-products-by-cat`, {
         id: categoryId,
-        price: range[0]
+        price: range[0],
       });
       return res.data;
     },
@@ -50,6 +51,8 @@ const BasicProvider = ({ children }) => {
     setRange,
     catBasedProduct,
     isLoading,
+    setDelCharge,
+    delCharge,
   };
   return <BasicContext.Provider value={info}>{children}</BasicContext.Provider>;
 };

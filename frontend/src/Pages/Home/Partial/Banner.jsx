@@ -17,7 +17,7 @@ const Banner = () => {
   if (!banner) return <Loader2 />;
   return (
     <div className="h-[50vh] flex flex-col lg:flex-row gap-4 mb-4">
-      <div className="lg:w-4/12"></div>
+      <div className="lg:w-4/12 border-2 border-black rounded-md"></div>
       <div className="lg:w-8/12">
         <Carusel images={banner} />
       </div>

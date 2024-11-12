@@ -5,9 +5,12 @@ import OrderModal from "@/Pages/Modal/OrderModal";
 import PageHeader from "@/Shared/PageHeader";
 import { imgUrl } from "@/Utils/imageUrl";
 import Loader2 from "@/Utils/Loader2";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
+import { RadioGroup, RadioGroupItem } from "@/Components/ui/radio-group";
+import useDeliveryCharge from "@/Hooks/useDeliveryCharge";
+import { BasicContext } from "@/ContextAPIs/BasicProvider";
 
 const Cart = () => {
   const axiosPublic = useAxiosPublic();
@@ -15,6 +18,8 @@ const Cart = () => {
   const [, , totalCartFetch] = useTotalCart();
   const [isOpen, setIsOpen] = useState(false);
   const [desiredQuantities, setDesiredQuantities] = useState({});
+  const [delivery] = useDeliveryCharge();
+  const {delCharge, setDelCharge} = useContext(BasicContext);
 
   const handleDelete = async (id) => {
     const res = await axiosPublic.delete(`/api/delete-cart/${id}`, {
@@ -26,7 +31,6 @@ const Cart = () => {
       totalCartFetch();
     }
   };
-
 
   const setQuantity = async (id, quantity) => {
     try {
@@ -58,8 +62,8 @@ const Cart = () => {
   // Increase quantity by 1
   const incrementQuantity = (id) => {
     const newQuantity =
-      (desiredQuantities[id] || cart.result.find((item) => item._id === id).quantity) +
-      1;
+      (desiredQuantities[id] ||
+        cart.result.find((item) => item._id === id).quantity) + 1;
     handleQuantityChange(id, newQuantity);
     setQuantity(id, newQuantity);
   };
@@ -67,13 +71,12 @@ const Cart = () => {
   // Decrease quantity by 1
   const decrementQuantity = (id) => {
     const currentQuantity =
-      desiredQuantities[id] || cart.result.find((item) => item._id === id).quantity;
+      desiredQuantities[id] ||
+      cart.result.find((item) => item._id === id).quantity;
     const newQuantity = Math.max(currentQuantity - 1, 1);
     handleQuantityChange(id, newQuantity);
     setQuantity(id, newQuantity);
   };
-
-
 
   return (
     <div>
@@ -142,8 +145,17 @@ const Cart = () => {
         <div className="p-3 my-4 flex justify-end">
           {cart.result.length > 0 && (
             <div className="w-full max-w-xl border p-3">
+              <RadioGroup onValueChange={(value) => setDelCharge(value)}>
+                {delivery.map((charge, idx) => (
+                  <div key={idx} className="flex items-center space-x-2">
+                    <RadioGroupItem value={charge.amount} id={charge._id} />
+                    <label htmlFor={charge._id}>{charge.name}</label>
+                    <span className="font-bold">{charge.amount} BDT</span>
+                  </div>
+                ))}
+              </RadioGroup>
               <p className="flex justify-between font-semibold md:text-xl">
-                <span>Total Price</span> <span>{cart.totalAmount}/-</span>
+                <span>Total Price</span> <span>{cart.totalAmount + delCharge}/-</span>
               </p>
               <button
                 onClick={() => setIsOpen(true)}

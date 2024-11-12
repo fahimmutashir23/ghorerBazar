@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const Bookings = require("../../Schemas/Bookings/bookings");
-const Products = require("../../Schemas/Product/product");
 const { generateOrderId } = require("../../Utils/generateOrderId");
 const deleteCartData = require("./Partial/deleteCartABook");
 const loginCheck = require("../../Middleware/checkLogin");
+const updateProduct = require("./Partial/updateProduct");
 
 router.post("/save-bookings", async (req, res) => {
   const invoiceId = await generateOrderId();
@@ -15,14 +15,15 @@ router.post("/save-bookings", async (req, res) => {
     }
 
     const newBookings = new Bookings(info);
+    
     const result = await newBookings.save();
     if (result) {
       const productDetails = await Bookings.findById(result._id)
         .populate("products.productId")
         .exec();
       if(productDetails){
-
-        deleteCartData(userId);
+        await updateProduct(newBookings.products)
+        await deleteCartData(userId);
           res.json({
             status_code: 200,
             message: "Bookings Successfully",

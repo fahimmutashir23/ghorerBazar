@@ -3,11 +3,10 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/Components/ui/carousel";
-import { url } from "../../../../connection";
 import Autoplay from "embla-carousel-autoplay";
+import { imgUrl } from "@/Utils/imageUrl";
 
 const Carusel = ({ images }) => {
-  const imgUrl = `${url}/Upload/profile/images/`;
 
   return (
     <Carousel
@@ -20,14 +19,14 @@ const Carusel = ({ images }) => {
         align: "start",
         loop: true,
       }}
-      className="w-full"
+      className="w-full rounded-md overflow-hidden"
     >
       <CarouselContent>
         {images.map((image, index) => (
           <CarouselItem className="h-[50vh] w-full" key={index}>
             <img
               className="w-full h-full object-cover"
-              src={`${imgUrl}${image.banner}`}
+              src={`${imgUrl.profile}${image.banner}`}
               alt="Banner"
             />
           </CarouselItem>

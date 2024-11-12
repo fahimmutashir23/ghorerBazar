@@ -183,7 +183,7 @@ const AllCategory = () => {
                           className="w-full"
                         >
                           <button className="bg-color_1 py-1 font-medium text-white hover:scale-105 duration-300 w-full">
-                            Quick Add
+                           See Details
                           </button>
                         </Link>
                       </div>

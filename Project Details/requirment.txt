@@ -1,6 +1,4 @@
-2. Make all category page.
-3. Make Filtering system.
-4. booking system.
+5. update stock and sales of product after bookings.
 
 Backend:
 1. Make a related products api.

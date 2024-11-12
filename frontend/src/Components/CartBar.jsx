@@ -11,13 +11,16 @@ import { IoClose } from "react-icons/io5";
 import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { RadioGroup, RadioGroupItem } from "@/Components/ui/radio-group";
+import useDeliveryCharge from "@/Hooks/useDeliveryCharge";
 
 const CartBar = () => {
   const axiosPublic = useAxiosPublic();
-  const { cartBar, setCartBar } = useContext(BasicContext);
+  const { cartBar, setCartBar, delCharge, setDelCharge } = useContext(BasicContext);
   const [cart, cartLoading, cartFetch] = useGetCart();
   const [, , totalCartFetch] = useTotalCart();
   const [isOpen, setIsOpen] = useState(false);
+  const [delivery] = useDeliveryCharge();
   const [desiredQuantities, setDesiredQuantities] = useState({});
 
   const handleDelete = async (id) => {
@@ -156,8 +159,17 @@ const CartBar = () => {
       </div>
       {cart.result.length > 0 && (
         <div className="bg-white p-3">
+          <RadioGroup onValueChange={(value) => setDelCharge(value)}>
+                {delivery.map((charge, idx) => (
+                  <div key={idx} className="flex items-center space-x-2">
+                    <RadioGroupItem value={charge.amount} id={charge._id} />
+                    <label htmlFor={charge._id}>{charge.name}</label>
+                    <span className="font-bold">{charge.amount} BDT</span>
+                  </div>
+                ))}
+              </RadioGroup>
           <p className="flex justify-between font-semibold md:text-xl">
-            <span>Total Price</span> <span>{cart.totalAmount}/-</span>
+            <span>Total Price</span> <span>{cart.totalAmount + delCharge}/-</span>
           </p>
           <button
             onClick={() => setIsOpen(true)}

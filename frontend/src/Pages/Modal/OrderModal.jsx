@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { IoMdClose } from "react-icons/io";
@@ -7,9 +7,11 @@ import useAxiosPublic from "@/Hooks/useAxiosPublic";
 import useGetCart from "@/Hooks/useGetCart";
 import { useNavigate } from "react-router-dom";
 import useTotalCart from "@/Hooks/useTotalCart";
+import { BasicContext } from "@/ContextAPIs/BasicProvider";
 
 const OrderModal = ({ isOpen, setIsOpen }) => {
   const [animate, setAnimate] = useState(false);
+  const { delCharge } = useContext(BasicContext);
   const axiosSecure = useAxiosPublic();
   const [cart, , cartFetch] = useGetCart();
   const [, , totalCartFetch] = useTotalCart();
@@ -27,6 +29,7 @@ const OrderModal = ({ isOpen, setIsOpen }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if(delCharge === 0) return toast.error("Select delivery charge")
     setLoading(true);
     const name = e.target.name.value;
     const phone = e.target.phone.value;
@@ -40,7 +43,7 @@ const OrderModal = ({ isOpen, setIsOpen }) => {
       email,
       address,
       details,
-      totalAmount: cart.totalAmount,
+      totalAmount: cart.totalAmount + delCharge,
       products: cart.result.map((item) => (
         {productId: item.productId, quantity: item.quantity}
       ))
@@ -97,7 +100,6 @@ const OrderModal = ({ isOpen, setIsOpen }) => {
                 >
                   <Dialog.Panel className="w-[96%] md:w-[90%] lg:w-[75%] xl:w-[910px] max-w-md:w-[60%] transform rounded-md text-left align-middle shadow-xl transition-all my-10 pb-0 bg-white">
                     <Dialog.Title
-                      as="h3"
                       className="border px-4 text-xl bg-color_1 text-white flex items-center justify-between h-14"
                     >
                       <h6 className="py-2 text-2xl font-semibold">Make Order</h6>

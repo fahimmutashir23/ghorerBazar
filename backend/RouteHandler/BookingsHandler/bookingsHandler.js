@@ -4,26 +4,6 @@ const loginCheck = require("../../Middleware/checkLogin");
 const Bookings = require("../../Schemas/Bookings/bookings");
 const { generateOrderId } = require("../../Utils/generateOrderId");
 
-router.post("/save-bookings", async (req, res) => {
-  const orderId = await generateOrderId();
-  try {
-    const newBookings = new Bookings(req.body);
-    newBookings.invoiceId = orderId;
-    const result = await newBookings.save();
-    if (result) {
-      const productDetails = await Bookings.findById(result._id)
-        .populate("products.productId")
-        .exec();
-      res.json({
-        status_code: 200,
-        message: "Bookings Successfully",
-        result: productDetails,
-      });
-    }
-  } catch (error) {
-    res.json(error);
-  }
-});
 
 router.get("/get-bookings-list", loginCheck, async (req, res) => {
   try {

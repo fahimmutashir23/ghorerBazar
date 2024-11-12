@@ -17,7 +17,6 @@ import { imgUrl } from "@/Utils/imageUrl";
 const ProductDetails = () => {
   const { id } = useParams();
   const [quantity, setQuantity] = useState(1);
-  const [ingredient, setIngredient] = useState("BDT");
   const axiosPublic = useAxiosPublic();
   const [, , cartFetch] = useGetCart();
   const [, , totalCartFetch] = useTotalCart();
@@ -28,14 +27,10 @@ const ProductDetails = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const handlePaymentOptionChange = (option) => {
-    setIngredient(option);
-  };
 
   const {
     data: singleProduct,
-    isLoading,
-    refetch,
+    isLoading
   } = useQuery({
     queryKey: ["product_single"],
     queryFn: async () => {
@@ -102,7 +97,7 @@ const ProductDetails = () => {
               <button className="h-20 w-20 border rounded-md border-gray-500">
                 <img
                   className="h-full w-full"
-                  src={`${imgUrl}${singleProduct.images[0]}`}
+                  src={`${imgUrl.product}${singleProduct.images[0]}`}
                   alt=""
                 />
               </button>
@@ -119,14 +114,13 @@ const ProductDetails = () => {
               <div>
                 <hr className="my-3" />
                 <div className="w-full mb-3">
-                  <h2 className="text-lg font-medium">
-                    Delivery Charge:
-                  </h2>
+                  <h2 className="text-lg font-medium">Delivery Charge:</h2>
                   <div className="font-medium">
                     {delivery.map((charge, idx) => (
                       <div key={idx} className="flex gap-2">
-                        <span>{charge.name}-</span>
-                        <span>{charge.amount}৳</span>
+                        <input type="radio" name="" id={idx} />
+                        <span id={idx}>{charge.name}-</span>
+                        <span id={idx}>{charge.amount}৳</span>
                       </div>
                     ))}
                   </div>
@@ -137,11 +131,17 @@ const ProductDetails = () => {
               <div className="mt-1 flex justify-between">
                 <span className="font-medium text-lg">
                   Unit Price:{" "}
-                  <span className="font-bold text-red-800">{singleProduct.price}</span> BDT
+                  <span className="font-bold text-red-800">
+                    {singleProduct.price}
+                  </span>{" "}
+                  BDT
                 </span>
                 <span className="font-medium text-lg">
                   Total Price:{" "}
-                  <span className="font-bold text-red-800">{singleProduct.price * quantity}</span> BDT
+                  <span className="font-bold text-red-800">
+                    {singleProduct.price * quantity}
+                  </span>{" "}
+                  BDT
                 </span>
               </div>
               <hr className="my-3" />

@@ -10,10 +10,9 @@ import AddBannerModal from "./AddBannerModal";
 import useAxiosSecure from "@/Hooks/useAxiosSecure";
 import useAxiosPublic from "@/Hooks/useAxiosPublic";
 import Loader2 from "@/Utils/Loader2";
-import { url } from "../../../../../connection";
+import { imgUrl } from "@/Utils/imageUrl";
 
 const BannerList = () => {
-  const imgUrl = `${url}/Upload/profile/images/`
   const [popOpen, setPopOpen] = useState(null);
   const [loader, setLoader] = useState(false)
   const axiosSecure = useAxiosSecure();
@@ -115,7 +114,7 @@ const BannerList = () => {
                 <td
                   className={`px-6 pt-2 font-semibold text-lg whitespace-nowrap text-left border  text-black `}
                 >
-                  <img src={`${imgUrl}${data.banner}`} alt="" />
+                  <img src={`${imgUrl.profile}${data.banner}`} alt="" />
                 </td>
                 <td
                   className={`px-6 pt-2 font-semibold text-lg whitespace-nowrap text-center border  text-black `}
