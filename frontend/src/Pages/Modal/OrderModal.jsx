@@ -43,6 +43,7 @@ const OrderModal = ({ isOpen, setIsOpen }) => {
       email,
       address,
       details,
+      deliveryCharge: delCharge,
       totalAmount: cart.totalAmount + delCharge,
       products: cart.result.map((item) => (
         {productId: item.productId, quantity: item.quantity}

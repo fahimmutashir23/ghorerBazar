@@ -6,22 +6,24 @@ import useAxiosSecure from "@/Hooks/useAxiosSecure";
 import { BasicContext } from "@/ContextAPIs/BasicProvider";
 import Loader2 from "@/Utils/Loader2";
 
-const InvoiceModal = ({isOpen, setIsOpen}) => {
+const InvoiceModal = ({ isOpen, setIsOpen }) => {
   const [animate, setAnimate] = useState(false);
   const axiosSecure = useAxiosSecure();
-  const {invoiceId} = useContext(BasicContext);
+  const { invoiceId } = useContext(BasicContext);
   const [data, setData] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axiosSecure.post(`/api/get-bookings-w-id`, {invoiceId})
-      if(res.data.status_code === 200){
-        setData(res.data.result)
+      const res = await axiosSecure.post(`/api/get-bookings-w-id`, {
+        invoiceId,
+      });
+      if (res.data.status_code === 200) {
+        setData(res.data.result);
       }
-    }
+    };
 
     fetchData();
-  }, [setIsOpen])
+  }, [setIsOpen]);
 
   const handleAnimate = () => {
     setAnimate(true);
@@ -35,7 +37,7 @@ const InvoiceModal = ({isOpen, setIsOpen}) => {
     return new Date(dateString).toLocaleDateString("en-GB", options);
   };
 
-  if(!data) return <Loader2 />
+  if (!data) return <Loader2 />;
 
   return (
     <>
@@ -73,9 +75,7 @@ const InvoiceModal = ({isOpen, setIsOpen}) => {
                       as="h3"
                       className="border px-4 text-xl bg-gray-700 text-white flex items-center justify-between"
                     >
-                      <h6 className="py-1 text-xl font-semibold">
-                        Invoice
-                      </h6>
+                      <h6 className="py-1 text-xl font-semibold">Invoice</h6>
                       <button
                         onClick={() => setIsOpen(false)}
                         className="text_color close-button "
@@ -136,7 +136,9 @@ const InvoiceModal = ({isOpen, setIsOpen}) => {
                           <tr className="w-full bg-gray-100">
                             <th className="py-2 text-left px-4">Description</th>
                             <th className="py-2 px-4 text-center">Quantity</th>
-                            <th className="py-2 px-4 text-center">Unit Price</th>
+                            <th className="py-2 px-4 text-center">
+                              Unit Price
+                            </th>
                             <th className="py-2 px-4 text-center">Total</th>
                           </tr>
                         </thead>
@@ -165,7 +167,14 @@ const InvoiceModal = ({isOpen, setIsOpen}) => {
                           <div className="text-right">
                             <p className="text-sm">Tax (00%): 00</p>
                             <p className="text-md font-semibold">
-                              Total: {data.totalAmount}/-
+                              Total: {data.totalAmount - data.deliveryCharge}/-
+                            </p>
+                            <p className="text-md font-semibold">
+                              Delivery Charge: {data.deliveryCharge}/-
+                            </p>
+                            <div className="h-[0.5px] bg-black mb-1"></div>
+                            <p className="text-md font-semibold">
+                              Sub Total: {data.totalAmount}/-
                             </p>
                           </div>
                         </div>

@@ -2,7 +2,7 @@ import { useLocation } from "react-router-dom";
 
 const Invoice = () => {
   const location = useLocation();
-  const { name, phone, address, email, createdAt, totalAmount, products, invoiceId } =
+  const { name, phone, address, email, createdAt, totalAmount, products, invoiceId, deliveryCharge } =
     location.state;
 
   const formatDate = (dateString) => {
@@ -84,7 +84,10 @@ const Invoice = () => {
         <div className="flex justify-end items-center">
           <div className="text-right">
             <p className="text-sm">Tax (00%): 00</p>
-            <p className="text-md font-semibold">Total: {totalAmount}/-</p>
+            <p className="text-md font-semibold">Total: {totalAmount - deliveryCharge}/-</p>
+            <p className="text-md font-semibold">Delivery Charge: {deliveryCharge}/-</p>
+            <div className="h-[0.5px] bg-black mb-1"></div>
+            <p className="text-md font-semibold">Sub Total: {totalAmount}/-</p>
           </div>
         </div>
       </section>

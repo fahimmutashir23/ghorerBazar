@@ -78,6 +78,7 @@ const Cart = () => {
     setQuantity(id, newQuantity);
   };
 
+
   return (
     <div>
       <PageHeader name={"Shopping Cart"} />
