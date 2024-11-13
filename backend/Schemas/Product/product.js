@@ -41,8 +41,8 @@ const productSchema = new mongoose.Schema({
     },
     tags: [
       {
-        type: Schema.Types.ObjectId,
-        ref: 'Tag'
+        type: String,
+        default: null
       }
     ],
     reviews: [

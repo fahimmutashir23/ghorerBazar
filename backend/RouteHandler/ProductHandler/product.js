@@ -88,30 +88,61 @@ router.get("/get-single-product/:id", async (req, res) => {
 });
 
 router.put("/update-product/:id", loginCheck, async (req, res) => {
-  const id = req.params.id;
-  const info = req.body;
-  const filter = { _id: id };
-  const updateDoc = {
-    $set: {
-      name: info.name,
-      price: info.price,
-      brand: info.brand,
-      image: info.image,
-    },
-  };
+  upload.array("images", 10)(req, res, async (err) => {
+    if (err) {
+      return res.status(400).json({
+        success: false,
+        message: err.message,
+      });
+    }
 
-  try {
-    const result = await Product.findOneAndUpdate(filter, updateDoc, {
-      new: true,
-    });
-    res.json({
-      message: "Successfully Updated",
-      status_code: 200,
-      result: result,
-    });
-  } catch (error) {
-    res.json(error);
-  }
+    try {
+      if (req.files && req.files.length > 0) {
+        await compressImage(req, res, () => {});
+      }
+
+      const filter = {_id : req.params.id}
+      const info = req.body;
+      const updatedDoc = {
+        $set: {
+          name: info.name,
+          brand: info.brand,
+          price: info.price,
+          category: info.category,
+          stock: info.stock,
+          tags: info.tags,
+          discount: info.discount,
+          details: info.details,
+          images: req.files
+          ? req.files.map((file) => file.filename)
+          : [],
+
+        }
+      }
+
+      console.log(updatedDoc);
+
+      // const newProduct = new Product(req.body);
+      // newProduct.images = req.files
+      //   ? req.files.map((file) => file.filename)
+      //   : [];
+
+
+      const result = await Product.findOneAndUpdate(filter,updatedDoc);
+      res.status(200).json({
+        status_code: 200,
+        success: true,
+        message: "Product Update successfully",
+        data: result,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Failed to create service",
+        error: error,
+      });
+    }
+  });
 });
 
 router.delete("/delete-product/:id", loginCheck, async (req, res) => {

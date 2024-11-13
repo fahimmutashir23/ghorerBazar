@@ -10,7 +10,7 @@ const bookingsSchema = new mongoose.Schema({
       required: [true, 'Please Enter Your Name'],
     },
     phone: {
-      type: Number,
+      type: String,
       required: [true, 'Please Enter Your Number'],
     },
     email: {

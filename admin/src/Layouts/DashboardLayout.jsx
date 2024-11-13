@@ -23,7 +23,7 @@ const DashboardLayout = () => {
           >
             <LeftBar />
           </div>
-          <div className="w-full">
+          <div className="w-full overflow-x-auto">
             {isSmallScreen && open && (
               <div className="absolute top-0 left-0 w-full inset-0 bg-black opacity-50 z-20"></div>
             )}

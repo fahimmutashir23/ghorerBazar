@@ -4,13 +4,15 @@ const loginCheck = require("../../Middleware/checkLogin");
 const Bookings = require("../../Schemas/Bookings/bookings");
 const { generateOrderId } = require("../../Utils/generateOrderId");
 
-
 router.get("/get-bookings-list", loginCheck, async (req, res) => {
   try {
-    const { page, limit } = req.query;
+    const { page, limit, phone, invoiceId, name } = req.query;
     let query = {};
-    const phone = parseInt(req.query.phone);
-    if (phone) query.phone = phone;
+    if (phone !== "null") query.phone = { $regex: phone, $options: 'i' }
+    if (invoiceId !== "null") query.invoiceId = {...query, $regex: invoiceId, $options: 'i' }
+    if (name !== "null") query.name = {...query, $regex: name, $options: 'i' }
+   
+   
 
     const result = await Bookings.find(query)
       .populate("products.productId")

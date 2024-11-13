@@ -6,7 +6,6 @@ import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import AddProductModal from "./AddProductModal";
-import Loader from "../../../Utils/Loader";
 import UpdateProductModal from "./UpdateProductModal";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import useGetCollectionLength from "@/Hooks/Apis/useGetCollectionLength";
@@ -18,6 +17,7 @@ const ProductList = () => {
   const [loader, setLoader] = useState(false)
   const axiosSecure = useAxiosSecure();
   const axiosPublic = useAxiosPublic();
+  const [updateData, setUpdateData] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [collectionData, collectionLoading, collectionFetch] = useGetCollectionLength();
   const [first, setFirst] = useState(0);
@@ -43,7 +43,8 @@ const ProductList = () => {
     },
   });
 
-  const handleUpdate = async () => {
+  const handleUpdate = async (data) => {
+    setUpdateData(data)
     setIsOpen(true)
   };
 
@@ -86,7 +87,7 @@ const ProductList = () => {
               All( {collectionData.product} )
             </button>
           </div>
-          <AddProductModal collectionFetch={collectionFetch} setLoader={setLoader} fetchData={refetch} />
+          <AddProductModal collectionFetch={collectionFetch} loader={loader} setLoader={setLoader} fetchData={refetch} />
         </div>
       </div>
       <div className="overflow-x-auto pb-32 ">
@@ -149,7 +150,7 @@ const ProductList = () => {
                     >
                       <ul className="text-black text-left">
                         <li
-                          onClick={() => handleUpdate(data._id)}
+                          onClick={() => handleUpdate(data)}
                           className="w-full p-2 font_standard transition-all flex items-center list_hover gap-2"
                         >
                           <BiEdit />
@@ -165,11 +166,11 @@ const ProductList = () => {
                     </div>
                   </button>
                 </td>
-                <UpdateProductModal id={data._id} fetchData={refetch} isOpen={isOpen} setIsOpen={setIsOpen} />
               </tr>
             ))}
           </tbody>
         </table>
+            <UpdateProductModal data={updateData} fetchData={refetch} isOpen={isOpen} setIsOpen={setIsOpen} />
         <Paginator className="bg-gray-700 max-w-fit mx-auto mt-2 text-white" first={first} rows={rows} totalRecords={collectionData.product} onPageChange={onPageChange} />
       </div>
     </div>

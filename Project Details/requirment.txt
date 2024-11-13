@@ -1,4 +1,2 @@
-5. update stock and sales of product after bookings.
-
 Backend:
 1. Make a related products api.

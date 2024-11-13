@@ -23,7 +23,7 @@ import { Editor } from "@tinymce/tinymce-react";
 const page = "";
 const rows = "";
 
-const AddProductModal = ({ fetchData, setLoader, collectionFetch }) => {
+const AddProductModal = ({ fetchData, setLoader, collectionFetch, loader }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [animate, setAnimate] = useState(false);
   const axiosSecure = useAxiosSecure();
@@ -46,21 +46,21 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch }) => {
     }, 1000);
   };
 
-  const log = () => {
-    if (editorRef.current) {
-      console.log(editorRef.current.getContent());
-    }
-  };
+  // const log = () => {
+  //   if (editorRef.current) {
+  //     console.log(editorRef.current.getContent());
+  //   }
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoader(true);
+    if(!cat) return toast.error('Select Category')
     const name = e.target.name.value;
     const brand = e.target.brand.value;
     const price = e.target.price.value;
     const stock = e.target.stock.value;
     const discount = e.target.discount.value;
-    // const details = e.target.details.value;
     const tags = selectedTags.map((tag) => tag.value);
     const detailsMsg = editorRef.current.getContent();
 
@@ -86,16 +86,15 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch }) => {
         setLoader(false);
       }
     } catch (error) {
-      fetchData();
-      toast.error(error.response.data);
       setLoader(false);
+      toast.error(error.response.data);
     }
   };
 
   if (productCatLoading || tagLoading) return <Loader2 />;
 
   const options = tag.result.map((item) => ({
-    value: item._id,
+    value: item.name,
     label: item.name,
   }));
 
@@ -344,24 +343,9 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch }) => {
                             required
                           />
                         </div>
-                        {/* <div className="col-span-2">
-                          <div className="font-semibold">
-                            Product Details
-                            <span className="text-red-400 ml-1">
-                              (required)
-                            </span>{" "}
-                          </div>
-                          <textarea
-                            name="details"
-                            className="bg-white focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
-                            placeholder="Type Here"
-                            required
-                            rows="5"
-                          ></textarea>
-                        </div> */}
                         <div className="w-full col-span-2">
                           <Editor
-                            apiKey="o3o68zojm5jurxvnyz70j6b405p78660x8irfa1ctpqmz1cv"
+                            apiKey={import.meta.env.VITE_TYNI_API}
                             onInit={(_evt, editor) =>
                               (editorRef.current = editor)
                             }
@@ -452,8 +436,8 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch }) => {
                         </div>
                       </div>
                       <div className="border text-xl bg-gray-700 flex items-center justify-between">
-                        <button type="submit" className="button_primary">
-                          Save
+                        <button disabled={loader} type="submit" className="button_primary">
+                        {loader ? "loading..." : "Submit"}
                         </button>
                         <button
                           type="button"
