@@ -52,6 +52,9 @@ const OrderModal = ({ isOpen, setIsOpen }) => {
 
     try {
       const res = await axiosSecure.post("/api/save-bookings", info, {withCredentials: true});
+      if(res.data.status_code === 400){
+        return toast.error(res.data.message)
+      }
       if (res.data.status_code === 200) {
         toast.success(res.data.message);
         cartFetch();

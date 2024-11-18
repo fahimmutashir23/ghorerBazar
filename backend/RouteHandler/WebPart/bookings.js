@@ -1,10 +1,21 @@
 const express = require("express");
 const router = express.Router();
 const Bookings = require("../../Schemas/Bookings/bookings");
+const Product = require("../../Schemas/Product/product");
 const { generateOrderId } = require("../../Utils/generateOrderId");
 const deleteCartData = require("./Partial/deleteCartABook");
 const loginCheck = require("../../Middleware/checkLogin");
 const updateProduct = require("./Partial/updateProduct");
+
+const checkStock = async (productIds) => {
+  for (const { productId } of productIds) {
+    const product = await Product.findById(productId);
+    if (product && product.stock <= 0) {
+      return {message: `The product with ID ${productId} is not available.`, success: false};
+    }
+  }
+  return {message: `All products are available.`, success: true};
+};
 
 router.post("/save-bookings", async (req, res) => {
   const invoiceId = await generateOrderId();
@@ -12,6 +23,14 @@ router.post("/save-bookings", async (req, res) => {
   try {
     const info = {
       ...req.body, userId, invoiceId
+    }
+
+    const qty = await checkStock(req.body.products)
+    if(qty.success === false){
+      res.json({
+        status_code: 400,
+        message: qty.message
+      })
     }
 
     const newBookings = new Bookings(info);
