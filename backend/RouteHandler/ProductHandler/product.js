@@ -23,6 +23,7 @@ router.post("/create-product", loginCheck, async (req, res) => {
       newProduct.images = req.files
         ? req.files.map((file) => file.filename)
         : [];
+        
       const result = await newProduct.save();
       res.status(200).json({
         success: true,

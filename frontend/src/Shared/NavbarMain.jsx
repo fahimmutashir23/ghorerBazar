@@ -7,11 +7,13 @@ import MenuBar from "./MenuBar";
 import { BasicContext } from "@/ContextAPIs/BasicProvider";
 import useTotalCart from "@/Hooks/useTotalCart";
 import { Link } from "react-router-dom";
+import Search from "@/Components/Search";
 
 const NavbarMain = () => {
   const [open, setOpen] = useState(false);
   const { setCartBar } = useContext(BasicContext);
   const [totalCart] = useTotalCart();
+  const [openSearch, setOpenSearch] = useState(false);
 
   return (
     <div className="flex justify-between items-center py-4 px-2 lg:px-6 max-w-6xl mx-auto">
@@ -26,8 +28,9 @@ const NavbarMain = () => {
           )}
         </div>
       </div>
-      <div className="hidden md:flex flex-1">
-        <FaSearch className="text-2xl text-color_1" />
+      <div className="hidden md:flex flex-1 md:gap-2 md:items-center">
+        <FaSearch onClick={() => setOpenSearch(!openSearch)} className="text-2xl text-color_1" />
+        {<Search openSearch={openSearch} />}
       </div>
       <Link to='/' className="text-4xl text-color_1 font-bold flex-1 flex justify-center">LOGO</Link>
       <div className="flex items-center gap-4 flex-1 justify-end">

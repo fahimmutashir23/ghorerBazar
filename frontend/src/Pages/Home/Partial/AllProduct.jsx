@@ -1,20 +1,26 @@
 import Card from "@/Components/Card";
 import useGetProduct from "@/Hooks/useGetProduct";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 // import { Paginator } from 'primereact/paginator';
 import Loader2 from "@/Utils/Loader2";
+import { BasicContext } from "@/ContextAPIs/BasicProvider";
 
 const AllProduct = () => {
   const [first, setFirst] = useState(0);
   const [rows, setRows] = useState(10);
   const [page, setPage] = useState(0);
-  const [products, productLoading] = useGetProduct(page, rows);
+  const [products, productLoading, productFetch] = useGetProduct(page, rows);
+  const {value} = useContext(BasicContext);
 
   const onPageChange = (event) => {
     setFirst(event.first);
     setRows(event.rows);
     setPage(event.page);
   };
+
+  useEffect(() => {
+        productFetch()
+  }, [value])
 
   if(productLoading) return <Loader2 />
 

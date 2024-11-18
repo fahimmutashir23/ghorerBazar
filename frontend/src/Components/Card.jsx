@@ -39,11 +39,16 @@ const Card = ({ data }) => {
   return (
     <Link
       to={`/productDetails/${data._id}`}
-      className="border-2 rounded-sm p-4 flex flex-col hover:border-red-500 duration-300 "
+      className="border-2 rounded-sm p-4 flex flex-col hover:border-red-500 duration-300 relative"
     >
+      {data.discount > 0 && (
+        <div className="absolute top-0 left-0 px-2 py-1 bg-color_1 text-sm text-white font-medium rounded-br-md">
+          Discount: <span className="font-bold">{data.discount}</span>%
+        </div>
+      )}
       <div className="h-[70%]">
         <img
-          src={`${imgUrl.product}${data.images}`}
+          src={`${imgUrl.product}${data.images[0]}`}
           className="h-full w-full object-cover"
           alt=""
         />
@@ -52,10 +57,11 @@ const Card = ({ data }) => {
         <p className="mt-3 text-center">{data.name}</p>
         <p className="mt-3 text-center">{data.price}</p>
         <button
+        disabled={data.stock <= 0}
           onClick={() => handleAddToCart(data)}
           className="bg-color_1 py-1 font-medium text-white hover:scale-105 duration-300 w-full mt-3"
         >
-          Quick Add
+          {data.stock <= 0 ? "Out of Stock" : "Quick Add"}
         </button>
       </div>
     </Link>

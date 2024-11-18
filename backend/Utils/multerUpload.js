@@ -26,11 +26,11 @@ const upload = multer({
   fileFilter
 });
 
+
 const compressImage = async (req, res, next) => {
   if (!req.files || req.files.length === 0) {
     return next();
   }
-
   try {
     req.files = await Promise.all(req.files.map(async (file) => {
       const fileExt = path.extname(file.originalname);

@@ -4,20 +4,30 @@ const Product = require("../../Schemas/Product/product");
 const userId = require("../../Middleware/userId");
 
 router.get("/get-all-products", userId, async (req, res) => {
-  const { page, limit } = req.query;
+  const { page, limit, search } = req.query;
   const totalProducts = await Product.estimatedDocumentCount();
+  let query = {};
+  if (search !== 'null') {
+    query = {
+      $or: [
+        { name: { $regex: search, $options: "i" } },
+        { brand: { $regex: search, $options: "i" } },
+      ],
+    };
+  }
+
   try {
-    const result = await Product.find(
-      {},
-      {
-        name: 1,
-        price: 1,
-        category: 1,
-        brand: 1,
-        details: 1,
-        images: 1,
-      }
-    )
+    const result = await Product.find(query, {
+      name: 1,
+      price: 1,
+      category: 1,
+      brand: 1,
+      details: 1,
+      images: 1,
+      stock: 1,
+      sold: 1,
+      discount: 1
+    })
       .skip(page * limit)
       .limit(limit)
       .exec();
@@ -35,11 +45,11 @@ router.get("/get-all-products", userId, async (req, res) => {
 
 router.post("/get-products-by-cat", async (req, res) => {
   const { page, limit } = req.query;
-  const {id, price} = req.body;
-  let query = {stock: { $gt: 0 }};
-  if (id.length !== 0) query = {...query, category: Array.isArray(id) ? { $in: id } : id };
-  if (price) query = {...query, price: {$lte: price} };
-
+  const { id, price } = req.body;
+  let query = { stock: { $gt: 0 } };
+  if (id.length !== 0)
+    query = { ...query, category: Array.isArray(id) ? { $in: id } : id };
+  if (price) query = { ...query, price: { $lte: price } };
 
   const totalProducts = await Product.estimatedDocumentCount();
   try {
@@ -55,7 +65,10 @@ router.post("/get-products-by-cat", async (req, res) => {
       .skip(page * limit)
       .limit(limit)
       .exec();
-    const catName = totalProducts === result.length ? "All Category" : result[0].category.name;
+    const catName =
+      totalProducts === result.length
+        ? "All Category"
+        : result[0].category.name;
 
     res.json({
       success: true,

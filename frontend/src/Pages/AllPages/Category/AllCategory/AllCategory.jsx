@@ -151,7 +151,7 @@ const AllCategory = () => {
                       <div className="w-full md:h-[230px] flex justify-center items-center relative p-1 rounded-md">
                         <img
                           className="w-full h-full object-cover"
-                          src={`${imgUrl.product}${product.images}`}
+                          src={`${imgUrl.product}${product.images[0]}`}
                           alt={product.name}
                         />
                       </div>

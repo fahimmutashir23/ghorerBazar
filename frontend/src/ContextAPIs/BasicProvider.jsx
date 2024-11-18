@@ -16,6 +16,8 @@ const BasicProvider = ({ children }) => {
   const [range, setRange] = useState([0]);
   // Delivery Charge
   const [delCharge, setDelCharge] = useState(0);
+  // Search State
+  const [value, setValue] = useState(null);
 
   // fetch product based on category Id
   const {
@@ -53,6 +55,8 @@ const BasicProvider = ({ children }) => {
     isLoading,
     setDelCharge,
     delCharge,
+    setValue,
+    value
   };
   return <BasicContext.Provider value={info}>{children}</BasicContext.Provider>;
 };

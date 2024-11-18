@@ -22,19 +22,17 @@ const ProductDetails = () => {
   const [, , totalCartFetch] = useTotalCart();
   const { setCartBar } = useContext(BasicContext);
   const [delivery] = useDeliveryCharge();
+  const [mainImg, setMainImg] = useState();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-
-  const {
-    data: singleProduct,
-    isLoading
-  } = useQuery({
+  const { data: singleProduct, isLoading } = useQuery({
     queryKey: ["product_single"],
     queryFn: async () => {
       const res = await axiosPublic(`/api/get-product-details/${id}`);
+      setMainImg(res.data.result.images[0])
       return res.data.result;
     },
   });
@@ -86,21 +84,27 @@ const ProductDetails = () => {
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col lg:flex-row items-start min-h-full gap-6">
           <div className="items-center w-full lg:w-[40%]">
-            <div className="border-2 rounded-md hover:border-green_color w-full h-full overflow-hidden">
+            <div className="border-2 rounded-md hover:border-green_color w-full h-72 overflow-hidden">
               <ImageZoom
                 className="rounded-md w-full h-full object-cover"
-                image={`${imgUrl.product}${singleProduct.images[0]}`}
+                image={`${imgUrl.product}${mainImg}`}
               />
             </div>
 
             <div className="flex items-center justify-center m-3 gap-3 flex-row">
-              <button className="h-20 w-20 border rounded-md border-gray-500">
-                <img
-                  className="h-full w-full"
-                  src={`${imgUrl.product}${singleProduct.images[0]}`}
-                  alt=""
-                />
-              </button>
+              {singleProduct.images.map((img, idx) => (
+                <button
+                  onClick={() => setMainImg(img)}
+                  key={idx}
+                  className={`h-20 w-20 border-2 rounded-md ${img === mainImg && 'border-gray-700'}`}
+                >
+                  <img
+                    className="h-full w-full"
+                    src={`${imgUrl.product}${img}`}
+                    alt=""
+                  />
+                </button>
+              ))}
             </div>
           </div>
 
@@ -118,7 +122,6 @@ const ProductDetails = () => {
                   <div className="font-medium">
                     {delivery.map((charge, idx) => (
                       <div key={idx} className="flex gap-2">
-                        <input type="radio" name="" id={idx} />
                         <span id={idx}>{charge.name}-</span>
                         <span id={idx}>{charge.amount}৳</span>
                       </div>
@@ -186,11 +189,12 @@ const ProductDetails = () => {
                   Buy Now
                 </button>
                 <button
+                disabled={singleProduct.stock <= 0}
                   className="button_primary flex items-center gap-2 w-full justify-center"
                   onClick={() => handleAddToCart(singleProduct)}
                 >
                   <FaCartPlus />
-                  Add To Cart
+                  {singleProduct.stock <= 0 ? "Out of Stock" : "Quick Add"}
                 </button>
               </div>
               <div className="flex items-center justify-between w-full border-y py-p_8px text-text_standard font-semibold">

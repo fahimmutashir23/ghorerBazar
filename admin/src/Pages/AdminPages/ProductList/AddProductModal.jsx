@@ -55,7 +55,7 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch, loader }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoader(true);
-    if(!cat) return toast.error('Select Category')
+    if (!cat) return toast.error("Select Category");
     const name = e.target.name.value;
     const brand = e.target.brand.value;
     const price = e.target.price.value;
@@ -73,8 +73,10 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch, loader }) => {
     formData.append("stock", stock);
     formData.append("details", detailsMsg);
     tags.forEach((tags) => formData.append("tags", tags));
-    formData.append("images", images[0].file);
+    // formData.append("images", images.file);
+    images.forEach((file) => formData.append("images", file.file));
 
+  
     try {
       const res = await axiosSecure.post("/api/create-product", formData);
       if (res.data.success) {
@@ -84,6 +86,7 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch, loader }) => {
         toast.success(res.data.message);
         e.target.reset();
         setLoader(false);
+        setImages([]);
       }
     } catch (error) {
       setLoader(false);
@@ -246,6 +249,7 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch, loader }) => {
                             </span>{" "}
                           </label>
                           <ImageUploading
+                            multiple
                             value={images}
                             onChange={imgPreviewer}
                             maxNumber={maxNumber}
@@ -254,13 +258,13 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch, loader }) => {
                             {({
                               imageList,
                               onImageUpload,
-                              onImageRemoveAll,
+                              // onImageRemoveAll,
                               onImageUpdate,
                               onImageRemove,
                               isDragging,
                               dragProps,
                             }) => (
-                              <div className="p-2 border border-gray-700 rounded-sm focus:outline-none focus:border-2 focus:border-gray-700 flex h-[89%] items-center justify-center">
+                              <div className="p-2 border border-gray-700 rounded-sm focus:outline-none focus:border-2 focus:border-gray-700 flex flex-wrap h-[89%] items-center justify-center">
                                 {images.length === 0 && (
                                   <button
                                     className=""
@@ -323,7 +327,7 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch, loader }) => {
                             name="tags"
                             options={options}
                             onChange={(value) => setSelectedTags(value)}
-                            className="bg-white h-10 focus:ring-0 focus:border-0 w-full focus:outline-none border border-black basic-multi-select"
+                            className="bg-white h-10 focus:ring-0 focus:border-0 w-full z-50 focus:outline-none border border-black basic-multi-select"
                             classNamePrefix="select"
                             required
                           />
@@ -351,7 +355,7 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch, loader }) => {
                             }
                             init={{
                               height: 400,
-                              
+
                               menubar: true,
                               plugins: [
                                 // Core editing features
@@ -436,8 +440,12 @@ const AddProductModal = ({ fetchData, setLoader, collectionFetch, loader }) => {
                         </div>
                       </div>
                       <div className="border text-xl bg-gray-700 flex items-center justify-between">
-                        <button disabled={loader} type="submit" className="button_primary">
-                        {loader ? "loading..." : "Submit"}
+                        <button
+                          disabled={loader}
+                          type="submit"
+                          className="button_primary"
+                        >
+                          {loader ? "loading..." : "Submit"}
                         </button>
                         <button
                           type="button"
