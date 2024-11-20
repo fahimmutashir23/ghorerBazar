@@ -10,7 +10,6 @@ import {
   SelectValue,
 } from "/components/ui/select";
 import { useState } from "react";
-import bg from "@/assets/asset/about/cash2.jpg";
 import logo from "@/assets/asset/about/logo2.png";
 import moment from "moment";
 
@@ -63,7 +62,6 @@ const AdminRegistration = () => {
   return (
     <div
       className="bg-cover bg-no-repeat"
-      style={{ backgroundImage: `url(${bg})` }}
     >
       <h1 className="bg-green-300 font-medium text-center p-2 mb-4 lg:mb-8 rounded-md max-w-3xl mx-auto">
             After successful registration you can login when admin approves.

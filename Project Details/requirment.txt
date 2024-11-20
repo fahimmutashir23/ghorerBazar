@@ -1,2 +1,6 @@
 Backend:
 1. Make a related products api.
+
+
+this is my ssh connection:
+ssh -i C:\Users\user\OneDrive\Desktop\e-commerce.pem ubuntu@ec2-3-109-56-8.ap-south-1.compute.amazonaws.com

@@ -4,7 +4,6 @@ import useUser from "../../../Security/useUser";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import { Html5QrcodeScanner } from "html5-qrcode";
-import bg from "@/assets/asset/about/cash2.jpg";
 import logo from "@/assets/asset/about/logo2.png";
 import moment from "moment";
 
@@ -75,7 +74,6 @@ const AdminLogin = () => {
   return (
     <div
       className="bg-cover bg-no-repeat"
-      style={{ backgroundImage: `url(${bg})` }}
     >
       <div className="h-full w-full bg-black/30 absolute"></div>
       <div className="min-h-screen max-w-xl mx-auto flex justify-center items-center w-full px-2">

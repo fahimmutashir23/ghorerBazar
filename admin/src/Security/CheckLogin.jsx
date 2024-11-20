@@ -2,7 +2,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { url } from "../../connection";
 import useUser from "./useUser";
 import Loader2 from "../Utils/Loader2";
