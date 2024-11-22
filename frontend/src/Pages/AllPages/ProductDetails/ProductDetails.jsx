@@ -200,7 +200,7 @@ const ProductDetails = () => {
               <div className="flex items-center justify-between w-full border-y py-p_8px text-text_standard font-semibold">
                 <p className="text-text_standard font-semibold">
                   <span className="hover:underline">
-                    Category: {singleProduct.category.name}
+                    Category: {singleProduct.category?.name || '...'}
                   </span>
                 </p>
               </div>

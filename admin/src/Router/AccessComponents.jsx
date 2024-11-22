@@ -9,7 +9,7 @@ const AccessComponents = ({accessName, children}) => {
     const token = localStorage.getItem('token');
     const [userData, isLoading] = useUser();
     const navigate = useNavigate();
-  console.log(userData.userPermissionData);
+
     useEffect(() => {
       if (!isLoading) {
         if (!token) {

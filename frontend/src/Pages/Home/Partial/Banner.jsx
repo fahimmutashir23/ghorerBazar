@@ -17,11 +17,11 @@ const Banner = () => {
   }, []);
   if (!banner) return <Loader2 />;
   return (
-    <div className="h-[50vh] flex flex-col lg:flex-row gap-4 mb-4">
-      <div className="lg:w-4/12 border-2 border-color_1 rounded-md overflow-hidden">
+    <div className="h-[70vh] flex flex-col lg:flex-row gap-4 mb-4">
+      {/* <div className="lg:w-4/12 border-2 border-color_1 rounded-md overflow-hidden">
         <img src={ads} className="w-full h-full object-cover" alt="" />
-      </div>
-      <div className="lg:w-8/12 border-2 border-color_1 rounded-md">
+      </div> */}
+      <div className=" border-2 border-color_1 rounded-md">
         <Carusel images={banner} />
       </div>
     </div>

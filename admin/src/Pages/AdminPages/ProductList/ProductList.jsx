@@ -115,7 +115,7 @@ const ProductList = () => {
                 <td
                   className={`px-6 pt-2 font-semibold text-lg whitespace-nowrap text-center border  text-black `}
                 >
-                  {data.category.name}
+                  {data.category?.name || '...'}
                 </td>
                 <td
                   className={`px-6 pt-2 font-semibold text-lg whitespace-nowrap text-center border  text-black `}
