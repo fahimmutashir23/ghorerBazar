@@ -8,7 +8,7 @@ const Ads = ({ banner }) => {
   const left = banner.find((item) => item.name === "3");
   const right = banner.find((item) => item.name === "4");
   return (
-    <div className="flex flex-col lg:flex-row gap-3">
+    <div className="flex flex-col lg:flex-row gap-3 items-center">
       <div className="w-5/12 border">
         {left?.banner ? (
           <video
