@@ -3,7 +3,6 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { IoMdClose } from "react-icons/io";
 import { toast } from "react-toastify";
-import { IoAddCircleOutline } from "react-icons/io5";
 import useAxiosSecure from "@/Hooks/useAxiosSecure";
 import {
   Select,
@@ -13,12 +12,11 @@ import {
   SelectValue,
 } from "/components/ui/select";
 
-const AddBannerModal = ({ fetchData, setLoader, collectionFetch }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const UpdateBannerModal = ({ fetchData, data, setLoader, setIsOpen, isOpen }) => {
   const [animate, setAnimate] = useState(false);
   const axiosSecure = useAxiosSecure();
   const [mainB, setMainB] = useState([]);
-  const [name, setName] = useState();
+  const [name, setName] = useState(data?.name);
 
   const handleAnimate = () => {
     setAnimate(true);
@@ -32,37 +30,28 @@ const AddBannerModal = ({ fetchData, setLoader, collectionFetch }) => {
     setLoader(true);
 
     const formData = new FormData();
-    formData.append("banner", mainB);
-    formData.append("name", name);
+     formData.append("banner", mainB);
+     formData.append("name", name);
 
     try {
-      const res = await axiosSecure.post("/api/create-banner", formData);
+      const res = await axiosSecure.patch(`/api/update-banner/${data._id}`, formData);
       if (res.data.success) {
         setIsOpen(false);
         fetchData();
-        collectionFetch();
         toast.success(res.data.message);
-        e.target.reset();
         setLoader(false);
       }
     } catch (error) {
       fetchData();
-      toast.error(error.response.data.message);
+      toast.error(error.response.data);
       setLoader(false);
     }
   };
 
+
   return (
     <>
       <div className="">
-        <button
-          type="button"
-          onClick={() => setIsOpen(true)}
-          className="text-text_lg bg-gray-700 text-white px-5 py-2 font-bold duration-500 flex items-center gap-2"
-        >
-          <IoAddCircleOutline className="text-2xl font-bold" />
-          <span className="mt-1">Add Banner</span>
-        </button>
         <Transition appear show={isOpen} as={Fragment}>
           <Dialog as="div" className={`relative z-50`} onClose={handleAnimate}>
             <Transition.Child
@@ -97,7 +86,7 @@ const AddBannerModal = ({ fetchData, setLoader, collectionFetch }) => {
                       className="border px-4 text-xl bg-gray-700 text-white flex items-center justify-between h-14"
                     >
                       <h6 className="py-2 text-2xl font-semibold">
-                        Add Banner
+                        Update Banner
                       </h6>
                       <button
                         onClick={() => setIsOpen(false)}
@@ -108,14 +97,15 @@ const AddBannerModal = ({ fetchData, setLoader, collectionFetch }) => {
                     </Dialog.Title>
                     <form onSubmit={handleSubmit}>
                       <div className="m-4 grid grid-cols-1 lg:grid-cols-2 gap-2">
-                        <div className="">
+                      <div className="">
                           <label className="font-semibold">
                             Banner Name
                             <span className="text-red-400 ml-1">
-                              (required)
+                             
                             </span>{" "}
                           </label>
                           <Select
+                          disabled
                             required
                             onValueChange={(value) => setName(value)}
                           >
@@ -169,4 +159,4 @@ const AddBannerModal = ({ fetchData, setLoader, collectionFetch }) => {
   );
 };
 
-export default AddBannerModal;
+export default UpdateBannerModal;

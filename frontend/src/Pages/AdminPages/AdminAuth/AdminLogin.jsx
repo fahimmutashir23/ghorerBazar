@@ -4,7 +4,7 @@ import useUser from "../../../Security/useUser";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import { Html5QrcodeScanner } from "html5-qrcode";
-import logo from "@/assets/asset/about/logo2.png";
+import logo from "../../../assets/Logo/logo.jpg";
 import moment from "moment";
 
 const AdminLogin = () => {

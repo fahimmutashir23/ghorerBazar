@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import AllProduct from "./Partial/AllProduct";
 import Banner from "./Partial/Banner";
+import Ads from "./Partial/Ads";
+import useAxiosPublic from "@/Hooks/useAxiosPublic";
+import Loader2 from "@/Utils/Loader2";
+import { useQuery } from "@tanstack/react-query";
 
 const Home = () => {
   const targetDate = "2024-06-01T23:59:59";
@@ -24,6 +28,7 @@ const Home = () => {
   };
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+  const axiosPublic = useAxiosPublic();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -33,9 +38,21 @@ const Home = () => {
     return () => clearTimeout(timer);
   }, [timeLeft]);
 
+
+  const {data: banner, isLoading} = useQuery({
+    queryKey: ["get-banner"],
+    queryFn: async () => {
+      const res = await axiosPublic("/api/get-banner-list");
+      return res.data.result
+    }
+  })
+  
+  if (isLoading) return <Loader2 />;
+
   return (
     <div className="max-w-7xl mx-auto">
-      <Banner />
+      <Banner banner={banner} />
+      <Ads banner={banner} />
       <AllProduct />
     </div>
   );

@@ -5,7 +5,7 @@ const Banner = require("../../Schemas/Profile/banner");
 const { upload, compressImage } = require("../../Utils/Multer/uploadBanner");
 
 router.post("/create-banner", loginCheck, async (req, res) => {
-  upload.array("banner", 10)(req, res, async (err) => {
+  upload.array("banner", 1)(req, res, async (err) => {
     if (err) {
       return res.status(400).json({
         success: false,
@@ -14,14 +14,12 @@ router.post("/create-banner", loginCheck, async (req, res) => {
     }
 
     try {
-      if (req.files && req.files.length > 0) {
-        await compressImage(req, res, () => {});
-      }
+      // if (req.files && req.files.length > 0) {
+      //   await compressImage(req, res, () => {});
+      // }
 
       const newProduct = new Banner(req.body);
-      newProduct.banner = req.files
-        ? req.files.map((file) => file.filename)
-        : [];
+      newProduct.banner = req.files[0]?.filename;
 
       const result = await newProduct.save();
 
@@ -42,61 +40,54 @@ router.post("/create-banner", loginCheck, async (req, res) => {
 
 router.get("/get-banner-list", async (req, res) => {
   try {
-    const { page, limit } = req.query;
-    const result = await Banner.find()
-      .skip(page * limit)
-      .limit(limit)
-      .exec();
+    const result = await Banner.find();
     res.json({
       status_code: 200,
       message: "Successfully Loaded Data",
-      result: result,
+      result,
     });
   } catch (error) {
     res.json(error);
   }
 });
 
-router.get("/get-banner", async (req, res) => {
+
+router.patch("/update-banner/:id", loginCheck, async (req, res) => {
+  upload.array("banner", 1)(req, res, async (err) => {
+    if (err) {
+      return res.status(400).json({
+        success: false,
+        message: err.message,
+      });
+    }
+
     try {
-      const { page, limit } = req.query;
-      const result = await Banner.find({isActive: true})
-        .skip(page * limit)
-        .limit(limit)
-        .exec();
-      res.json({
-        status_code: 200,
-        message: "Successfully Loaded Data",
-        result: result,
+      const filter = { _id: req.params.id };
+
+      // if (req.files && req.files.length > 0) {
+      //   await compressImage(req, res, () => {});
+      // }
+
+      const updatedDoc = {
+        $set: {
+          banner: req.files ? req.files[0]?.filename : [],
+        },
+      };
+
+      const result = await Banner.updateOne(filter, updatedDoc);
+
+      res.status(200).json({
+        success: true,
+        message: "Banner Update successfully",
       });
     } catch (error) {
-      res.json(error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to create service",
+        error: error,
+      });
     }
   });
-
-router.put("/update-banner/:id", loginCheck, async (req, res) => {
-  const id = req.params.id;
-  const info = req.body;
-  const filter = { _id: id };
-  const updateDoc = {
-    $set: {
-      isActive: !info.status,
-    },
-  };
-
-  try {
-    const result = await Banner.updateOne(filter, updateDoc, {
-      new: true,
-    });
-
-    res.json({
-      status_code: 200,
-      message: "Successfully Updated",
-      result: result,
-    });
-  } catch (error) {
-    res.json(error);
-  }
 });
 
 router.delete("/delete-banner/:id", loginCheck, async (req, res) => {

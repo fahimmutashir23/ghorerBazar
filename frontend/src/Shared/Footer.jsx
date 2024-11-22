@@ -1,10 +1,13 @@
+import Logo from "./Logo";
 
 const Footer = () => {
   return (
     <div className="bg-slate-200 py-4 md:py-10">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-10">
         <div className="w-5/12">
-          <h1 className="text-4xl text-color_1 font-bold">Logo</h1>
+          <h1 className="text-4xl text-color_1 font-bold">
+            <Logo w={20} />
+          </h1>
           <p>
             ঘরেরবাজার , যেখানে স্বাস্থ্য এবং স্থায়িত্বের প্রতিশ্রুতি আমরা যা
             কিছু করি তার কেন্দ্রবিন্দুতে। আমরা মানসম্পন্ন নিরাপদ পণ্যগুলির একটি

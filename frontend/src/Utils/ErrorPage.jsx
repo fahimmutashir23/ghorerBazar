@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import img from "../assets/asset/page-underConstruction.jpg"
+import img from "../assets/page-underConstruction.jpg"
 
 const ErrorPage = () => {
     return (

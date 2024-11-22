@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from "/components/ui/select";
 import { useState } from "react";
-import logo from "@/assets/asset/about/logo2.png";
+import logo from "../../../assets/Logo/logo.jpg";
 import moment from "moment";
 
 const AdminRegistration = () => {

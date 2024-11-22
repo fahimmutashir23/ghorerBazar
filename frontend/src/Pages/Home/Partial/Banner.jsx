@@ -1,28 +1,29 @@
-import useAxiosPublic from "@/Hooks/useAxiosPublic";
-import { useEffect, useState } from "react";
-import Loader2 from "@/Utils/Loader2";
-import Carusel from "./Carusel";
-import ads from "../../../assets/asset/about/ads.jpg"
+import { imgUrl } from "@/Utils/imageUrl";
 
-const Banner = () => {
-  const axiosPublic = useAxiosPublic();
-  const [banner, setBanner] = useState(null);
+const Banner = ({ banner }) => {
+  const offer = banner.find((item) => item.name === "2");
+  const main = banner.find((item) => item.name === "1");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await axiosPublic("/api/get-banner");
-      setBanner(res.data.result);
-    };
-    fetchData();
-  }, []);
-  if (!banner) return <Loader2 />;
   return (
-    <div className="h-[70vh] flex flex-col lg:flex-row gap-4 mb-4">
-      {/* <div className="lg:w-4/12 border-2 border-color_1 rounded-md overflow-hidden">
-        <img src={ads} className="w-full h-full object-cover" alt="" />
-      </div> */}
-      <div className=" border-2 border-color_1 rounded-md">
-        <Carusel images={banner} />
+    <div className="h-[60vh] border-color_1 border-2 rounded-md overflow-hidden flex flex-col lg:flex-row mb-4">
+      <div className="lg:w-3/12 lg:border-r-2 border-color_1">
+        {offer?.banner ? <video
+          src={`${imgUrl.banner}${offer.banner[0]}`}
+          controls
+          autoPlay
+          className="w-full h-full object-cover"
+          alt=""
+        /> : "Offer not available"}
+      </div>
+      <div className="lg:w-9/12">
+        {/* <Carusel images={banner} /> */}
+        {main?.banner[0] ? (
+          <video controls className="w-full h-full object-cover">
+            <source src={`${imgUrl.banner}${main.banner[0]}`} />
+          </video>
+        ) : (
+          "video not available"
+        )}
       </div>
     </div>
   );

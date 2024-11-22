@@ -13,8 +13,8 @@ const Layout = () => {
     <div className="overflow-x-hidden bg-slate-100 ">
       <NavbarTop />
       <NavbarMain />
-      <CategoryBar />
-      <div className="bg-white py-4">
+      {/* <CategoryBar /> */}
+      <div className="bg-white pt-2 pb-4">
         <Outlet />
       </div>
       <Footer />

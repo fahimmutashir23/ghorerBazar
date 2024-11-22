@@ -19,9 +19,9 @@ export default {
       //   },
     extend: {
       colors: {
-        color_1 : '#FC8934',
-        color_2 : 'white',
-        color_3 : '#E0F5D7',
+        color_1 : '#C80106', //main color red
+        color_2 : '#C1D8C3', // second color yellow
+        color_3 : '#6A9C89', // ash dip
         text_primary : 'black',
         text_secondary : '#00964A',
         color_blue: '#29439A',

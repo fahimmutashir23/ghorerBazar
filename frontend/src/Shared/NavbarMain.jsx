@@ -8,6 +8,7 @@ import { BasicContext } from "@/ContextAPIs/BasicProvider";
 import useTotalCart from "@/Hooks/useTotalCart";
 import { Link } from "react-router-dom";
 import Search from "@/Components/Search";
+import Logo from "./Logo";
 
 const NavbarMain = () => {
   const [open, setOpen] = useState(false);
@@ -32,7 +33,9 @@ const NavbarMain = () => {
         <FaSearch onClick={() => setOpenSearch(!openSearch)} className="text-2xl text-color_1" />
         {<Search openSearch={openSearch} />}
       </div>
-      <Link to='/' className="text-4xl text-color_1 font-bold flex-1 flex justify-center">LOGO</Link>
+      <Link to='/' className="text-4xl text-color_1 font-bold flex-1 flex justify-center">
+      <Logo w={14} />
+      </Link>
       <div className="flex items-center gap-4 flex-1 justify-end">
         <div className="md:hidden">
           <FaSearch className="text-2xl text-color_1" />

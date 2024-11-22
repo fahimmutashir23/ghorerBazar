@@ -19,11 +19,11 @@ const Carusel = ({ images }) => {
         align: "start",
         loop: true,
       }}
-      className="w-full rounded-md overflow-hidden"
+      className="w-full"
     >
       <CarouselContent>
         {images.map((image, index) => (
-          <CarouselItem className="h-[70vh] w-full" key={index}>
+          <CarouselItem className="h-[60vh] w-full" key={index}>
             <img
               className="w-full h-full object-cover"
               src={`${imgUrl.profile}${image.banner}`}

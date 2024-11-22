@@ -54,17 +54,14 @@ const banner = require("./RouteHandler/Settings/banner");
 
 // ======================================== Image Folder ===========================================//
 const UPLOAD_FOLDER = path.join(__dirname, './Upload/product/images');
-// const UPLOAD_FOLDER = path.join('/tmp', './Upload/product/images');
-
 const UPLOAD_PROFILE = path.join(__dirname, './Upload/profile/images');
-// const UPLOAD_PROFILE = path.join('/tmp', './Upload/profile/images'); 
-
+const UPLOAD_BANNER = path.join(__dirname, './Upload/banner/images');
 const UPLOAD_LOGO = path.join(__dirname, './Upload/logo');
-// const UPLOAD_PROFILE = path.join('/tmp', './Upload/profile/images'); 
 // ======================================== Image Folder ===========================================//
 
 app.use("/upload/product/images", express.static(UPLOAD_FOLDER));
 app.use("/upload/profile/images", express.static(UPLOAD_PROFILE));
+app.use("/upload/banner/images", express.static(UPLOAD_BANNER));
 app.use("/upload/logo", express.static(UPLOAD_LOGO));
 
 mongoose
