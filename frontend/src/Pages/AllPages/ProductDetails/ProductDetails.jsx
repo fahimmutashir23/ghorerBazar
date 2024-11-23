@@ -13,6 +13,7 @@ import useTotalCart from "@/Hooks/useTotalCart";
 import { BasicContext } from "@/ContextAPIs/BasicProvider";
 import useDeliveryCharge from "@/Hooks/useDeliveryCharge";
 import { imgUrl } from "@/Utils/imageUrl";
+import RelatedProduct from "./Partial/RelatedProduct";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -23,12 +24,13 @@ const ProductDetails = () => {
   const { setCartBar } = useContext(BasicContext);
   const [delivery] = useDeliveryCharge();
   const [mainImg, setMainImg] = useState();
+  const [fetchProduct, setFetchProduct] = useState(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const { data: singleProduct, isLoading } = useQuery({
+  const { data: singleProduct, isLoading, refetch } = useQuery({
     queryKey: ["product_single"],
     queryFn: async () => {
       const res = await axiosPublic(`/api/get-product-details/${id}`);
@@ -36,6 +38,11 @@ const ProductDetails = () => {
       return res.data.result;
     },
   });
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    refetch();
+  }, [fetchProduct]);
 
   const handleAddToCart = async (data) => {
     const info = {
@@ -81,7 +88,7 @@ const ProductDetails = () => {
 
   return (
     <>
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto px-1">
         <div className="flex flex-col lg:flex-row items-start min-h-full gap-6">
           <div className="items-center w-full lg:w-[40%]">
             <div className="border-2 rounded-md hover:border-green_color w-full h-72 overflow-hidden">
@@ -222,6 +229,7 @@ const ProductDetails = () => {
           />
         </div> */}
       </div>
+      <RelatedProduct id={singleProduct.category._id} setFetchProduct={setFetchProduct} />
     </>
   );
 };

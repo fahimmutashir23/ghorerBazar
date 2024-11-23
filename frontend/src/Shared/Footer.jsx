@@ -2,13 +2,13 @@ import Logo from "./Logo";
 
 const Footer = () => {
   return (
-    <div className="bg-slate-200 py-4 md:py-10">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-10">
-        <div className="w-5/12">
-          <h1 className="text-4xl text-color_1 font-bold">
+    <div className="bg-slate-200 py-4 md:py-10 px-2 lg:px-4">
+      <div className="max-w-7xl mx-auto grid grid-cols-12 gap-4 lg:gap-10">
+        <div className="lg:col-span-5 col-span-12">
+          <h1 className="flex justify-center lg:justify-start text-color_1 font-bold">
             <Logo w={20} />
           </h1>
-          <p>
+          <p className="text-justify">
             ঘরেরবাজার , যেখানে স্বাস্থ্য এবং স্থায়িত্বের প্রতিশ্রুতি আমরা যা
             কিছু করি তার কেন্দ্রবিন্দুতে। আমরা মানসম্পন্ন নিরাপদ পণ্যগুলির একটি
             বৈচিত্র্যময় পরিসীমা সরবরাহ করতে পেরে গর্বিত যা কেবল আপনার শরীরকেই
@@ -17,7 +17,7 @@ const Footer = () => {
             প্রাকৃতিক উপাদানগুলির শক্তিতে বিশ্বাস করি।
           </p>
         </div>
-        <div className="w-2/12">
+        <div className="lg:col-span-2 col-span-6">
           <ul>
             <li className="text-color_1 font-semibold mb-3">Company</li>
             <li className="">About Us</li>
@@ -25,7 +25,7 @@ const Footer = () => {
             <li className="">Refund policy</li>
           </ul>
         </div>
-        <div className="w-2/12">
+        <div className="lg:col-span-2 col-span-6">
           <ul>
             <li className="text-color_1 font-semibold mb-3">Company</li>
             <li className="">About Us</li>
@@ -33,7 +33,7 @@ const Footer = () => {
             <li className="">Refund policy</li>
           </ul>
         </div>
-        <div className="w-3/12">
+        <div className="lg:col-span-3 col-span-12">
         <h1>DBID ID : 437361334</h1>
         </div>
       </div>

@@ -148,7 +148,7 @@
 /* Scroll Bar Setup */
 
 ::-webkit-scrollbar {
-  width: 2px;
+  width: 3px;
   /* Width of the scrollbar */
 }
 

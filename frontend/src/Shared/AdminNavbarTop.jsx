@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FaUserCircle } from "react-icons/fa";
 import { BasicContext } from "../ContextAPIs/BasicProvider";
-import useSmallScreen from "../Hooks/useSmallScreen";
+import useSmallScreen from "../Hooks/useIsSmallScreen";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import useUser from "../Security/useUser";
 import { url } from "../../connection";

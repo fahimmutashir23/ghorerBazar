@@ -6,10 +6,10 @@ const Copyright = () => {
     return (
         <div className="bg-color_1 py-7 px-2 lg:px-0">
             <div className="max-w-7xl mx-auto flex items-center flex-col lg:flex-row justify-between">
-                <p className="text-black text-center">
+                <p className="text-white text-center">
                 &copy; {year} All right reserved by Tech Hub. | Developed & Design by Fahim Muntashir.
                 </p>
-                <p className="text-black">
+                <p className="text-white">
                     Sitemap | privacy policy
                 </p>
             </div>

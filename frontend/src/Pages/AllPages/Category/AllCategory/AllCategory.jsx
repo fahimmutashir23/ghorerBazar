@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { useCollapse } from "react-collapsed";
@@ -28,6 +28,9 @@ const AllCategory = () => {
   const [categories, categoriesLoading] = useGetCategories();
   const [, , cartFetch] = useGetCart();
   const [, , totalCartFetch] = useTotalCart();
+useEffect(() => {
+  window.scrollTo(0, 0);
+}, [])
 
   const handleCheckboxChange = (_id) => {
     setCategoryId(() =>

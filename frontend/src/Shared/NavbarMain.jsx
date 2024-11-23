@@ -37,11 +37,11 @@ const NavbarMain = () => {
       <Logo w={14} />
       </Link>
       <div className="flex items-center gap-4 flex-1 justify-end">
-        <div className="md:hidden">
+        {/* <div className="md:hidden">
           <FaSearch className="text-2xl text-color_1" />
-        </div>
+        </div> */}
         <div
-        className="relative"
+        className="relative mr-6 lg:mr-0"
         onClick={() => setCartBar(true)}
         >
           <span className="absolute -top-3.5 -right-6 h-7 w-7 rounded-full bg-color_1 border-white border-2 text-sm font-medium flex items-center justify-center text-white">{totalCart}</span>
@@ -50,7 +50,7 @@ const NavbarMain = () => {
       </div>
 
       <div
-        className={`lg:hidden absolute top-44 ${
+        className={`lg:hidden absolute top-52 ${
           open ? "left-0" : "-left-[100%]"
         } duration-300 z-30 w-full md:3/5`}
       >

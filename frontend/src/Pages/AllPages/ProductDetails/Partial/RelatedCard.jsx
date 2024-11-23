@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { imgUrl } from "@/Utils/imageUrl";
 
-const Card = ({ data }) => {
+const RelatedCard = ({ data, setFetchProduct }) => {
   const axiosPublic = useAxiosPublic();
   const [, , cartFetch] = useGetCart();
   const [, , totalCartFetch] = useTotalCart();
@@ -36,9 +36,11 @@ const Card = ({ data }) => {
     }
   };
 
+
   return (
     <Link
       to={`/productDetails/${data._id}`}
+      onClick={() => setFetchProduct(data._id)}
       className="border-2 rounded-sm p-2 flex flex-shrink-0 flex-col hover:border-red-500 duration-300 relative h-60 w-60"
     >
       {data.discount > 0 && (
@@ -68,4 +70,4 @@ const Card = ({ data }) => {
   );
 };
 
-export default Card;
+export default RelatedCard;

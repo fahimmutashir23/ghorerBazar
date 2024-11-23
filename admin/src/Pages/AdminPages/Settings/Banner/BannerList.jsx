@@ -32,17 +32,17 @@ const BannerList = () => {
   });
 
   const handleDelete = async (id) => {
-    const res = await axiosSecure.delete(`/api/delete-banner/${id}`)
-    if(res.data){
-      toast.success("Delete Successful.")
+    const res = await axiosSecure.delete(`/api/delete-banner/${id}`);
+    if (res.data) {
+      toast.success("Delete Successful.");
       refetch();
     }
-  }
+  };
 
   const handleUpdate = (data) => {
     setData(data);
-    setPopOpen(true)
-  }
+    setPopOpen(true);
+  };
 
   if (isLoading || collectionLoading) {
     return <Loader2 />;
@@ -73,14 +73,15 @@ const BannerList = () => {
           {banners.result.map((banner) => (
             <div
               key={banner._id}
-              className={`p-2 font-semibold text-lg whitespace-nowrap text-left border h-32 lg:h-60 overflow-hidden text-black `}
+              className={`p-2 text-left border `}
             >
+              <div className="h-32 lg:h-48 overflow-hidden">
               <video
                 src={`${imgUrl.banner}${banner.banner[0]}`}
-                autoPlay
                 controls
                 className="w-full h-full object-cover"
               />
+              </div>
               <div className="flex justify-between items-center">
                 <button
                   onClick={() => handleDelete(banner._id)}
@@ -88,16 +89,17 @@ const BannerList = () => {
                 >
                   Delete
                 </button>
-                <h1>{
-                banner.name === "1" ?
-                "Main Banner" :
-                banner.name === "2" ?
-                "Offer Banner" :
-                banner.name === "3" ?
-                "Left Ads" :
-                banner.name === "4" ?
-                "Right Ads" : ""
-              }</h1>
+                <h1 className="font-semibold text-lg text-black">
+                  {banner.name === "1"
+                    ? "Main Banner"
+                    : banner.name === "2"
+                    ? "Offer Banner"
+                    : banner.name === "3"
+                    ? "Left Ads"
+                    : banner.name === "4"
+                    ? "Right Ads"
+                    : ""}
+                </h1>
                 <button
                   onClick={() => handleUpdate(banner)}
                   className="button_primary mt-2"

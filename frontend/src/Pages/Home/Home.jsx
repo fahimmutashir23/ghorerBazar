@@ -5,9 +5,12 @@ import Ads from "./Partial/Ads";
 import useAxiosPublic from "@/Hooks/useAxiosPublic";
 import Loader2 from "@/Utils/Loader2";
 import { useQuery } from "@tanstack/react-query";
+import AllProducts from "./Partial/SmallScreen/AllProducts";
+import useIsSmallScreen from "@/Hooks/useIsSmallScreen";
 
 const Home = () => {
   const targetDate = "2024-06-01T23:59:59";
+  const [isSmallScreen] = useIsSmallScreen();
 
   const calculateTimeLeft = () => {
     const difference = +new Date(targetDate) - +new Date();
@@ -38,22 +41,21 @@ const Home = () => {
     return () => clearTimeout(timer);
   }, [timeLeft]);
 
-
-  const {data: banner, isLoading} = useQuery({
+  const { data: banner, isLoading } = useQuery({
     queryKey: ["get-banner"],
     queryFn: async () => {
       const res = await axiosPublic("/api/get-banner-list");
-      return res.data.result
-    }
-  })
-  
+      return res.data.result;
+    },
+  });
+
   if (isLoading) return <Loader2 />;
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="max-w-7xl mx-auto px-1">
       <Banner banner={banner} />
       <Ads banner={banner} />
-      <AllProduct />
+      {!isSmallScreen ? <AllProduct /> : <AllProducts />}
     </div>
   );
 };

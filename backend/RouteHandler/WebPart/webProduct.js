@@ -7,7 +7,7 @@ router.get("/get-all-products", userId, async (req, res) => {
   const { page, limit, search } = req.query;
   const totalProducts = await Product.estimatedDocumentCount();
   let query = {};
-  if (search !== 'null') {
+  if (search !== "null") {
     query = {
       $or: [
         { name: { $regex: search, $options: "i" } },
@@ -26,7 +26,7 @@ router.get("/get-all-products", userId, async (req, res) => {
       images: 1,
       stock: 1,
       sold: 1,
-      discount: 1
+      discount: 1,
     })
       .skip(page * limit)
       .limit(limit)
@@ -77,6 +77,36 @@ router.post("/get-products-by-cat", async (req, res) => {
       result,
       catName,
       totalProducts,
+    });
+  } catch (error) {
+    res.json(error);
+  }
+});
+
+router.get("/get-products/:id", async (req, res) => {
+  const id = req.params.id;
+  let query = {}
+  if(id !== 'null'){
+    query = {category : id}
+  }
+  
+  try {
+    const result = await Product.find(query, {
+      name: 1,
+      price: 1,
+      category: 1,
+      brand: 1,
+      details: 1,
+      images: 1,
+      discount: 1
+    })
+      .populate("category")
+console.log(result);
+    res.json({
+      success: true,
+      message: "Successfully Loaded Data",
+      status_code: 200,
+      result
     });
   } catch (error) {
     res.json(error);

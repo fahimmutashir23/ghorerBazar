@@ -82,12 +82,12 @@ const CartBar = () => {
 
   return (
     <div
-      className={`fixed bg-slate-200 h-screen overflow-y-scroll top-0 w-[400px] ${
+      className={`fixed bg-slate-200 h-screen overflow-y-scroll top-0 w-[300px] lg:w-[400px] ${
         cartBar ? "right-0" : "-right-[400px]"
       } transition-all duration-300 py-2 border-l-2 border-black overflow-y-auto`}
     >
       <div className="flex items-center justify-between px-3">
-        <h1 className="font-medium text-2xl">Shopping Cart</h1>
+        <h1 className="font-medium lg:text-2xl">Shopping Cart</h1>
         <Link
           onClick={() => setCartBar(false)}
           className="flex items-center gap-2 text-color_1 font-semibold"
