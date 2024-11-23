@@ -18,6 +18,7 @@ import RelatedProduct from "./Partial/RelatedProduct";
 const ProductDetails = () => {
   const { id } = useParams();
   const [quantity, setQuantity] = useState(1);
+  const [weight, setWeight] = useState({count: '', countPrice: 0});
   const axiosPublic = useAxiosPublic();
   const [, , cartFetch] = useGetCart();
   const [, , totalCartFetch] = useTotalCart();
@@ -30,11 +31,15 @@ const ProductDetails = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const { data: singleProduct, isLoading, refetch } = useQuery({
+  const {
+    data: singleProduct,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["product_single"],
     queryFn: async () => {
       const res = await axiosPublic(`/api/get-product-details/${id}`);
-      setMainImg(res.data.result.images[0])
+      setMainImg(res.data.result.images[0]);
       return res.data.result;
     },
   });
@@ -49,14 +54,18 @@ const ProductDetails = () => {
       productId: data._id,
       name: data.name,
       images: data.images[0],
-      price: data.price,
+      price: weight.countPrice,
       quantity,
+      weight: weight.count
     };
 
     try {
       const res = await axiosPublic.post(`/api/save-cart`, info, {
         withCredentials: true,
       });
+      if(res.data.status_code === 401){
+        return toast.error(res.data.message)
+      }
       if (res.data.status_code === 200) {
         toast.success(res.data.message);
         cartFetch();
@@ -103,7 +112,9 @@ const ProductDetails = () => {
                 <button
                   onClick={() => setMainImg(img)}
                   key={idx}
-                  className={`h-20 w-20 border-2 rounded-md ${img === mainImg && 'border-gray-700'}`}
+                  className={`h-20 w-20 border-2 rounded-md ${
+                    img === mainImg && "border-gray-700"
+                  }`}
                 >
                   <img
                     className="h-full w-full"
@@ -140,16 +151,23 @@ const ProductDetails = () => {
               <h2 className="text-lg font-semibold">Product Price:</h2>
               <div className="mt-1 flex justify-between">
                 <span className="font-medium text-lg">
-                  Unit Price:{" "}
-                  <span className="font-bold text-red-800">
-                    {singleProduct.price}
-                  </span>{" "}
-                  BDT
+                  Select Unit*
+                  <div className="font-bold text-red-800 flex gap-2">
+                    {singleProduct?.price?.map((item, idx) => (
+                      <button
+                        onClick={() => setWeight(item)}
+                        className={`border border-color_1 px-2 ${item.count === weight?.count ? 'bg-color_1 text-white' : ''}`}
+                        key={idx}
+                      >
+                        {item.count} = {item.countPrice}৳
+                      </button>
+                    ))}
+                  </div>
                 </span>
                 <span className="font-medium text-lg">
                   Total Price:{" "}
                   <span className="font-bold text-red-800">
-                    {singleProduct.price * quantity}
+                    {weight?.countPrice * quantity}
                   </span>{" "}
                   BDT
                 </span>
@@ -186,7 +204,7 @@ const ProductDetails = () => {
                 </div>
               </div>
               <div className="flex items-center gap-2 w-full my-3">
-                <button
+                {/* <button
                   //   onClick={handleBuyNow}
                   className="button_primary flex items-center gap-2 w-full justify-center"
                 >
@@ -194,20 +212,20 @@ const ProductDetails = () => {
                     <MdShoppingCart />{" "}
                   </span>{" "}
                   Buy Now
-                </button>
+                </button> */}
                 <button
-                disabled={singleProduct.stock <= 0}
+                disabled={weight?.countPrice <= 0}
                   className="button_primary flex items-center gap-2 w-full justify-center"
                   onClick={() => handleAddToCart(singleProduct)}
                 >
                   <FaCartPlus />
-                  {singleProduct.stock <= 0 ? "Out of Stock" : "Quick Add"}
+                  Add to Cart
                 </button>
               </div>
               <div className="flex items-center justify-between w-full border-y py-p_8px text-text_standard font-semibold">
                 <p className="text-text_standard font-semibold">
                   <span className="hover:underline">
-                    Category: {singleProduct.category?.name || '...'}
+                    Category: {singleProduct.category?.name || "..."}
                   </span>
                 </p>
               </div>
@@ -221,15 +239,11 @@ const ProductDetails = () => {
           </div>
         </div>
         <DetailsTab singleProduct={singleProduct} />
-
-        {/* <div>
-          <RelatedProductData
-            refetch={refetch}
-            singleProduct={singleProduct}
-          />
-        </div> */}
       </div>
-      <RelatedProduct id={singleProduct.category._id} setFetchProduct={setFetchProduct} />
+      <RelatedProduct
+        id={singleProduct.category._id}
+        setFetchProduct={setFetchProduct}
+      />
     </>
   );
 };

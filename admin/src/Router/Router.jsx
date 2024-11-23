@@ -34,6 +34,7 @@ import CompanyProfile from "../Pages/AdminPages/CompanyProfile/CompanyProfile";
 import TagList from "@/Pages/AdminPages/Tag/TagList";
 import DeliveryChargeList from "@/Pages/AdminPages/DeliveryCharge/DeliveryChargeList";
 import BannerList from "@/Pages/AdminPages/Settings/Banner/BannerList";
+import AddProduct from "@/Pages/AdminPages/ProductList/AddProduct";
 
 const Router = createBrowserRouter([
   {
@@ -51,37 +52,55 @@ const Router = createBrowserRouter([
       },
       {
         path: "/admin/productList",
-        element: <AccessComponents accessName='product-list'>
-          <ProductList />
-        </AccessComponents>,
+        element: (
+          <AccessComponents accessName="product-list">
+            <ProductList />
+          </AccessComponents>
+        ),
       },
       {
         path: "/admin/categoryList",
-        element: <AccessComponents accessName='category-list'>
-          <CategoryList />
-        </AccessComponents>,
+        element: (
+          <AccessComponents accessName="category-list">
+            <CategoryList />
+          </AccessComponents>
+        ),
       },
       {
         path: "/admin/bookingsList",
-        element: <AccessComponents accessName='bookings-list'>
-          <BookingsList />
-        </AccessComponents>,
+        element: (
+          <AccessComponents accessName="bookings-list">
+            <BookingsList />
+          </AccessComponents>
+        ),
       },
       {
         path: "/admin/tag",
-        element: <AccessComponents accessName='tag-list'>
-          <TagList />
-        </AccessComponents>,
+        element: (
+          <AccessComponents accessName="tag-list">
+            <TagList />
+          </AccessComponents>
+        ),
       },
       {
         path: "/admin/delivery_charge",
-        element: <AccessComponents accessName='delivery-list'>
-          <DeliveryChargeList />
-        </AccessComponents>,
+        element: (
+          <AccessComponents accessName="delivery-list">
+            <DeliveryChargeList />
+          </AccessComponents>
+        ),
       },
       {
         path: "/admin/profile",
         element: <Profile />,
+      },
+      {
+        path: "/admin/add-product",
+        element: (
+          <AccessComponents accessName="product-list">
+            <AddProduct />,
+          </AccessComponents>
+        ),
       },
       // {
       //   path: "/admin/contact",
@@ -149,7 +168,7 @@ const Router = createBrowserRouter([
       //   path: "/admin/revenueReport",
       //   element: <RevenueReport />,
       // },
-      // Administrative
+      //========================= Administrative ==================
       {
         path: "/admin/userList",
         element: (
@@ -204,7 +223,7 @@ const Router = createBrowserRouter([
     path: "/admin/login",
     element: (
       // <CheckNotLogin>
-        <AdminLogin />
+      <AdminLogin />
       // </CheckNotLogin>
     ),
   },

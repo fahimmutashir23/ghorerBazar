@@ -57,7 +57,7 @@ const RelatedCard = ({ data, setFetchProduct }) => {
       </div>
       <div className="">
         <p className="mt-2 text-center">{data.name}</p>
-        <p className=" text-center">{data.price}</p>
+        {/* <p className=" text-center">{data.price}</p> */}
         <button
         disabled={data.stock <= 0}
           onClick={() => handleAddToCart(data)}

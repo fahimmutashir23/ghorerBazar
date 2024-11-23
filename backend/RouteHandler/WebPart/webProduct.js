@@ -46,7 +46,7 @@ router.get("/get-all-products", userId, async (req, res) => {
 router.post("/get-products-by-cat", async (req, res) => {
   const { page, limit } = req.query;
   const { id, price } = req.body;
-  let query = { stock: { $gt: 0 } };
+  let query = { };
   if (id.length !== 0)
     query = { ...query, category: Array.isArray(id) ? { $in: id } : id };
   if (price) query = { ...query, price: { $lte: price } };
@@ -89,7 +89,7 @@ router.get("/get-products/:id", async (req, res) => {
   if(id !== 'null'){
     query = {category : id}
   }
-  
+
   try {
     const result = await Product.find(query, {
       name: 1,

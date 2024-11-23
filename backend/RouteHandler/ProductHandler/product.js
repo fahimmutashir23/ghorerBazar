@@ -19,7 +19,11 @@ router.post("/create-product", loginCheck, async (req, res) => {
         await compressImage(req, res, () => {});
       }
 
-      const newProduct = new Product(req.body);
+      console.log(req.body);
+      const price = JSON.parse(req.body.price)
+      const data = {...req.body, price}
+      
+      const newProduct = new Product(data);
       newProduct.images = req.files
         ? req.files.map((file) => file.filename)
         : [];

@@ -48,7 +48,7 @@ const ProductCard = ({ product }) => {
         </div>
         <div className="text-center text-[14.4px] px-[10px] pt-[10px] border-t-2 ">
           <h6 className="hover:text-[#008000]">{product.name}</h6>
-          <p className="font-bold">{product.price}</p>
+          {/* <p className="font-bold">{product.price}</p> */}
         </div>
         {/* <div className="text-center  mx-auto ">
                         <ReactStars

@@ -10,6 +10,7 @@ const cartSchema = new mongoose.Schema(
     productId: {
       type: String,
       required: true,
+      unique: true
     },
     name: {
       type: String,
@@ -26,6 +27,10 @@ const cartSchema = new mongoose.Schema(
     quantity: {
       type: Number,
       default: 1,
+    },
+    weight: {
+      type: String,
+      default: null,
     },
     status: {
       type: String,

@@ -10,6 +10,14 @@ router.post("/save-cart", userId, async (req, res) => {
       userId: req.userId,
     };
 
+    const checkExist = await Cart.findOne({productId: req.body.productId})
+    if(checkExist){
+      return res.json({
+        status_code: 401,
+        message: 'This product is already added'
+      })
+    }
+
     const newCart = new Cart(info);
 
     const result = await newCart.save();

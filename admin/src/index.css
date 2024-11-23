@@ -149,6 +149,7 @@
 
 ::-webkit-scrollbar {
   width: 3px;
+  height: 10px;
   /* Width of the scrollbar */
 }
 
