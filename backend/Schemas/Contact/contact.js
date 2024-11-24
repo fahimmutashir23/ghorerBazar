@@ -6,17 +6,17 @@ const contactSchema = new mongoose.Schema({
       required: [true, 'enter your name'],
     },
     phone: {
-      type: Number,
+      type: String,
       required: [true, 'enter your phone'],
     },
-    email: {
-      type: String,
-      default: null
-    },
-    subject: {
-      type: String,
-      required: [true, 'enter your email'],
-    },
+    // email: {
+    //   type: String,
+    //   default: null
+    // },
+    // subject: {
+    //   type: String,
+    //   required: [true, 'enter your email'],
+    // },
     message: {
       type: String,
       required: [true, 'enter your message'],

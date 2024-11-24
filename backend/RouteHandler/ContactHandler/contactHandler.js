@@ -11,7 +11,7 @@ router.post("/save-contact", async (req, res) => {
       res.json({
         success: true,
         status_code: 200,
-        message: "Bookings Successfully",
+        message: "Send Successfully",
         result: result,
       });
     }

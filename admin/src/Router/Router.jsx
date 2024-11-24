@@ -10,7 +10,7 @@ import CheckLogin from "../Security/CheckLogin";
 import ErrorPage from "../Utils/ErrorPage";
 // import CheckNotLogin from "../Security/CheckNotLogin";
 import Profile from "../Pages/AdminPages/Profile/Profile";
-// import Contact from "../Pages/AdminPages/Contact/Contact";
+import Contact from "../Pages/AdminPages/Contact/Contact";
 // import ExpenseCategoryList from "../Pages/AdminPages/ExpenseCategory/ExpenseCategoryList";
 // import ExpenseList from "../Pages/AdminPages/ExpenseList/ExpenseList";
 // import ExpenseCreate from "../Pages/AdminPages/ExpenseList/ExpenseCreate";
@@ -102,10 +102,10 @@ const Router = createBrowserRouter([
           </AccessComponents>
         ),
       },
-      // {
-      //   path: "/admin/contact",
-      //   element: <Contact />,
-      // },
+      {
+        path: "/admin/contact",
+        element: <Contact />,
+      },
       // Expense
       // {
       //   path: "/admin/expenseCategory",

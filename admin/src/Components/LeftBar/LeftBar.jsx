@@ -5,8 +5,6 @@ import {
   MdContactPage,
   MdDashboard,
   MdKeyboardArrowDown,
-  MdProductionQuantityLimits,
-  MdReport,
 } from "react-icons/md";
 import { MdLibraryBooks } from "react-icons/md";
 import { FaImages } from "react-icons/fa";
@@ -15,8 +13,6 @@ import useSmallScreen from "../../Hooks/useSmallScreen";
 import useHasAccess from "../../Hooks/useHasAccess";
 import Loader2 from "../../Utils/Loader2";
 import Logo from "../../Utils/Logo";
-import { FaSackDollar } from "react-icons/fa6";
-import { GiExpense } from "react-icons/gi";
 
 const LeftBar = () => {
   const [selected, setSelected] = useState("");
@@ -82,8 +78,8 @@ const LeftBar = () => {
                     </Link>
                   </li>
                 }
-                
-                {hasAccess?.some((item) => item === "tag-list") &&
+
+                {hasAccess?.some((item) => item === "tag-list") && (
                   <li
                     className={` px-p_primary my-1 hover:cursor-pointer hover:rounded-rounded_primary hover: duration-200  ${
                       selected === "/admin/tag"
@@ -104,8 +100,8 @@ const LeftBar = () => {
                       </span>
                     </Link>
                   </li>
-                }
-                {hasAccess?.some((item) => item === "delivery-list") &&
+                )}
+                {hasAccess?.some((item) => item === "delivery-list") && (
                   <li
                     className={` px-p_primary my-1 hover:cursor-pointer hover:rounded-rounded_primary hover: duration-200  ${
                       selected === "/admin/delivery_charge"
@@ -126,8 +122,8 @@ const LeftBar = () => {
                       </span>
                     </Link>
                   </li>
-                }
-                {hasAccess?.some((item) => item === "category-list") &&
+                )}
+                {hasAccess?.some((item) => item === "category-list") && (
                   <li
                     className={` px-p_primary my-1 hover:cursor-pointer hover:rounded-rounded_primary hover: duration-200   ${
                       selected === "/admin/categoryList"
@@ -148,8 +144,8 @@ const LeftBar = () => {
                       </span>
                     </Link>
                   </li>
-                }
-                {hasAccess?.some((item) => item === "product-list") &&
+                )}
+                {hasAccess?.some((item) => item === "product-list") && (
                   <li
                     className={` px-p_primary my-1 hover:cursor-pointer hover:rounded-rounded_primary hover: duration-200  ${
                       selected === "/admin/productList"
@@ -170,8 +166,8 @@ const LeftBar = () => {
                       </span>
                     </Link>
                   </li>
-                }
-                {hasAccess?.some((item) => item === "bookings-list") &&
+                )}
+                {hasAccess?.some((item) => item === "bookings-list") && (
                   <li
                     className={` px-p_primary my-1 hover:cursor-pointer hover:rounded-rounded_primary hover: duration-200  ${
                       selected === "/admin/bookingsList"
@@ -192,8 +188,8 @@ const LeftBar = () => {
                       </span>
                     </Link>
                   </li>
-                }
-                {/* {
+                )}
+                {hasAccess?.some((item) => item === "contact-list") && (
                   <li
                     className={` px-p_primary my-1 hover:cursor-pointer hover:rounded-rounded_primary hover: duration-200   ${
                       selected === "/admin/contact"
@@ -214,8 +210,8 @@ const LeftBar = () => {
                       </span>
                     </Link>
                   </li>
-                }
-                {
+                )}
+                {/* {
                   <li
                     className={`py-p_primary px-p_primary my-1 hover:cursor-pointer hover:rounded-rounded_primary hover: duration-200`}
                   >

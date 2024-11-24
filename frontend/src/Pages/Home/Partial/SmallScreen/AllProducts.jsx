@@ -5,6 +5,7 @@ import frame from "../../../../assets/about/cat_fram.png";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "@/Hooks/useAxiosPublic";
 import ProductCard from "./ProductCard";
+import PageHeader from "@/Shared/PageHeader";
 
 const AllProducts = () => {
   const [categories, categoriesLoading] = useGetCategories();
@@ -48,10 +49,10 @@ const AllProducts = () => {
 
   return (
     <div>
-      <h1 className="text-center text-xl font-medium my-2">All Product</h1>
+      <PageHeader name={'All Product'} />
       <div
         ref={tabContainerRef}
-        className="flex overflow-x-auto gap-2 pb-2 scrollbar-thin scrollbar-thumb-gray-500"
+        className="flex overflow-x-auto gap-2 pb-2 scrollbar-thin scrollbar-thumb-gray-500 mt-2"
       >
         {categories.map((category, index) => (
           <button

@@ -7,6 +7,7 @@ import Loader2 from "@/Utils/Loader2";
 import { useQuery } from "@tanstack/react-query";
 import AllProducts from "./Partial/SmallScreen/AllProducts";
 import useIsSmallScreen from "@/Hooks/useIsSmallScreen";
+import Contact from "./Contact";
 
 const Home = () => {
   const targetDate = "2024-06-01T23:59:59";
@@ -52,10 +53,11 @@ const Home = () => {
   if (isLoading) return <Loader2 />;
 
   return (
-    <div className="max-w-7xl mx-auto px-1">
+    <div className="max-w-7xl mx-auto px-1 space-y-3">
       <Banner banner={banner} />
       <Ads banner={banner} />
       {!isSmallScreen ? <AllProduct /> : <AllProducts />}
+      <Contact />
     </div>
   );
 };

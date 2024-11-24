@@ -16,6 +16,7 @@ import Autoplay from "embla-carousel-autoplay";
 import { useContext } from "react";
 import { BasicContext } from "@/ContextAPIs/BasicProvider";
 import { NavLink } from "react-router-dom";
+import PageHeader from "@/Shared/PageHeader";
 
 const AllProduct = () => {
   const axiosPublic = useAxiosPublic();
@@ -62,8 +63,8 @@ const AllProduct = () => {
 
   return (
     <div className="hidden lg:block">
-      <h1 className="text-center text-3xl font-medium my-6">All Product</h1>
-      <div className="space-y-3">
+      <PageHeader name={'All Product'} />
+      <div className="space-y-3 mt-2">
         {categories?.map((category, idx) => {
           const categoryProducts =
             productsByCat.find((p) => p.categoryId === category._id)

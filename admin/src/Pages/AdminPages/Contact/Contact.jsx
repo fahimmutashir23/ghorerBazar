@@ -68,8 +68,6 @@ const Contact = () => {
             <tr className="uppercase text-center h-[40px] bg-gray-700 text-white font-bold ">
             <th className="text-lg border w-2/12">Name</th>
             <th className="text-lg border w-1/12">Phone</th>
-            <th className="text-lg border w-2/12">Email</th>
-            <th className="text-lg border w-2/12">Subject</th>
               <th className="text-lg border">Message</th>
             </tr>
           </thead>
@@ -85,16 +83,6 @@ const Contact = () => {
                   className={`px-6 pt-2 font-semibold text-lg whitespace-nowrap text-left border  text-black `}
                 >
                   {data.phone}
-                </td>
-                <td
-                  className={`px-6 pt-2 font-semibold text-lg whitespace-nowrap text-left border  text-black `}
-                >
-                  {data.email}
-                </td>
-                <td
-                  className={`px-6 pt-2 font-semibold text-lg whitespace-nowrap text-left border  text-black `}
-                >
-                  {data.subject}
                 </td>
                 <td
                   className={`px-6 pt-2 font-semibold text-lg text-left border  text-black `}
