@@ -1,3 +1,4 @@
+import Logo from "@/Shared/Logo";
 import { useLocation } from "react-router-dom";
 
 const Invoice = () => {
@@ -36,8 +37,10 @@ const Invoice = () => {
           </div>
         </div>
         <div>
-          <h2 className="text-4xl font-semibold">LOGO</h2>
-          <h2 className="text-xl font-semibold">Tech Hub</h2>
+          <h2 className="text-4xl font-semibold">
+            <Logo w={10} />
+          </h2>
+          <h2 className="text-xl font-semibold">Ghuri</h2>
           <p className="text-sm">Your Address Line 1</p>
           <p className="text-sm">City, State, Zip Code</p>
           <p className="text-sm">Email: your-email@example.com</p>
@@ -67,13 +70,13 @@ const Invoice = () => {
         <tbody>
           {products?.map((product) => (
             <tr key={product._id} className="border-t">
-              <td className="py-2 px-4">{product.productId.name}</td>
+              <td className="py-2 px-4">{product.name}</td>
               <td className="py-2 text-center px-4">{product.quantity}</td>
               <td className="py-2 text-center px-4">
-                {product.productId.price}
+                {product.price}
               </td>
               <td className="py-2 text-center px-4">
-                {product.productId.price * product.quantity}
+                {product.price * product.quantity}
               </td>
             </tr>
           ))}

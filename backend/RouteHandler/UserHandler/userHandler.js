@@ -94,8 +94,6 @@ router.post("/create-users", loginCheck, async (req, res) => {
         return res.json({ message: "Phone already exist", status_code: 409 });
       }
 
-      console.log(newUser);
-
       const result = await newUser.save();
       res.json({
         success: true,

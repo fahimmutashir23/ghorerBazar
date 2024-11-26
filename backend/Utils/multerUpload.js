@@ -27,34 +27,77 @@ const upload = multer({
 });
 
 
+// const compressImage = async (req, res, next) => {
+//   if (!req.files.images || req.files.images.length === 0) {
+//     return next();
+//   }
+//   try {
+//     req.files.images = await Promise.all(req.files.images.map(async (file) => {
+//       const fileExt = path.extname(file.originalname);
+//       const fileName = file.originalname.replace(fileExt, "").toLowerCase().split(" ").join("-") + "-" + Date.now();
+//       const outputPath = path.join(UPLOAD_FOLDER, fileName + fileExt);
+
+//       await sharp(file.buffer)
+//         .resize(800) // Resize the image to a width of 800px, maintaining aspect ratio
+//         .toFormat('jpeg') // Convert to JPEG format
+//         .jpeg({ quality: 80 }) // Set JPEG quality
+//         .toFile(outputPath);
+
+//       return {
+//         ...file,
+//         path: outputPath,
+//         filename: fileName + fileExt
+//       };
+//     }));
+
+//     next();
+//   } catch (error) {
+//     res.status(500).send('Error processing images');
+//   }
+// };
+
 const compressImage = async (req, res, next) => {
-  if (!req.files || req.files.length === 0) {
+  if (!req.files || Object.keys(req.files).length === 0) {
     return next();
   }
+
   try {
-    req.files = await Promise.all(req.files.map(async (file) => {
-      const fileExt = path.extname(file.originalname);
-      const fileName = file.originalname.replace(fileExt, "").toLowerCase().split(" ").join("-") + "-" + Date.now();
-      const outputPath = path.join(UPLOAD_FOLDER, fileName + fileExt);
+    // Iterate over all fields in `req.files`
+    for (const field in req.files) {
+      // Process all files in the current field
+      req.files[field] = await Promise.all(
+        req.files[field].map(async (file) => {
+          const fileExt = path.extname(file.originalname);
+          const fileName = file.originalname
+            .replace(fileExt, "")
+            .toLowerCase()
+            .split(" ")
+            .join("-") + "-" + Date.now();
+          const outputPath = path.join(UPLOAD_FOLDER, fileName + fileExt);
 
-      await sharp(file.buffer)
-        .resize(800) // Resize the image to a width of 800px, maintaining aspect ratio
-        .toFormat('jpeg') // Convert to JPEG format
-        .jpeg({ quality: 80 }) // Set JPEG quality
-        .toFile(outputPath);
+          await sharp(file.buffer)
+            .resize(800) // Resize the image to a width of 800px, maintaining aspect ratio
+            .toFormat("jpeg") // Convert to JPEG format
+            .jpeg({ quality: 80 }) // Set JPEG quality
+            .toFile(outputPath);
 
-      return {
-        ...file,
-        path: outputPath,
-        filename: fileName + fileExt
-      };
-    }));
+          // Return the updated file object
+          return {
+            ...file,
+            path: outputPath,
+            filename: fileName + fileExt,
+          };
+        })
+      );
+    }
 
     next();
   } catch (error) {
-    res.status(500).send('Error processing images');
+    console.error("Error processing images:", error.message);
+    res.status(500).json({ message: "Error processing images", error: error.message });
   }
 };
+
 
 module.exports = {
   upload,

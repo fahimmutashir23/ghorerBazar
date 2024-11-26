@@ -15,17 +15,19 @@ import Loader2 from "@/Utils/Loader2";
 import Selects from "react-select";
 import useGetTag from "@/Hooks/Apis/useGetTag";
 import { Editor } from "@tinymce/tinymce-react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const page = "";
 const rows = "";
 
-const AddProduct = () => {
+const UpdateProduct = () => {
+  const getData = useLocation();
+  const data = getData.state.data;
   const [loader, setLoader] = useState(false);
   const axiosSecure = useAxiosSecure();
   const [productCat, productCatLoading] = useGetProductCat(page, rows);
   const [tag, tagLoading] = useGetTag(page, rows);
-  const [cat, setCat] = useState(null);
+  const [cat, setCat] = useState(data?.category._id);
   const [selectedTags, setSelectedTags] = useState([]);
   const [images, setImages] = useState([]);
   const maxNumber = 69;
@@ -97,7 +99,7 @@ const AddProduct = () => {
       },
     ];
     const imgArrDetails = imgArr.map((item) => item.details);
-    
+    console.log(cat);
 
     const formData = new FormData();
     formData.append("name", name);
@@ -112,7 +114,7 @@ const AddProduct = () => {
     imgArr.forEach((file) => formData.append("imgArrImages", file.img));
 
     try {
-      const res = await axiosSecure.post("/api/create-product", formData);
+      const res = await axiosSecure.put(`/api/update-product/${data._id}`, formData);
       if (res.data.success) {
         toast.success(res.data.message);
         e.target.reset();
@@ -149,6 +151,7 @@ const AddProduct = () => {
               <input
                 type="text"
                 name="name"
+                defaultValue={data?.name}
                 className="bg-white h-10 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                 placeholder="Type Here"
                 required
@@ -162,6 +165,7 @@ const AddProduct = () => {
               <input
                 type="text"
                 name="brand"
+                disabled
                 defaultValue={"Ghuri"}
                 className="bg-white h-10 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                 placeholder="Type Here"
@@ -176,6 +180,7 @@ const AddProduct = () => {
                 </label>
                 <input
                   type="number"
+                  defaultValue={data?.price[0].countPrice}
                   name="price250"
                   className="bg-white h-10 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                   placeholder="Type Here"
@@ -187,6 +192,7 @@ const AddProduct = () => {
                 <input
                   type="number"
                   name="price500"
+                  defaultValue={data?.price[1].countPrice}
                   className="bg-white h-10 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                   placeholder="Type Here"
                 />
@@ -199,7 +205,7 @@ const AddProduct = () => {
               </label>
               <Select required onValueChange={(value) => setCat(value)}>
                 <SelectTrigger className="bg-white focus:ring-0 px-2 focus:border w-full focus:outline-none border border-black rounded-sm">
-                  <SelectValue placeholder="Select Category" />
+                  <SelectValue placeholder={data.category.name} />
                 </SelectTrigger>
                 <SelectContent>
                   {productCat.result.map((item, idx) => (
@@ -207,7 +213,6 @@ const AddProduct = () => {
                       {item.name}
                     </SelectItem>
                   ))}
-                  {/* <SelectItem value="1">Daily</SelectItem> */}
                 </SelectContent>
               </Select>
             </div>
@@ -217,6 +222,7 @@ const AddProduct = () => {
                 <input
                   type="number"
                   name="price1000"
+                  defaultValue={data?.price[2].countPrice}
                   className="bg-white h-10 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                   placeholder="Type Here"
                 />
@@ -226,6 +232,7 @@ const AddProduct = () => {
                 <input
                   type="number"
                   name="price5000"
+                  defaultValue={data?.price[3].countPrice}
                   className="bg-white h-10 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                   placeholder="Type Here"
                 />
@@ -309,6 +316,13 @@ const AddProduct = () => {
                 <span className="text-red-400 ml-1"></span>{" "}
               </label>
               <Selects
+              defaultValue={
+                data?.tags.map((tag) => (
+                  {
+                  value: tag,
+                  label: tag,
+                }))
+              }
                 isMulti
                 name="tags"
                 options={options}
@@ -323,6 +337,7 @@ const AddProduct = () => {
               <input
                 type="number"
                 name="discount"
+                defaultValue={data?.discount}
                 className="bg-white h-10 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                 placeholder="Type Here"
               />
@@ -350,6 +365,7 @@ const AddProduct = () => {
               <label className="font-semibold">Details Image 1</label>
               <textarea
                 name="imgDetails1"
+                defaultValue={data?.imgDetails[0].details}
                 className="bg-white py-2 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                 placeholder="Type Here"
                 rows="4"
@@ -359,6 +375,7 @@ const AddProduct = () => {
               <label className="font-semibold">Image Details 2</label>
               <textarea
                 name="imgDetails2"
+                defaultValue={data?.imgDetails[1].details}
                 className="bg-white py-2 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                 placeholder="Type Here"
                 rows="4"
@@ -386,6 +403,7 @@ const AddProduct = () => {
               <label className="font-semibold">Details Image 3</label>
               <textarea
                 name="imgDetails3"
+                defaultValue={data?.imgDetails[2].details}
                 className="bg-white py-2 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                 placeholder="Type Here"
                 rows="4"
@@ -395,6 +413,7 @@ const AddProduct = () => {
               <label className="font-semibold">Image Details 4</label>
               <textarea
                 name="imgDetails4"
+                defaultValue={data?.imgDetails[3].details}
                 className="bg-white py-2 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                 placeholder="Type Here"
                 rows="4"
@@ -486,7 +505,7 @@ const AddProduct = () => {
                     },
                   },
                 }}
-                initialValue="Type Here"
+                initialValue={data?.details}
               />
             </div>
           </div>
@@ -501,4 +520,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default UpdateProduct;

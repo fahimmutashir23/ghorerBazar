@@ -146,16 +146,16 @@ const InvoiceModal = ({ isOpen, setIsOpen }) => {
                           {data.products?.map((product) => (
                             <tr key={product._id} className="border-t">
                               <td className="py-2 px-4">
-                                {product.productId.name}
+                                {product.name}
                               </td>
                               <td className="py-2 text-center px-4">
                                 {product.quantity}
                               </td>
                               <td className="py-2 text-center px-4">
-                                {product.productId.price}
+                                {product.price}
                               </td>
                               <td className="py-2 text-center px-4">
-                                {product.productId.price * product.quantity}
+                                {product.price * product.quantity}
                               </td>
                             </tr>
                           ))}

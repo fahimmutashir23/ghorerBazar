@@ -163,11 +163,11 @@ const BookingsList = () => {
                   {data.phone}
                 </td>
                 <td
-                  className={`px-6 pt-2 font-semibold text-lg whitespace-nowrap text-center border  text-black `}
+                  className={`px-6 pt-2 font-semibold text-lg whitespace-nowrap text-left border  text-black `}
                 >
                   {data.products.map((product) => (
                     <li className="list-item" key={product._id}>
-                      {product?.productId?.name} ({product?.quantity})
+                      {product?.name} ({product?.quantity})
                     </li>
                   ))}
                 </td>
@@ -176,7 +176,7 @@ const BookingsList = () => {
                 >
                   {data.products.map((product) => (
                     <li className="list-item" key={product._id}>
-                      {product.productId?.name}
+                      {product?.weight}
                     </li>
                   ))}
                 </td>

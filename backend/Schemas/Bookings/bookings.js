@@ -29,19 +29,10 @@ const bookingsSchema = new mongoose.Schema({
       type: Number,
       required: true,
     },
-    products: [
-      {
-        productId: {
-          type: Schema.Types.ObjectId,
-          ref: 'Product',
-          required: true,
-        },
-        quantity: {
-          type: Number,
-          required: true,
-        }
-      }
-    ],
+    products: {
+      type: Array,
+      require: true
+    },
     details: {
       type: String,
       required: true,

@@ -45,9 +45,10 @@ const OrderModal = ({ isOpen, setIsOpen }) => {
       details,
       deliveryCharge: delCharge,
       totalAmount: cart.totalAmount + delCharge,
-      products: cart.result.map((item) => (
-        {productId: item.productId, quantity: item.quantity}
-      ))
+      products: cart.result
+      // products: cart.result.map((item) => (
+      //   {productId: item.productId, quantity: item.quantity}
+      // ))
     }
 
     try {

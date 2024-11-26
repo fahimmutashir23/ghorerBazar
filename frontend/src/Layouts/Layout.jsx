@@ -11,7 +11,7 @@ const Layout = () => {
 
   return (
     <div className="overflow-x-hidden bg-slate-100 ">
-      {/* <NavbarTop /> */}
+      <NavbarTop />
       <NavbarMain />
       {/* <CategoryBar /> */}
       <div className="bg-white pt-2 pb-4">

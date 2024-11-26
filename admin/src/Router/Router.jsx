@@ -35,6 +35,7 @@ import TagList from "@/Pages/AdminPages/Tag/TagList";
 import DeliveryChargeList from "@/Pages/AdminPages/DeliveryCharge/DeliveryChargeList";
 import BannerList from "@/Pages/AdminPages/Settings/Banner/BannerList";
 import AddProduct from "@/Pages/AdminPages/ProductList/AddProduct";
+import UpdateProduct from "@/Pages/AdminPages/ProductList/UpdateProduct";
 
 const Router = createBrowserRouter([
   {
@@ -99,6 +100,14 @@ const Router = createBrowserRouter([
         element: (
           <AccessComponents accessName="product-list">
             <AddProduct />,
+          </AccessComponents>
+        ),
+      },
+      {
+        path: "/admin/update-product",
+        element: (
+          <AccessComponents accessName="product-edit">
+            <UpdateProduct />,
           </AccessComponents>
         ),
       },

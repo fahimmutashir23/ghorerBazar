@@ -8,7 +8,7 @@ const useGetReviews = (id=null) => {
     const {data:reviews=[], isLoading, refetch:reviewFetch} = useQuery({
         queryKey: ['fetch-review'],
         queryFn: async () => {
-            const res = await axiosPublic(`/api/get-reviews?id=${id}`)
+            const res = await axiosPublic(`/api/get-product-reviews?id=${id}`)
             return res.data
         }
     })

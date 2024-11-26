@@ -6,7 +6,10 @@ const Booking = require("../../Schemas/Bookings/bookings");
 const { upload, compressImage } = require("../../Utils/multerUpload");
 
 router.post("/create-product", loginCheck, async (req, res) => {
-  upload.array("images", 10)(req, res, async (err) => {
+  upload.fields([
+    { name: "images", maxCount: 10 },
+    { name: "imgArrImages", maxCount: 10 },
+  ])(req, res, async (err) => {
     if (err) {
       return res.status(400).json({
         success: false,
@@ -15,18 +18,33 @@ router.post("/create-product", loginCheck, async (req, res) => {
     }
 
     try {
-      if (req.files && req.files.length > 0) {
+      // Compress Images
+      if (req.files.images && req.files.images.length > 0) {
+        await compressImage(req, res, () => {});
+      }
+      if (req.files.imgArrImages && req.files.imgArrImages.length > 0) {
         await compressImage(req, res, () => {});
       }
 
-      console.log(req.body);
-      const price = JSON.parse(req.body.price)
-      const data = {...req.body, price}
+      // parsing data
+      const price = JSON.parse(req.body.price);
+      const imgArrDetails = JSON.parse(req.body.imgArrDetails);
+
+      // create img arr with filename
+      const imgDetails = req.files.imgArrImages.map((file, index) => ({
+        img: file.filename,
+        details: imgArrDetails[index] || "", // Match with provided details
+      }));
+      const images =  req.files.images
+      ? req.files.images.map((file) => file.filename)
+      : [];
       
+      // manipulate data
+      const data = {...req.body, price, imgDetails, images}
+
+      
+      // validate schema
       const newProduct = new Product(data);
-      newProduct.images = req.files
-        ? req.files.map((file) => file.filename)
-        : [];
         
       const result = await newProduct.save();
       res.status(200).json({
@@ -93,7 +111,10 @@ router.get("/get-single-product/:id", async (req, res) => {
 });
 
 router.put("/update-product/:id", loginCheck, async (req, res) => {
-  upload.array("images", 10)(req, res, async (err) => {
+  upload.fields([
+    { name: "images", maxCount: 10 },
+    { name: "imgArrImages", maxCount: 10 },
+  ])(req, res, async (err) => {
     if (err) {
       return res.status(400).json({
         success: false,
@@ -102,35 +123,47 @@ router.put("/update-product/:id", loginCheck, async (req, res) => {
     }
 
     try {
-      if (req.files && req.files.length > 0) {
+      const product = await Product.findById(req.params.id);
+
+      // Compress Images
+      if (req.files.images && req.files.images.length > 0) {
+        await compressImage(req, res, () => {});
+      }
+      if (req.files.imgArrImages && req.files.imgArrImages.length > 0) {
         await compressImage(req, res, () => {});
       }
 
+      // parsing data
+      const price = JSON.parse(req.body.price);
+      const imgArrDetails = JSON.parse(req.body.imgArrDetails);
+
+      // create img arr with filename
+      const imgDetails = req.files.imgArrImages
+      ? req.files.imgArrImages.map((file, index) => ({
+          img: file.filename,
+          details: imgArrDetails[index] || "",
+        }))
+      : product.imgDetails;
+      const images = req.files.images
+        ? req.files.images.map((file) => file.filename)
+        : product.images;
+      
+      // manipulate data
+      const data = {...req.body, price, imgDetails, images}
       const filter = {_id : req.params.id}
-      const info = req.body;
+
       const updatedDoc = {
         $set: {
-          name: info.name,
-          brand: info.brand,
-          price: info.price,
-          category: info.category,
-          stock: info.stock,
-          tags: info.tags,
-          discount: info.discount,
-          details: info.details,
-          images: req.files
-          ? req.files.map((file) => file.filename)
-          : [],
-
+          name: data.name,
+          brand: data.brand,
+          price: data.price,
+          category: data.category,
+          stock: data.stock,
+          tags: data.tags,
+          discount: data.discount,
+          details: data.details,
         }
       }
-
-      console.log(updatedDoc);
-
-      // const newProduct = new Product(req.body);
-      // newProduct.images = req.files
-      //   ? req.files.map((file) => file.filename)
-      //   : [];
 
 
       const result = await Product.findOneAndUpdate(filter,updatedDoc);

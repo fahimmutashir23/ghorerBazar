@@ -46,7 +46,7 @@ router.get("/get-all-products", userId, async (req, res) => {
 router.post("/get-products-by-cat", async (req, res) => {
   const { page, limit } = req.query;
   const { id, price } = req.body;
-  let query = { };
+  let query = {};
   if (id.length !== 0)
     query = { ...query, category: Array.isArray(id) ? { $in: id } : id };
   if (price) query = { ...query, price: { $lte: price } };
@@ -85,9 +85,9 @@ router.post("/get-products-by-cat", async (req, res) => {
 
 router.get("/get-products/:id", async (req, res) => {
   const id = req.params.id;
-  let query = {}
-  if(id !== 'null'){
-    query = {category : id}
+  let query = {};
+  if (id !== "null") {
+    query = { category: id };
   }
 
   try {
@@ -98,15 +98,14 @@ router.get("/get-products/:id", async (req, res) => {
       brand: 1,
       details: 1,
       images: 1,
-      discount: 1
-    })
-      .populate("category")
-console.log(result);
+      discount: 1,
+    }).populate("category");
+
     res.json({
       success: true,
       message: "Successfully Loaded Data",
       status_code: 200,
-      result
+      result,
     });
   } catch (error) {
     res.json(error);
