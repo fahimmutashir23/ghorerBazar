@@ -12,6 +12,7 @@ import useTotalCart from "@/Hooks/useTotalCart";
 import { toast } from "react-toastify";
 import useAxiosPublic from "@/Hooks/useAxiosPublic";
 import { imgUrl } from "@/Utils/imageUrl";
+import { Rating } from "primereact/rating";
 
 const AllCategory = () => {
   const axiosPublic = useAxiosPublic();
@@ -28,9 +29,9 @@ const AllCategory = () => {
   const [categories, categoriesLoading] = useGetCategories();
   const [, , cartFetch] = useGetCart();
   const [, , totalCartFetch] = useTotalCart();
-useEffect(() => {
-  window.scrollTo(0, 0);
-}, [])
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const handleCheckboxChange = (_id) => {
     setCategoryId(() =>
@@ -70,13 +71,14 @@ useEffect(() => {
 
   if (isLoading || categoriesLoading) return <Loader2 />;
 
+
   return (
     <div>
       <PageHeader name={catBasedProduct.catName} />
       <div className="max-w-7xl mx-auto mt-4">
         <div className="md:flex w-[100%] items-start justify-center gap-4">
           {/* Category Section */}
-          <div className="flex lg:flex-col lg:w-[20%]">
+          <div className="hidden lg:flex lg:flex-col lg:w-[20%]">
             <div className="bg-orange-100 rounded-md overflow-hidden ">
               <button
                 {...getCategoryToggleProps()}
@@ -144,7 +146,7 @@ useEffect(() => {
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3">
-              {catBasedProduct.result?.map((product) => {
+              {catBasedProduct?.result?.map((product) => {
                 return (
                   <div
                     key={product._id}
@@ -160,20 +162,15 @@ useEffect(() => {
                       </div>
                       <div className="text-center text-[14.4px] px-[10px] pt-[10px] border-t-2 ">
                         <h6 className="hover:text-[#008000]">{product.name}</h6>
-                        <p className="font-bold">{product.price}</p>
+                        {/* <p className="font-bold">{product.price}</p> */}
                       </div>
-                      {/* <div className="text-center  mx-auto ">
-                        <ReactStars
-                          count={5}
-                          onChange={() => {}}
-                          isHalf={true}
-                          emptyIcon={<i className="far fa-star"></i>}
-                          halfIcon={<i className="fa fa-star-half-alt"></i>}
-                          fullIcon={<i className="fa fa-star"></i>}
-                          activeColor="#008000"
-                          color="#008000"
+                      <div className="text-center  mx-auto ">
+                        <Rating
+                          value={product.reviews}
+                          readOnly
+                          cancel={false}
                         />
-                      </div> */}
+                      </div>
                       <div className="px-2 pb-4">
                         <button
                           onClick={() => handleAddToCart(product)}
@@ -186,7 +183,7 @@ useEffect(() => {
                           className="w-full"
                         >
                           <button className="bg-color_1 py-1 font-medium text-white hover:scale-105 duration-300 w-full">
-                           See Details
+                            See Details
                           </button>
                         </Link>
                       </div>

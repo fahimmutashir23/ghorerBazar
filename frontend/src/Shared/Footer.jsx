@@ -2,7 +2,7 @@ import Logo from "./Logo";
 
 const Footer = () => {
   return (
-    <div className="bg-slate-200 py-4 md:py-10 px-2 lg:px-4">
+    <div className="bg-color_2 py-4 md:py-10 px-2 lg:px-4">
       <div className="max-w-7xl mx-auto grid grid-cols-12 gap-4 lg:gap-10">
         <div className="lg:col-span-5 col-span-12">
           <h1 className="flex justify-center lg:justify-start text-color_1 font-bold">

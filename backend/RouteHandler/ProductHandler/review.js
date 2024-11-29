@@ -2,11 +2,36 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const Review = require("../../Schemas/Product/productReview");
+const Product = require("../../Schemas/Product/product");
 
 router.post("/save-review", async (req, res) => {
   const newProduct = new Review(req.body);
   try {
     const result = await newProduct.save();
+    if(result){
+      const [avgReview] = await Review.aggregate([
+        {
+          $match: { productId: new mongoose.Types.ObjectId(newProduct.productId) }
+        },
+        {
+          $group: {
+            _id: "$productId",
+            averageRating: { $avg: "$rating" },
+            count: { $sum: 1 },
+          },
+        },
+        {
+          $sort: { averageRating: -1 },
+        },
+      ]);
+
+      const updateDoc = {
+        $set : {
+          reviews : avgReview.averageRating.toFixed(2)
+        }
+      }
+      await Product.findByIdAndUpdate(newProduct.productId, updateDoc)
+    }
     res.json({
       status_code: 200,
       message: "Review send successfully",
@@ -40,7 +65,7 @@ router.get("/get-product-reviews", async (req, res) => {
         $sort: { averageRating: -1 },
       },
     ]);
-console.log(avgReview);
+
     res.json({
       status_code: 200,
       message: "Successfully Loaded Data",

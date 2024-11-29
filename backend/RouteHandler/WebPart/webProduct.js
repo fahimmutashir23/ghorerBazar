@@ -60,6 +60,7 @@ router.post("/get-products-by-cat", async (req, res) => {
       brand: 1,
       details: 1,
       images: 1,
+      reviews: 1
     })
       .populate("category")
       .skip(page * limit)
@@ -99,6 +100,7 @@ router.get("/get-products/:id", async (req, res) => {
       details: 1,
       images: 1,
       discount: 1,
+      reviews: 1
     }).populate("category");
 
     res.json({

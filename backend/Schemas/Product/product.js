@@ -11,12 +11,12 @@ const productSchema = new mongoose.Schema(
       {
         count: {
           type: String,
-          default: null
+          default: null,
         },
         countPrice: {
           type: Number,
-          default: null
-        }
+          default: null,
+        },
       },
     ],
     brand: {
@@ -62,21 +62,7 @@ const productSchema = new mongoose.Schema(
         default: null,
       },
     ],
-    reviews: [
-      {
-        userName: String,
-        comment: String,
-        rating: {
-          type: Number,
-          min: 1,
-          max: 5,
-        },
-        createdAt: {
-          type: Date,
-          default: Date.now,
-        },
-      },
-    ],
+    reviews: { type: Number },
   },
   { timestamps: true }
 );

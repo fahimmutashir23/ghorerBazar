@@ -41,12 +41,12 @@ const Ads = ({ banner }) => {
       </div>
 
       <div className="hidden lg:col-span-2 h-full lg:flex gap-2 lg:flex-col lg:border border-color_1 py-2 rounded-sm lg:rounded-md w-full">
-        <div className="flex flex-1 items-center justify-center gap-2 rounded-md mx-auto px-4 py-1 bg-color_2">
+        <a href="https://www.facebook.com/ghuri.net" target="_blank" className="flex flex-1 items-center justify-center gap-2 rounded-md mx-auto px-4 py-1 bg-color_2">
           <img src={facebook} className="w-3 lg:w-7" alt="" />
           <h1 className="hidden lg:block font-semibold lg:text-2xl mt-0.5">
             Facebook
           </h1>
-        </div>
+        </a>
         <div className="flex flex-1 items-center justify-center gap-2 rounded-md mx-auto px-4 py-1 bg-color_2">
           <img src={instagram} className="w-4 lg:w-8" alt="" />
           <h1 className="hidden lg:block font-semibold lg:text-2xl mt-0.5">
@@ -59,12 +59,12 @@ const Ads = ({ banner }) => {
             You Tube
           </h1>
         </div>
-        <div className="flex flex-1 items-center justify-center gap-2 rounded-md mx-auto px-4 py-1 bg-color_2">
+        <a href="https://wa.me/+880 1729-798079" target="_blank" className="flex flex-1 items-center justify-center gap-2 rounded-md mx-auto px-4 py-1 bg-color_2">
           <img src={whatsapp} className="w-4 lg:w-8" alt="" />
           <h1 className="hidden lg:block font-semibold lg:text-2xl mt-0.5">
             WhatsApp
           </h1>
-        </div>
+        </a>
       </div>
 
       <div className="lg:col-span-5 h-full flex items-center justify-center lg:text-xl font-semibold border-2 border-color_1 rounded-sm lg:rounded-md overflow-hidden">

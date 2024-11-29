@@ -1,6 +1,5 @@
 import { Outlet } from "react-router-dom";
 import NavbarTop from "@/Shared/NavbarTop";
-import CategoryBar from "@/Shared/CategoryBar";
 import Footer from "@/Shared/Footer";
 import Copyright from "@/Shared/Copyright";
 import TopArrow from "@/Shared/TopArrow";
@@ -10,7 +9,7 @@ import CartBar from "@/Components/CartBar";
 const Layout = () => {
 
   return (
-    <div className="overflow-x-hidden bg-slate-100 ">
+    <div className="overflow-x-hidden bg-color_2">
       <NavbarTop />
       <NavbarMain />
       {/* <CategoryBar /> */}
