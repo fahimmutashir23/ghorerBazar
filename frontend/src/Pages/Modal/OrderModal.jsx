@@ -105,9 +105,9 @@ const OrderModal = ({ isOpen, setIsOpen }) => {
                 >
                   <Dialog.Panel className="w-[96%] md:w-[90%] lg:w-[75%] xl:w-[910px] max-w-md:w-[60%] transform rounded-md text-left align-middle shadow-xl transition-all my-10 pb-0 bg-white">
                     <Dialog.Title
-                      className="border px-4 text-xl bg-color_1 text-white flex items-center justify-between h-14"
+                      className="border px-4 bg-color_1 text-white flex items-center justify-between"
                     >
-                      <h6 className="py-2 text-2xl font-semibold">Make Order</h6>
+                      <h6 className="py-1 lg:py-2 lg:text-2xl font-semibold">Make Order</h6>
                       <button
                         onClick={() => setIsOpen(false)}
                         className="text_color close-button "
@@ -127,7 +127,7 @@ const OrderModal = ({ isOpen, setIsOpen }) => {
                           <input
                             type="text"
                             name="name"
-                            className="bg-white h-10 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
+                            className="bg-white py-1 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                             placeholder="Type Here"
                             required
                           />
@@ -142,7 +142,7 @@ const OrderModal = ({ isOpen, setIsOpen }) => {
                           <input
                             type="number"
                             name="phone"
-                            className="bg-white h-10 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
+                            className="bg-white py-1 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                             placeholder="Type Here"
                             required
                           />
@@ -157,7 +157,7 @@ const OrderModal = ({ isOpen, setIsOpen }) => {
                           <input
                             type="text"
                             name="address"
-                            className="bg-white h-10 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
+                            className="bg-white py-1 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                             placeholder="Type Here"
                             required
                           />
@@ -172,7 +172,7 @@ const OrderModal = ({ isOpen, setIsOpen }) => {
                           <input
                             type="email"
                             name="email"
-                            className="bg-white h-10 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
+                            className="bg-white py-1 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                             placeholder="Type Here"
                             required
                           />

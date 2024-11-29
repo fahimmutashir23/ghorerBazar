@@ -4,13 +4,15 @@ const Cart = require("../../Schemas/Cart/cart");
 const userId = require("../../Middleware/userId");
 
 router.post("/save-cart", userId, async (req, res) => {
+  const userId = req.userId
+  console.log(userId);
   try {
     const info = {
       ...req.body,
       userId: req.userId,
     };
 
-    const checkExist = await Cart.findOne({productId: req.body.productId})
+    const checkExist = await Cart.findOne({productId: req.body.productId, userId: req.userId})
     if(checkExist){
       return res.json({
         status_code: 401,

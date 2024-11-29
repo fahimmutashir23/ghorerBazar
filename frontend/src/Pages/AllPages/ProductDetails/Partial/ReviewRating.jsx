@@ -9,15 +9,16 @@ const ReviewRating = ({ id }) => {
   const [reviews, isLoading, reviewFetch] = useGetReviews(id);
   const axiosPublic = useAxiosPublic();
   const [value, setValue] = useState(null);
-  const [info, setInfo] = useState({
-    comment: "",
-    userName: "",
-  });
 
-  const handleSubmit = async () => {
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const comment = e.target.message.value;
+    const userName = e.target.name.value;
+    if(!value) return toast.error('select ratings')
     const reviewInfo = {
-      userName: info.userName,
-      comment: info.comment,
+      userName,
+      comment,
       productId: id,
       rating: value,
     };
@@ -26,10 +27,7 @@ const ReviewRating = ({ id }) => {
       reviewFetch();
       toast.success(res.data.message);
       setValue(null);
-      setInfo({
-        comment: "",
-        userName: "",
-      });
+      e.target.reset();
     }
   };
 
@@ -39,7 +37,7 @@ const ReviewRating = ({ id }) => {
     <div className="flex flex-col lg:flex-row gap-4">
       <div className="lg:w-4/12">
         <h1 className="text-lg font-medium text-color_1">Give your feedback</h1>
-        <div className="mt-2 space-y-2">
+        <form onSubmit={handleSubmit} className="mt-2 space-y-2">
           <div className="">
             <label className="font-semibold">
               Name
@@ -48,7 +46,6 @@ const ReviewRating = ({ id }) => {
             <input
               type="text"
               name="name"
-              onChange={(e) => setInfo({ ...info, userName: e.target.value })}
               className="bg-white h-10 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
               placeholder="Type Here"
               required
@@ -62,7 +59,6 @@ const ReviewRating = ({ id }) => {
             <textarea
               className="bg-white focus:ring-0 px-4 py-2 focus:border w-full focus:outline-none border border-black -mb-2"
               name="message"
-              onChange={(e) => setInfo({ ...info, comment: e.target.value })}
               required
               rows="4"
               placeholder="Write your message"
@@ -72,18 +68,19 @@ const ReviewRating = ({ id }) => {
             value={value}
             onChange={(e) => setValue(e.value)}
             cancel={false}
+            required
           />
-          <button onClick={handleSubmit} className="button_primary w-full">
+          <button type="submit" className="button_primary w-full">
             Submit
           </button>
-        </div>
+        </form>
       </div>
       <div className="lg:w-8/12">
         <h1 className="text-xl font-medium text-color_1 flex justify-between items-center">
           <span>Product Review</span>{" "}
           <span>
             <Rating
-              value={reviews.avgReview.averageRating}
+              value={reviews?.avgReview?.averageRating}
               readOnly
               cancel={false}
             />

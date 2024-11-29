@@ -17,7 +17,7 @@ const NavbarMain = () => {
   const [openSearch, setOpenSearch] = useState(false);
 
   return (
-    <div className="flex justify-between items-center py-4 px-2 lg:px-6 max-w-6xl mx-auto">
+    <div className="flex justify-between items-center py-1 px-2 lg:px-6 max-w-6xl mx-auto">
       <div className="dropdown lg:hidden flex-1">
         <div tabIndex={0} role="button" className="">
           {open ? (

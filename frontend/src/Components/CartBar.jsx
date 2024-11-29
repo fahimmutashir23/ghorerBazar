@@ -16,7 +16,8 @@ import useDeliveryCharge from "@/Hooks/useDeliveryCharge";
 
 const CartBar = () => {
   const axiosPublic = useAxiosPublic();
-  const { cartBar, setCartBar, delCharge, setDelCharge } = useContext(BasicContext);
+  const { cartBar, setCartBar, delCharge, setDelCharge } =
+    useContext(BasicContext);
   const [cart, cartLoading, cartFetch] = useGetCart();
   const [, , totalCartFetch] = useTotalCart();
   const [isOpen, setIsOpen] = useState(false);
@@ -84,92 +85,100 @@ const CartBar = () => {
     <div
       className={`fixed bg-slate-200 h-screen overflow-y-scroll top-0 w-[300px] lg:w-[400px] ${
         cartBar ? "right-0" : "-right-[400px]"
-      } transition-all duration-300 py-2 border-l-2 border-black overflow-y-auto`}
+      } transition-all duration-300 py-2 border-l-2 border-black overflow-y-auto flex flex-col justify-between`}
     >
-      <div className="flex items-center justify-between px-3">
-        <h1 className="font-medium lg:text-2xl">Shopping Cart</h1>
-        <Link
-          onClick={() => setCartBar(false)}
-          className="flex items-center gap-2 text-color_1 font-semibold"
-          to="/cart"
-        >
-          View Cart
-          <FaExternalLinkAlt className="mb-1" />
-        </Link>
-        <IoClose
-          onClick={() => setCartBar(false)}
-          className="text-3xl font-bold hover:cursor-pointer"
-        />
-      </div>
-      <div className="h-0.5 my-2 bg-black"></div>
-      {/* Main Cart=============== */}
       <div>
-        {cart.result.map((item) => (
-          <div key={item._id} className="flex gap-3 px-3">
-            <div className="w-1/3 border p-2 h-28">
-              <img
-                src={`${imgUrl.product}${item.images}`}
-                className="w-full h-full object-cover"
-                alt=""
-              />
-            </div>
-            <div className="w-2/3">
-              <h1 className="font-medium text-xl">{item.name}</h1>
-              <h3 className="font-semibold text-xl">TK {item.price}</h3>
-              <div className="flex gap-3">
-                <div className="bg-color_1 text-white py-1 px-3 rounded-sm flex">
+        <div className="flex items-center justify-between px-3">
+          <h1 className="font-medium lg:text-2xl">Shopping Cart</h1>
+          <Link
+            onClick={() => setCartBar(false)}
+            className="flex items-center gap-2 text-color_1 font-semibold"
+            to="/cart"
+          >
+            View Cart
+            <FaExternalLinkAlt className="mb-1" />
+          </Link>
+          <IoClose
+            onClick={() => setCartBar(false)}
+            className="text-3xl font-bold hover:cursor-pointer"
+          />
+        </div>
+        <div className="h-0.5 my-2 bg-black"></div>
+        {/* Main Cart=============== */}
+        <div>
+          {cart.result.map((item) => (
+            <div key={item._id} className="flex gap-2 lg:px-3">
+              <div className="w-1/3 border p-2 lg:h-28">
+                <img
+                  src={`${imgUrl.product}${item.images}`}
+                  className="w-full h-full object-cover"
+                  alt=""
+                />
+              </div>
+              <div className="w-2/3">
+                <h1 className="font-medium text-base lg:text-xl">
+                  {item.name}
+                </h1>
+                <h3 className="font-semibold text-base lg:text-xl">
+                  TK {item.price}
+                </h3>
+                <div className="flex gap-3">
+                  <div className="bg-color_3 text-white lg:py-1 lg:px-3 rounded-sm flex">
+                    <button
+                      onClick={() => decrementQuantity(item._id)}
+                      className="font-bold px-2 text-2xl text-white"
+                    >
+                      -
+                    </button>
+                    <input
+                      type="number"
+                      min="0"
+                      value={desiredQuantities[item._id] || item.quantity}
+                      onChange={(e) =>
+                        handleQuantityChange(
+                          item._id,
+                          parseInt(e.target.value) || 1
+                        )
+                      }
+                      onBlur={(e) =>
+                        setQuantity(item._id, parseInt(e.target.value) || 1)
+                      }
+                      className="p-1 w-16 text-xl text-center bg-transparent"
+                    />
+                    <button
+                      onClick={() => incrementQuantity(item._id)}
+                      className="font-bold px-2 text-2xl text-white"
+                    >
+                      +
+                    </button>
+                  </div>
                   <button
-                    onClick={() => decrementQuantity(item._id)}
-                    className="font-bold px-2 text-2xl text-white"
+                    onClick={() => handleDelete(item._id)}
+                    className="bg-color_1 px-3"
                   >
-                    -
-                  </button>
-                  <input
-                    type="number"
-                    min="0"
-                    value={desiredQuantities[item._id] || item.quantity}
-                    onChange={(e) =>
-                      handleQuantityChange(
-                        item._id,
-                        parseInt(e.target.value) || 1
-                      )
-                    }
-                    onBlur={(e) =>
-                      setQuantity(item._id, parseInt(e.target.value) || 1)
-                    }
-                    className="p-1 w-16 text-xl text-center bg-transparent"
-                  />
-                  <button
-                    onClick={() => incrementQuantity(item._id)}
-                    className="font-bold px-2 text-2xl text-white"
-                  >
-                    +
+                    <MdDelete className="text-2xl text-white" />
                   </button>
                 </div>
-                <button
-                  onClick={() => handleDelete(item._id)}
-                  className="button_delete"
-                >
-                  <MdDelete className="text-2xl" />
-                </button>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
+      <div>
       {cart.result.length > 0 && (
         <div className="bg-white p-3">
           <RadioGroup onValueChange={(value) => setDelCharge(value)}>
-                {delivery.map((charge, idx) => (
-                  <div key={idx} className="flex items-center space-x-2">
-                    <RadioGroupItem value={charge.amount} id={charge._id} />
-                    <label htmlFor={charge._id}>{charge.name}</label>
-                    <span className="font-bold">{charge.amount} BDT</span>
-                  </div>
-                ))}
-              </RadioGroup>
+            {delivery.map((charge, idx) => (
+              <div key={idx} className="flex items-center space-x-2">
+                <RadioGroupItem value={charge.amount} id={charge._id} />
+                <label htmlFor={charge._id}>{charge.name}</label>
+                <span className="font-bold">{charge.amount} BDT</span>
+              </div>
+            ))}
+          </RadioGroup>
           <p className="flex justify-between font-semibold md:text-xl">
-            <span>Total Price</span> <span>{cart.totalAmount + delCharge}/-</span>
+            <span>Total Price</span>{" "}
+            <span>{cart.totalAmount + delCharge}/-</span>
           </p>
           <button
             onClick={() => setIsOpen(true)}
@@ -180,6 +189,7 @@ const CartBar = () => {
         </div>
       )}
       <OrderModal isOpen={isOpen} setIsOpen={setIsOpen} />
+      </div>
     </div>
   );
 };

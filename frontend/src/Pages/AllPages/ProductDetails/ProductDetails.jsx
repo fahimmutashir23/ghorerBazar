@@ -149,10 +149,10 @@ const ProductDetails = () => {
               </div>
               <hr className="my-3" />
               <h2 className="text-lg font-semibold">Product Price:</h2>
-              <div className="mt-1 flex justify-between">
+              <div className="mt-1 flex flex-col lg:flex-row lg:justify-between">
                 <span className="font-medium text-lg">
                   Select Unit*
-                  <div className="font-bold text-red-800 flex gap-2">
+                  <div className="font-bold text-red-800 grid grid-cols-2 lg:grid-cols-4 gap-2">
                     {singleProduct?.price?.map((item, idx) => (
                       <button
                         onClick={() => setWeight(item)}
@@ -164,7 +164,7 @@ const ProductDetails = () => {
                     ))}
                   </div>
                 </span>
-                <span className="font-medium text-lg">
+                <span className="font-medium text-lg mt-2 lg:mt-0">
                   Total Price:{" "}
                   <span className="font-bold text-red-800">
                     {weight?.countPrice * quantity}

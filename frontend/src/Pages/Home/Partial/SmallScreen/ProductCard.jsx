@@ -39,7 +39,7 @@ const ProductCard = ({ product }) => {
   return (
     <div className="transition duration-300 ease-in-out shadow-sm hover:shadow-lg h-full rounded-md bg-white hover:border-green-500">
       <div className="relative rounded-md flex flex-col justify-between group  h-full border-2 hover:border-2 hover:border-green_color">
-        <div className="w-full h-[200px] md:h-[230px] flex justify-center items-center relative p-1 rounded-md">
+        <div className="w-full h-[100px] md:h-[230px] flex justify-center items-center relative p-1 rounded-md">
           <img
             className="w-full h-full object-cover"
             src={`${imgUrl.product}${product.images[0]}`}
@@ -65,12 +65,12 @@ const ProductCard = ({ product }) => {
         <div className="px-2 pb-4">
           <button
             onClick={() => handleAddToCart(product)}
-            className="bg-color_1 py-1 font-medium text-white hover:scale-105 duration-300 w-full my-2"
+            className="bg-color_1 text-sm lg:text-base lg:py-1 font-medium text-white hover:scale-105 duration-300 w-full my-2"
           >
             Quick Add
           </button>
           <Link to={`/productDetails/${product._id}`} className="w-full">
-            <button className="bg-color_1 py-1 font-medium text-white hover:scale-105 duration-300 w-full">
+            <button className="bg-color_1 text-sm lg:text-base lg:py-1 font-medium text-white hover:scale-105 duration-300 w-full">
               See Details
             </button>
           </Link>

@@ -55,7 +55,7 @@ const Home = () => {
   return (
     <div className="max-w-7xl mx-auto px-1 space-y-3">
       <Banner banner={banner} />
-      <Ads banner={banner} />
+      {isSmallScreen || <Ads banner={banner} />}
       {!isSmallScreen ? <AllProduct /> : <AllProducts />}
       <Contact />
     </div>

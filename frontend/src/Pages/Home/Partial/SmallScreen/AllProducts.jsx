@@ -22,13 +22,13 @@ const AllProducts = () => {
     queryFn: async () => {
       const res = await axiosPublic(`/api/get-products/${activeCategory}`);
       return res.data.result;
-    }
+    },
   });
 
   // Scroll the selected category tab to the center
   const handleCategoryClick = (categoryId, index) => {
     setActiveCategory(categoryId);
-    refetch()
+    refetch();
     const container = tabContainerRef.current;
     const tabElement = container.children[index];
 
@@ -49,7 +49,7 @@ const AllProducts = () => {
 
   return (
     <div>
-      <PageHeader name={'All Product'} />
+      <PageHeader name={"All Product"} />
       <div
         ref={tabContainerRef}
         className="flex overflow-x-auto gap-2 pb-2 scrollbar-thin scrollbar-thumb-gray-500 mt-2"
@@ -72,11 +72,11 @@ const AllProducts = () => {
           </button>
         ))}
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3">
-              {products?.map((product) => (
-                <ProductCard key={product._id} product={product} />
-              ))}
-            </div>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+        {products?.map((product) => (
+          <ProductCard key={product._id} product={product} />
+        ))}
+      </div>
     </div>
   );
 };

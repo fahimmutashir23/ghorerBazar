@@ -36,19 +36,18 @@ const RelatedCard = ({ data, setFetchProduct }) => {
     }
   };
 
-
   return (
     <Link
       to={`/productDetails/${data._id}`}
       onClick={() => setFetchProduct(data._id)}
-      className="border-2 rounded-sm p-2 flex flex-shrink-0 flex-col hover:border-red-500 duration-300 relative h-60 w-60"
+      className="border-2 rounded-sm p-2 flex flex-col hover:border-red-500 duration-300 relative lg:h-60 lg:w-60"
     >
       {data.discount > 0 && (
         <div className="absolute top-0 left-0 px-2 py-1 bg-color_4 text-sm text-white font-medium rounded-br-md">
           Discount: <span className="font-bold">{data.discount}</span>%
         </div>
       )}
-      <div className="h-3/5 w-full overflow-hidden">
+      <div className="lg:h-3/5 h-24 w-full overflow-hidden">
         <img
           src={`${imgUrl.product}${data.images[0]}`}
           className="h-full w-full object-cover"
@@ -59,9 +58,9 @@ const RelatedCard = ({ data, setFetchProduct }) => {
         <p className="mt-2 text-center">{data.name}</p>
         {/* <p className=" text-center">{data.price}</p> */}
         <button
-        disabled={data.stock <= 0}
+          disabled={data.stock <= 0}
           onClick={() => handleAddToCart(data)}
-          className="bg-color_1 py-1 font-medium text-white hover:scale-105 duration-300 w-full mt-1"
+          className="bg-color_1 py-1 text-xs lg:text-base font-medium text-white lg:hover:scale-105 duration-300 w-full mt-1"
         >
           {data.stock <= 0 ? "Out of Stock" : "Quick Add"}
         </button>

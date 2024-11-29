@@ -19,6 +19,12 @@ const BannerList = () => {
     useGetCollectionLength();
   // const paginateBtn = [...Array(10).keys()];
 
+  const checkVideo = (src) => {
+    const fileExtension = src.split(".").pop().toLowerCase();
+    const videoExtensions = ["mp4", "webm", "ogg"];
+    return videoExtensions.includes(fileExtension);
+  };
+
   const {
     data: banners = null,
     isLoading,
@@ -71,16 +77,20 @@ const BannerList = () => {
       <div className="overflow-x-auto">
         <div className=" grid grid-cols-1 lg:grid-cols-4 gap-2">
           {banners.result.map((banner) => (
-            <div
-              key={banner._id}
-              className={`p-2 text-left border `}
-            >
+            <div key={banner._id} className={`p-2 text-left border `}>
               <div className="h-32 lg:h-48 overflow-hidden">
-              <video
-                src={`${imgUrl.banner}${banner.banner[0]}`}
-                controls
-                className="w-full h-full object-cover"
-              />
+                {checkVideo(banner.banner[0]) ? (
+                  <video
+                    src={`${imgUrl.banner}${banner.banner[0]}`}
+                    controls
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <img
+                    src={`${imgUrl.banner}${banner.banner[0]}`}
+                    className="w-full h-full object-cover"
+                  />
+                )}
               </div>
               <div className="flex justify-between items-center">
                 <button

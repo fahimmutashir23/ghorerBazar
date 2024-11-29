@@ -28,8 +28,8 @@ const Contact = () => {
     <div>
       <PageHeader name={"Contact Us"} />
       <div className="flex flex-col lg:flex-row gap-4 items-center">
-        <div className="lg:flex-1">
-          <img src={contact} className="" alt="" />
+        <div className="lg:flex-1 flex justify-center">
+          <img src={contact} className="w-2/3" alt="" />
         </div>
         <div className="lg:flex-1">
           <form onSubmit={handleSubmit}>
@@ -42,7 +42,7 @@ const Contact = () => {
                 <input
                   type="text"
                   name="name"
-                  className="bg-white h-10 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
+                  className="bg-white py-1 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                   placeholder="Type Here"
                   required
                 />
@@ -55,7 +55,7 @@ const Contact = () => {
                 <input
                   type="text"
                   name="phone"
-                  className="bg-white h-10 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
+                  className="bg-white py-1 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                   placeholder="Type Here"
                   required
                 />
@@ -69,7 +69,7 @@ const Contact = () => {
                   className="bg-white focus:ring-0 px-4 py-2 focus:border w-full focus:outline-none border border-black"
                   name="message"
                   required
-                  rows="8"
+                  rows="4"
                   placeholder="Write your message"
                 ></textarea>
               </div>
