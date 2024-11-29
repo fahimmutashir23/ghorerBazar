@@ -7,7 +7,7 @@ const Banner = ({ banner }) => {
   const [isVideo, setIsVideo] = useState(false);
 
   useEffect(() => {
-    const fileExtension = offer.banner[0].split(".").pop().toLowerCase();
+    const fileExtension = offer?.banner[0].split(".").pop().toLowerCase();
     const videoExtensions = ["mp4", "webm", "ogg"];
     setIsVideo(videoExtensions.includes(fileExtension));
   }, [offer]);
