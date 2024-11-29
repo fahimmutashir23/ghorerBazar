@@ -3,6 +3,7 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const loginCheck = require("../../Middleware/checkLogin");
 const User = require("../../Schemas/User/userSchema");
+const changePassword = require("./partial/changePass");
 
 const createJwtTokenForLogOut = (_id) => {
   const token = jwt.sign({ userId: _id }, process.env.SECRET_KEY, {
@@ -41,14 +42,22 @@ router.get("/auth", async (req, res) => {
 
     const user = await User.findOne({ email: email });
     if (!user) {
-      return res.status(400).json("Invalid username or password");
+      return res.status(401).json({
+        status_code : 401,
+        message: "Invalid username or password"
+      });
     }
     const isMatch = await user.comparePassword(password);
+
     if (!isMatch) {
-      return res.status(400).json("Invalid username or password");
+       res.json({
+        status_code : 401,
+        message: "Invalid username or password"
+      });
     } else {
       const token = createJwtToken(user._id);
-      return res.status(201).json({
+      return res.json({
+        status_code : 200,
         message: "Login Successfully",
         user: { email: user.email, name: user.name },
         token,
@@ -89,6 +98,16 @@ router.get("/logout", loginCheck, async (req, res) => {
   } catch (error) {
     res.json(error);
   }
+});
+
+router.put("/change-password", loginCheck, async (req, res) => {
+  const userId = req.user.userId;
+  const { currentPassword, newPassword, confirmNewPassword } = req.body;
+
+  const result = await changePassword(userId, currentPassword, newPassword, confirmNewPassword);
+
+  // Send the response based on the result
+  res.json({status_code : result.status, message: result.message });
 });
 
 module.exports = router;

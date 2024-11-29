@@ -6,6 +6,9 @@ import Loader from "../../../Utils/Loader";
 import Loader2 from "../../../Utils/Loader2";
 import { FaUserCircle } from "react-icons/fa";
 import QRCode from "qrcode";
+import useAxiosSecure from "@/Hooks/useAxiosSecure";
+import { IoEye, IoEyeOff } from "react-icons/io5";
+import { toast } from "react-toastify";
 
 const opts = {
   type: "image/pdf",
@@ -15,12 +18,15 @@ const opts = {
 
 const Profile = () => {
   const [userData, isLoading, refetch] = useUser();
+  const axiosSecure = useAxiosSecure();
   const [isOpen, setIsOpen] = useState(false);
   const [loader, setLoader] = useState(false);
   const [qrCode, setQrCode] = useState(null);
-  const [showPassField, setShowPassField] = useState(false)
+  const [showPassField, setShowPassField] = useState(false);
   const [inputPass, setInputPass] = useState();
   const imgUrl = `${url}/Upload/profile/images/`;
+  const [openBox, setOpenBox] = useState(false);
+  const [showPass, setShowPass] = useState(0);
 
   const formatDate = (dateString) => {
     const options = { day: "2-digit", month: "2-digit", year: "numeric" };
@@ -30,16 +36,32 @@ const Profile = () => {
   const encodeData = (data) => btoa(JSON.stringify(data));
 
   const handleGenerate = () => {
-    const inputCode = { password: inputPass, email: userData.email};
+    const inputCode = { password: inputPass, email: userData.email };
     const encodedData = encodeData(inputCode);
 
     QRCode.toDataURL(encodedData, opts, (err, url) => {
       if (err) return console.log(err);
       setQrCode({ code: encodedData, url });
-      setShowPassField(false)
+      setShowPassField(false);
     });
   };
 
+  const handlePassChange = async (e) => {
+    e.preventDefault()
+    const currentPassword = e.target.oldPass.value;
+    const newPassword = e.target.password.value;
+    const confirmNewPassword = e.target.confirmPass.value;
+    const info = {currentPassword, newPassword, confirmNewPassword};
+    const res = await axiosSecure.put(`/api/change-password`, info);
+
+    if(res.data.status_code === 200){
+      toast.success(res.data.message);
+      setOpenBox(false);
+    }
+    if(res.data.status_code === 401){
+      toast.error(res.data.message);
+    }
+  };
 
   if (isLoading) {
     return <Loader />;
@@ -48,7 +70,7 @@ const Profile = () => {
   return (
     <div className="my-4 flex items-center">
       {loader && <Loader2 />}
-      <div className="bg-_white border-2 border-bg_lightSlate rounded-md p-[20px] max-w-lg w-full mx-auto">
+      <div className="bg-_white border-2 relative border-bg_lightSlate rounded-md p-[20px] max-w-lg w-full mx-auto">
         <div>
           <div className="h-24 w-24 overflow-hidden rounded-full mx-auto">
             {userData._doc.image ? (
@@ -106,29 +128,143 @@ const Profile = () => {
             >
               Edit
             </button>
-            {!showPassField && <button onClick={() => setShowPassField(true)} className="button_secondary w-full mt-2">
-              Generate QR Code
-            </button>}
-            {showPassField && <p className="text-xs mt-1">if you input wrong password the qr code will not work.</p>}
-            {showPassField && <div className="flex">
-              <input
-                type="password"
-                name="name"
-                className="bg-white h-12 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
-                onChange={(e) => setInputPass(e.target.value)}
-                placeholder="Input your password"
-                required
-              />
-              <button onClick={handleGenerate} className="button_secondary">
-                Generate
+            {/* {!showPassField && (
+              <button
+                onClick={() => setShowPassField(true)}
+                className="button_secondary w-full mt-2"
+              >
+                Generate QR Code
               </button>
-            </div>}
+            )}
+            {showPassField && (
+              <p className="text-xs mt-1">
+                if you input wrong password the qr code will not work.
+              </p>
+            )}
+            {showPassField && (
+              <div className="flex">
+                <input
+                  type="password"
+                  name="name"
+                  className="bg-white h-12 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
+                  onChange={(e) => setInputPass(e.target.value)}
+                  placeholder="Input your password"
+                  required
+                />
+                <button onClick={handleGenerate} className="button_secondary">
+                  Generate
+                </button>
+              </div>
+            )}
             {qrCode && (
               <div className="mt-2 flex flex-col w-32 mx-auto">
                 <img src={qrCode.url} alt="" />
-                <a href={qrCode.url} download className="bg-blue-500 text-white font-semibold px-3 mt-1 text-center w-full">Download</a>
+                <a
+                  href={qrCode.url}
+                  download
+                  className="bg-blue-500 text-white font-semibold px-3 mt-1 text-center w-full"
+                >
+                  Download
+                </a>
               </div>
-            )}
+            )} */}
+            <div className="flex justify-center">
+              <button
+                onClick={() => setOpenBox(true)}
+                className="text-blue-700 mt-2"
+              >
+                Change Password
+              </button>
+              <div
+                className={`absolute bottom-0 w-full bg-blue-300 duration-300 h-0 ${
+                  openBox ? "h-[50%]" : ""
+                }`}
+              >
+                <form
+                  className={`${openBox ? "" : "hidden"} flex flex-col gap-2 p-2`}
+                  onSubmit={handlePassChange}
+                >
+                  <div>
+                    <label className="font-semibold text-white">
+                      Old Password
+                    </label>
+                    <input
+                      type={showPass === 1 ? "text" : "password"}
+                      name="oldPass"
+                      className="bg-slate-50 py-1 focus:ring-0 px-2 text-lg focus:border w-full focus:outline-none border border-gray-400 relative"
+                      placeholder="Input your password"
+                      required
+                    />
+                    <span className="absolute right-5">
+                      {showPass === 1 ? (
+                        <IoEye
+                          className="mt-2 text-lg text-gray-500"
+                          onClick={() => setShowPass(0)}
+                        />
+                      ) : (
+                        <IoEyeOff
+                          className="mt-2 text-lg text-gray-500"
+                          onClick={() => setShowPass(1)}
+                        />
+                      )}
+                    </span>
+                  </div>
+                  <div>
+                    <label className="font-semibold text-white">
+                      New Password
+                    </label>
+                    <input
+                      type={showPass === 2 ? "text" : "password"}
+                      name="password"
+                      className="bg-slate-50 py-1 focus:ring-0 px-2 text-lg focus:border w-full focus:outline-none border border-gray-400 relative"
+                      placeholder="Input your password"
+                      required
+                    />
+                    <span className="absolute right-5">
+                      {showPass === 2 ? (
+                        <IoEye
+                          className="mt-2 text-lg text-gray-500"
+                          onClick={() => setShowPass(0)}
+                        />
+                      ) : (
+                        <IoEyeOff
+                          className="mt-2 text-lg text-gray-500"
+                          onClick={() => setShowPass(2)}
+                        />
+                      )}
+                    </span>
+                  </div>
+                  <div>
+                    <label className="font-semibold text-white">
+                      Confirm New Password
+                    </label>
+                    <input
+                      type={showPass === 3 ? "text" : "password"}
+                      name="confirmPass"
+                      className="bg-slate-50 py-1 focus:ring-0 px-2 text-lg focus:border w-full focus:outline-none border border-gray-400 relative"
+                      placeholder="Input your password"
+                      required
+                    />
+                    <span className="absolute right-5">
+                      {showPass === 3 ? (
+                        <IoEye
+                          className="mt-2 text-lg text-gray-500"
+                          onClick={() => setShowPass(0)}
+                        />
+                      ) : (
+                        <IoEyeOff
+                          className="mt-2 text-lg text-gray-500"
+                          onClick={() => setShowPass(3)}
+                        />
+                      )}
+                    </span>
+                  </div>
+                  <button onClick={handleGenerate} className="py-1 px-3 bg-blue-700 text-white">
+                    Change Password
+                  </button>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
         <UpdateProfile

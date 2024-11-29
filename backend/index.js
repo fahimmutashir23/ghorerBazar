@@ -9,11 +9,10 @@ const port = process.env.PORT || 5000;
 
 const corsOptions = {
   origin: [
+    'https://fahimit23.netlify.app',
+    'https://adminfahim23.netlify.app',
     'http://localhost:5174',
-    'https://understood-linen.surge.sh',
     'http://localhost:5173',
-    'http://localhost:5000',
-    'https://tech-hub-backend-lake.vercel.app'
   ],
   Credential: true,
   credentials: true,

@@ -55,7 +55,11 @@ const AdminLogin = () => {
       const res = await axiosPublic(
         `/api/auth?email=${email}&password=${password}`
       );
-      if (res.data) {
+
+      if(res.data.status_code === 401){
+        toast.error(res.data.message);
+      }
+      if (res.data.status_code === 200) {
         toast.success(res.data.message);
         localStorage.setItem("token", res.data.token);
         navigate("/");
