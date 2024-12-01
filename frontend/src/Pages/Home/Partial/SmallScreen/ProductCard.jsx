@@ -37,8 +37,8 @@ const ProductCard = ({ product }) => {
   };
 
   return (
-    <div className="transition duration-300 ease-in-out shadow-sm hover:shadow-lg h-full rounded-md bg-white hover:border-green-500">
-      <div className="relative rounded-md flex flex-col justify-between group  h-full border-2 hover:border-2 hover:border-green_color">
+    <div className="transition duration-300 ease-in-out shadow-sm hover:shadow-lg h-full rounded-md bg-white hover:border-green-500 mt-2">
+      <div className="relative rounded-md flex flex-col justify-between group h-full border-2 border-color_2 hover:border-2 hover:border-green_color">
         <div className="w-full h-[100px] md:h-[230px] flex justify-center items-center relative p-1 rounded-md">
           <img
             className="w-full h-full object-cover"

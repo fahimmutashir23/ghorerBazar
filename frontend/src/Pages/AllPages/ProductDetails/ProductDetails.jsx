@@ -215,7 +215,7 @@ const ProductDetails = () => {
                 </button> */}
                 <button
                 disabled={weight?.countPrice <= 0}
-                  className="button_primary flex items-center gap-2 w-full justify-center"
+                  className={`bg-color_1 lg:py-1 lg:hover:bg-color_3 lg:duration-300 text-white flex items-center gap-2 w-full justify-center ${weight?.countPrice <= 0 && 'opacity-20 lg:opacity-100 lg:cursor-not-allowed'}`}
                   onClick={() => handleAddToCart(singleProduct)}
                 >
                   <FaCartPlus />

@@ -1,6 +1,6 @@
 import useGetCategories from "@/Hooks/useGetCategories";
 import Loader2 from "@/Utils/Loader2";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import frame from "../../../../assets/about/cat_fram.png";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "@/Hooks/useAxiosPublic";
@@ -28,7 +28,6 @@ const AllProducts = () => {
   // Scroll the selected category tab to the center
   const handleCategoryClick = (categoryId, index) => {
     setActiveCategory(categoryId);
-    refetch();
     const container = tabContainerRef.current;
     const tabElement = container.children[index];
 
@@ -44,6 +43,8 @@ const AllProducts = () => {
       behavior: "smooth",
     });
   };
+
+  useEffect(() => {refetch()}, [activeCategory]);
 
   if (categoriesLoading || isLoading) return <Loader2 />;
 
@@ -72,7 +73,7 @@ const AllProducts = () => {
           </button>
         ))}
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1">
         {products?.map((product) => (
           <ProductCard key={product._id} product={product} />
         ))}
