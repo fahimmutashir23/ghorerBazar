@@ -18,7 +18,7 @@ import RelatedProduct from "./Partial/RelatedProduct";
 const ProductDetails = () => {
   const { id } = useParams();
   const [quantity, setQuantity] = useState(1);
-  const [weight, setWeight] = useState({count: '', countPrice: 0});
+  const [weight, setWeight] = useState({ count: "", countPrice: 0 });
   const axiosPublic = useAxiosPublic();
   const [, , cartFetch] = useGetCart();
   const [, , totalCartFetch] = useTotalCart();
@@ -56,15 +56,15 @@ const ProductDetails = () => {
       images: data.images[0],
       price: weight.countPrice,
       quantity,
-      weight: weight.count
+      weight: weight.count,
     };
 
     try {
       const res = await axiosPublic.post(`/api/save-cart`, info, {
         withCredentials: true,
       });
-      if(res.data.status_code === 401){
-        return toast.error(res.data.message)
+      if (res.data.status_code === 401) {
+        return toast.error(res.data.message);
       }
       if (res.data.status_code === 200) {
         toast.success(res.data.message);
@@ -94,6 +94,7 @@ const ProductDetails = () => {
   };
 
   if (isLoading) return <Loader2 />;
+
 
   return (
     <>
@@ -156,7 +157,11 @@ const ProductDetails = () => {
                     {singleProduct?.price?.map((item, idx) => (
                       <button
                         onClick={() => setWeight(item)}
-                        className={`border border-color_1 px-2 ${item.count === weight?.count ? 'bg-color_1 text-white' : ''}`}
+                        className={`border border-color_1 px-2 ${
+                          item.count === weight?.count
+                            ? "bg-color_1 text-white"
+                            : ""
+                        }`}
                         key={idx}
                       >
                         {item.count} = {item.countPrice}৳
@@ -214,8 +219,11 @@ const ProductDetails = () => {
                   Buy Now
                 </button> */}
                 <button
-                disabled={weight?.countPrice <= 0}
-                  className={`bg-color_1 lg:py-1 lg:hover:bg-color_3 lg:duration-300 text-white flex items-center gap-2 w-full justify-center ${weight?.countPrice <= 0 && 'opacity-20 lg:opacity-100 lg:cursor-not-allowed'}`}
+                  disabled={weight?.countPrice <= 0}
+                  className={`bg-color_1 lg:py-1 lg:hover:bg-color_3 lg:duration-300 text-white flex items-center gap-2 w-full justify-center ${
+                    weight?.countPrice <= 0 &&
+                    "opacity-20 lg:opacity-100 lg:cursor-not-allowed"
+                  }`}
                   onClick={() => handleAddToCart(singleProduct)}
                 >
                   <FaCartPlus />
@@ -238,7 +246,10 @@ const ProductDetails = () => {
             </div>
           </div>
         </div>
-        <DetailsTab singleProduct={singleProduct} />
+        <DetailsTab
+          reviews={singleProduct.reviews}
+          singleProduct={singleProduct}
+        />
       </div>
       <RelatedProduct
         id={singleProduct.category._id}

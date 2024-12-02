@@ -6,6 +6,7 @@
 // import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { imgUrl } from "@/Utils/imageUrl";
+import { Rating } from "primereact/rating";
 
 const Card = ({ data }) => {
   // const axiosPublic = useAxiosPublic();
@@ -53,8 +54,9 @@ const Card = ({ data }) => {
           alt=""
         />
       </div>
-      <div className="">
+      <div className=" flex flex-col items-center">
         <p className="mt-2 text-center font-semibold">{data.name}</p>
+        <Rating value={data.reviews} readOnly cancel={false} />
         {/* <p className=" text-center">{data.price}</p> */}
         {/* <button
           onClick={() => handleAddToCart(data)}
@@ -62,13 +64,12 @@ const Card = ({ data }) => {
         >
           {data.stock <= 0 ? "Out of Stock" : "Quick Add"}
         </button> */}
-        <p 
-        dangerouslySetInnerHTML={{
-          __html: data.details.slice(0, 30),
-        }}
-        >
-          
-        </p>
+        <p
+          className="text-center mt-2"
+          dangerouslySetInnerHTML={{
+            __html: data.details.slice(0, 50),
+          }}
+        ></p>
       </div>
     </Link>
   );

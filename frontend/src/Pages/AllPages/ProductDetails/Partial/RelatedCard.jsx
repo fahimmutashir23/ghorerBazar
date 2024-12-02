@@ -6,6 +6,7 @@ import { useContext } from "react";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { imgUrl } from "@/Utils/imageUrl";
+import { Rating } from "primereact/rating";
 
 const RelatedCard = ({ data, setFetchProduct }) => {
   const axiosPublic = useAxiosPublic();
@@ -54,16 +55,22 @@ const RelatedCard = ({ data, setFetchProduct }) => {
           alt=""
         />
       </div>
-      <div className="">
-        <p className="mt-2 text-center">{data.name}</p>
+      <div className=" flex flex-col items-center">
+        <p className="mt-2 text-center font-semibold">{data.name}</p>
+        <Rating value={data.reviews} readOnly cancel={false} />
         {/* <p className=" text-center">{data.price}</p> */}
-        <button
-          disabled={data.stock <= 0}
+        {/* <button
           onClick={() => handleAddToCart(data)}
-          className="bg-color_1 py-1 text-xs lg:text-base font-medium text-white lg:hover:scale-105 duration-300 w-full mt-1"
+          className="bg-color_1 py-1 font-medium text-white hover:scale-105 duration-300 w-full mt-1"
         >
           {data.stock <= 0 ? "Out of Stock" : "Quick Add"}
-        </button>
+        </button> */}
+        <p
+          className="text-center mt-2"
+          dangerouslySetInnerHTML={{
+            __html: data.details.slice(0, 50),
+          }}
+        ></p>
       </div>
     </Link>
   );

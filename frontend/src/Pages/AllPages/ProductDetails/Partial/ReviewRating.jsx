@@ -5,7 +5,7 @@ import { Rating } from "primereact/rating";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-const ReviewRating = ({ id }) => {
+const ReviewRating = ({ id, review }) => {
   const [reviews, isLoading, reviewFetch] = useGetReviews(id);
   const axiosPublic = useAxiosPublic();
   const [value, setValue] = useState(null);
@@ -80,7 +80,7 @@ const ReviewRating = ({ id }) => {
           <span>Product Review</span>{" "}
           <span>
             <Rating
-              value={reviews?.avgReview?.averageRating}
+              value={review}
               readOnly
               cancel={false}
             />

@@ -161,7 +161,7 @@ const AllCategory = () => {
                         />
                       </div>
                       <div className="text-center text-[14.4px] px-[10px] pt-[10px] border-t-2 ">
-                        <h6 className="hover:text-[#008000]">{product.name}</h6>
+                        <h6 className="hover:text-[#008000] font-semibold text-lg">{product.name}</h6>
                         {/* <p className="font-bold">{product.price}</p> */}
                       </div>
                       <div className="text-center  mx-auto ">
@@ -171,13 +171,13 @@ const AllCategory = () => {
                           cancel={false}
                         />
                       </div>
-                      <div className="px-2 pb-4">
-                        <button
+                      <div className="px-2 py-4">
+                        {/* <button
                           onClick={() => handleAddToCart(product)}
                           className="bg-color_1 py-1 font-medium text-white hover:scale-105 duration-300 w-full my-2"
                         >
                           Quick Add
-                        </button>
+                        </button> */}
                         <Link
                           to={`/productDetails/${product._id}`}
                           className="w-full"

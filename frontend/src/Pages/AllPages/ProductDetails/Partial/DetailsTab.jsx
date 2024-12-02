@@ -3,7 +3,7 @@ import "react-tabs/style/react-tabs.css";
 import ReviewRating from "./ReviewRating";
 import { imgUrl } from "@/Utils/imageUrl";
 
-const DetailsTab = ({ singleProduct }) => {
+const DetailsTab = ({ singleProduct, reviews }) => {
   return (
     <div>
       <div className="mb-10 mt-5 border-2 border-color_2 p-4">
@@ -36,7 +36,7 @@ const DetailsTab = ({ singleProduct }) => {
             </div>
           </TabPanel>
           <TabPanel>
-            <ReviewRating id={singleProduct._id} />
+            <ReviewRating id={singleProduct._id} review={reviews} />
           </TabPanel>
         </Tabs>
       </div>
