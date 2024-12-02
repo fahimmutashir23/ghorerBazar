@@ -1,4 +1,6 @@
 const express = require("express");
+const fs = require("fs");
+const path = require("path");
 const router = express.Router();
 const loginCheck = require("../../Middleware/checkLogin");
 const Banner = require("../../Schemas/Profile/banner");
@@ -51,7 +53,6 @@ router.get("/get-banner-list", async (req, res) => {
   }
 });
 
-
 router.patch("/update-banner/:id", loginCheck, async (req, res) => {
   upload.array("banner", 1)(req, res, async (err) => {
     if (err) {
@@ -94,11 +95,21 @@ router.delete("/delete-banner/:id", loginCheck, async (req, res) => {
   const id = req.params.id;
   const filter = { _id: id };
   try {
+    const findDoc = await Banner.findOne(filter);
     const result = await Banner.findOneAndDelete(filter);
-    res.json({
-      status_code: 201,
-      message: "Banner Delete Successfully",
-    });
+    if(result){
+      const folderPath = path.join(__dirname, '../../Upload/banner/images', findDoc.banner[0]);
+        fs.unlink(folderPath, (err) => {
+          if(err){
+            res.json(err);
+          } else{
+            res.json({
+              status_code: 201,
+              message: "Product Delete Successfully",
+            });
+          }
+        })
+    }
   } catch (error) {
     res.json(error);
   }

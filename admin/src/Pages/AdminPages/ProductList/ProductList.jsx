@@ -52,8 +52,8 @@ const ProductList = () => {
   const handleDelete = async (id) => {
     try {
       const res = await axiosSecure.delete(`/api/delete-product/${id}`);
-      if (res.data) {
-        toast.success("Product Deleted Successfully");
+      if (res.data.status_code === 201) {
+        toast.success(res.data.message);
         refetch();
         collectionFetch();
       }

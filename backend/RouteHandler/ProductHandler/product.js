@@ -1,4 +1,6 @@
 const express = require("express");
+const fs = require("fs");
+const path = require("path");
 const router = express.Router();
 const loginCheck = require("../../Middleware/checkLogin");
 const Product = require("../../Schemas/Product/product");
@@ -7,8 +9,8 @@ const { upload, compressImage } = require("../../Utils/multerUpload");
 
 router.post("/create-product", loginCheck, async (req, res) => {
   upload.fields([
-    { name: "images", maxCount: 10 },
-    { name: "imgArrImages", maxCount: 10 },
+    { name: "images", maxCount: 5 },
+    { name: "imgArrImages", maxCount: 1 },
   ])(req, res, async (err) => {
     if (err) {
       return res.status(400).json({
@@ -187,11 +189,23 @@ router.delete("/delete-product/:id", loginCheck, async (req, res) => {
   const id = req.params.id;
   const filter = { _id: id };
   try {
+    const findDoc = await Product.findOne({_id: id});
     const result = await Product.findOneAndDelete(filter);
-    res.json({
-      status_code: 201,
-      message: "Product Delete Successfully",
-    });
+    if(result){
+      findDoc.images.forEach((img) => {
+        const folderPath = path.join(__dirname, '../../Upload/product/images', img);
+        fs.unlink(folderPath, () => {})
+      })
+      findDoc.imgDetails.forEach((img) => {
+        const folderPath = path.join(__dirname, '../../Upload/product/images', img.img);
+        fs.unlink(folderPath, () => {})
+      })
+
+      res.json({
+        status_code: 201,
+        message: "Product Delete Successfully",
+      });
+    }
   } catch (error) {
     res.json(error);
   }
