@@ -365,7 +365,7 @@ const UpdateProduct = () => {
               <label className="font-semibold">Details Image 1</label>
               <textarea
                 name="imgDetails1"
-                defaultValue={data?.imgDetails[0].details}
+                defaultValue={data?.imgDetails[0]?.details}
                 className="bg-white py-2 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                 placeholder="Type Here"
                 rows="4"
@@ -375,7 +375,7 @@ const UpdateProduct = () => {
               <label className="font-semibold">Image Details 2</label>
               <textarea
                 name="imgDetails2"
-                defaultValue={data?.imgDetails[1].details}
+                defaultValue={data?.imgDetails[1]?.details}
                 className="bg-white py-2 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                 placeholder="Type Here"
                 rows="4"
@@ -403,7 +403,7 @@ const UpdateProduct = () => {
               <label className="font-semibold">Details Image 3</label>
               <textarea
                 name="imgDetails3"
-                defaultValue={data?.imgDetails[2].details}
+                defaultValue={data?.imgDetails[2]?.details}
                 className="bg-white py-2 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                 placeholder="Type Here"
                 rows="4"
@@ -413,7 +413,7 @@ const UpdateProduct = () => {
               <label className="font-semibold">Image Details 4</label>
               <textarea
                 name="imgDetails4"
-                defaultValue={data?.imgDetails[3].details}
+                defaultValue={data?.imgDetails[3]?.details}
                 className="bg-white py-2 focus:ring-0 px-4 focus:border w-full focus:outline-none border border-black"
                 placeholder="Type Here"
                 rows="4"
