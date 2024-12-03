@@ -51,7 +51,7 @@ const RelatedCard = ({ data, setFetchProduct }) => {
       <div className="lg:h-3/5 h-24 w-full overflow-hidden">
         <img
           src={`${imgUrl.product}${data.images[0]}`}
-          className="h-full w-full object-cover"
+          className="h-full w-full object-contain"
           alt=""
         />
       </div>

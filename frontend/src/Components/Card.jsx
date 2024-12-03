@@ -50,7 +50,7 @@ const Card = ({ data }) => {
       <div className="h-3/5 w-full overflow-hidden">
         <img
           src={`${imgUrl.product}${data.images[0]}`}
-          className="h-full w-full object-cover"
+          className="h-full w-full object-contain"
           alt=""
         />
       </div>

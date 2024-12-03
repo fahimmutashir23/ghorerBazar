@@ -8,6 +8,7 @@ import Cart from "@/Pages/AllPages/Cart/Cart";
 import Invoice from "@/Pages/AllPages/Invoice/Invoice";
 import AllCategory from "@/Pages/AllPages/Category/AllCategory/AllCategory";
 import ProductDetails from "@/Pages/AllPages/ProductDetails/ProductDetails";
+import ViewOrder from "@/Pages/AllPages/ViewOrder/ViewOrder";
 
 const Router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const Router = createBrowserRouter([
       {
         path: "/productDetails/:id",
         element: <ProductDetails />,
+      },
+      {
+        path: "/viewOrder",
+        element: <ViewOrder />,
       },
       {
         path: "/invoice",

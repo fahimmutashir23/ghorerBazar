@@ -13,7 +13,7 @@ const Layout = () => {
       <NavbarTop />
       <NavbarMain />
       {/* <CategoryBar /> */}
-      <div className="bg-white pt-2 pb-4">
+      <div className="bg-white pt-2 pb-4 main_body">
         <Outlet />
       </div>
       <Footer />

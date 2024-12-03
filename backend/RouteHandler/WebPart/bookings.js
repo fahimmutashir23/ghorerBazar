@@ -72,4 +72,21 @@ router.post("/get-bookings-w-id", loginCheck, async (req, res) => {
   }
 });
 
+router.get("/get-order", async (req, res) => {
+  try {
+    const phone = req.query.phone;
+    const result = await Bookings.find({ phone })
+    .populate('products.productId')
+    .exec();
+    res.json({
+      success: true,
+      status_code: 200,
+      message: "Successfully Loaded Data",
+      result,
+    });
+  } catch (error) {
+    res.json(error);
+  }
+});
+
 module.exports = router;

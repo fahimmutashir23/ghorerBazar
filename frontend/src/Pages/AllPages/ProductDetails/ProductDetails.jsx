@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { FaCartPlus } from "react-icons/fa";
-import { MdShoppingCart } from "react-icons/md";
 import Loader2 from "@/Utils/Loader2";
 import ImageZoom from "./Partial/ImageZoom/ImageZoom";
 import DetailsTab from "./Partial/DetailsTab";
@@ -103,7 +102,7 @@ const ProductDetails = () => {
           <div className="items-center w-full lg:w-[40%]">
             <div className="border-2 rounded-md hover:border-green_color w-full h-72 overflow-hidden">
               <ImageZoom
-                className="rounded-md w-full h-full object-cover"
+                className="rounded-md w-full h-full object-contain"
                 image={`${imgUrl.product}${mainImg}`}
               />
             </div>
@@ -118,7 +117,7 @@ const ProductDetails = () => {
                   }`}
                 >
                   <img
-                    className="h-full w-full"
+                    className="h-full w-full object-contain"
                     src={`${imgUrl.product}${img}`}
                     alt=""
                   />
@@ -220,7 +219,7 @@ const ProductDetails = () => {
                 </button> */}
                 <button
                   disabled={weight?.countPrice <= 0}
-                  className={`bg-color_1 lg:py-1 lg:hover:bg-color_3 lg:duration-300 text-white flex items-center gap-2 w-full justify-center ${
+                  className={`bg-color_1 py-1 rounded-md lg:py-1 lg:hover:bg-color_3 lg:duration-300 text-white flex items-center gap-2 w-full justify-center ${
                     weight?.countPrice <= 0 &&
                     "opacity-20 lg:opacity-100 lg:cursor-not-allowed"
                   }`}

@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import useAxiosPublic from "@/Hooks/useAxiosPublic";
 import { imgUrl } from "@/Utils/imageUrl";
 import { Rating } from "primereact/rating";
+import { MdDetails } from "react-icons/md";
 
 const AllCategory = () => {
   const axiosPublic = useAxiosPublic();
@@ -153,9 +154,9 @@ const AllCategory = () => {
                     className="transition duration-300 ease-in-out shadow-sm hover:shadow-lg h-full rounded-md bg-white hover:border-green-500"
                   >
                     <div className="relative rounded-md flex flex-col justify-between group  h-full border-2 hover:border-2 hover:border-green_color">
-                      <div className="w-full md:h-[230px] flex justify-center items-center relative p-1 rounded-md">
+                      <div className="w-full h-[150px] md:h-[230px] flex justify-center items-center relative p-1 rounded-md">
                         <img
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-contain"
                           src={`${imgUrl.product}${product.images[0]}`}
                           alt={product.name}
                         />
@@ -182,7 +183,8 @@ const AllCategory = () => {
                           to={`/productDetails/${product._id}`}
                           className="w-full"
                         >
-                          <button className="bg-color_1 py-1 font-medium text-white hover:scale-105 duration-300 w-full">
+                          <button className="bg-color_1 py-1 font-medium text-white hover:scale-105 duration-300 w-full flex items-center justify-center gap-1">
+                          <MdDetails />
                             See Details
                           </button>
                         </Link>

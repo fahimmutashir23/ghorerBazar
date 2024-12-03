@@ -31,7 +31,7 @@ const Contact = () => {
         <div className="lg:flex-1 flex justify-center">
           <img src={contact} className="w-2/3" alt="" />
         </div>
-        <div className="lg:flex-1">
+        <div className="lg:flex-1 mx-6 lg:mx-2">
           <form onSubmit={handleSubmit}>
             <div className="grid grid-cols-12 gap-2 mt-2">
               <div className="col-span-12">

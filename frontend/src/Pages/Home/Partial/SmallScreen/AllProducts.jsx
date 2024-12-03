@@ -44,7 +44,9 @@ const AllProducts = () => {
     });
   };
 
-  useEffect(() => {refetch()}, [activeCategory]);
+  useEffect(() => {
+    refetch();
+  }, [activeCategory]);
 
   if (categoriesLoading || isLoading) return <Loader2 />;
 
@@ -55,6 +57,20 @@ const AllProducts = () => {
         ref={tabContainerRef}
         className="flex overflow-x-auto gap-2 pb-2 scrollbar-thin scrollbar-thumb-gray-500 mt-2"
       >
+        <button
+          onClick={() => handleCategoryClick(null)}
+          className={`px-6 py-1 text-sm border bg-cover ${
+            activeCategory === null && "text-white"
+          }`}
+          style={{
+            backgroundImage:
+              activeCategory === null ? `url(${frame})` : "none",
+            backgroundSize: "full",
+            backgroundPosition: "center",
+          }}
+        >
+          All
+        </button>
         {categories.map((category, index) => (
           <button
             key={category._id}

@@ -421,4 +421,38 @@ input[type="checkbox"]:checked::after {
   top: 6px !important;
 }
 
-/* -------------- dropdown Color ------------------ */
+/* -------------- menubar scrolling fix ------------------ */
+/* Prevent scrolling on the body */
+body.no-scroll {
+  overflow: hidden;
+}
+
+/* Styling for the menubar */
+.menubar-overlay {
+  position: fixed;
+  top: 132px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2); /* Optional for a blurred background effect */
+  z-index: 1000;
+}
+
+.menubar-content {
+  position: fixed;
+  top: 132px;
+  left: 0;
+  width: 80%; /* Adjust width as needed */
+  height: 100%;
+  background: white;
+  overflow-y: auto; /* Enable scrolling for the menubar */
+  z-index: 1010;
+}
+
+@media print {
+  body {
+    visibility: visible;
+  }
+}
+
+
