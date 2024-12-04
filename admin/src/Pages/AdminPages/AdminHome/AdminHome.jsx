@@ -1,8 +1,8 @@
 import useGetCollectionLength from "@/Hooks/Apis/useGetCollectionLength";
 import Loader2 from "@/Utils/Loader2";
-import BarCharts from "@/Components/Charts/BarCharts";
+// import BarCharts from "@/Components/Charts/BarCharts";
 import useBulkSales from "@/Hooks/Apis/Reports/useBulkSales";
-import useMonthlySale from "@/Hooks/Apis/Reports/useMonthlySale";
+// import useMonthlySale from "@/Hooks/Apis/Reports/useMonthlySale";
 const colors = [
   { id: 0, name: "Tomato", hex: "bg-[#FF1347]" },
   { id: 1, name: "LightSkyBlue", hex: "bg-[#00DD]" },
@@ -27,46 +27,51 @@ const colors = [
 ];
 
 const AdminHome = () => {
-  const [ collectionData ] = useGetCollectionLength();
-  const [ bulkSale ] = useBulkSales();
-  const [ monthlySale ] = useMonthlySale();
-
+  const [collectionData] = useGetCollectionLength();
+  const [bulkSale] = useBulkSales();
+  // const [monthlySale] = useMonthlySale();
 
   if (!bulkSale || !collectionData) {
     return <Loader2 />;
   }
 
   const statCard = [
-    { text: "Total Product in Web", value: collectionData.product || 0 },
-    { text: "Total Bookings", value: collectionData.booking || 0 },
-    { text: "Today's Sale", value: bulkSale.todayAmount || 0 },
-    { text: "Total Revenue", value: collectionData.revenue || 0 },
-    { text: "Total Expense", value: collectionData.expense?.totalExpense || 0 },
-    { text: "Total Stock", value: collectionData?.stock?.stockAmount?.totalSum || 0 },
-    { text: "Total User", value: collectionData.user || 0 },
+    { text: "Total Product in Web", value: collectionData.product || 0, tag: '' },
+    { text: "Total Bookings", value: collectionData.booking || 0, tag: '' },
+    { text: "Today's Sale", value: bulkSale.todayAmount || 0, tag: 'tk' },
+    { text: "Yesterday's Sale", value: bulkSale.yesterdayAmount || 0, tag: 'tk' },
+    { text: "Last Week's Sale", value: bulkSale.lastWeekAmount || 0, tag: 'tk' },
+    { text: "Last Month's Sale", value: bulkSale.lastMonthAmount || 0, tag: 'tk' },
+    { text: "Last Year's Sale", value: bulkSale.lastYearAmount || 0, tag: 'tk' },
+    // { text: "Total Revenue", value: collectionData.revenue || 0, tag: 'tk' },
+    // { text: "Total Expense", value: collectionData.expense?.totalExpense || 0, tag: 'tk' },
+    // { text: "Total Stock", value: collectionData?.stock?.stockAmount?.totalSum || 0, tag: '' },
+    { text: "Total User", value: collectionData.user || 0, tag: '' },
   ];
 
   return (
     <div className="py-4 px-3 space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-      {statCard.map((item, idx) => {
-        const matchingColor = colors.find(color => color.id === idx);
-        return (
-          <div
-            key={idx}
-            className={`px-4 py-10 ${matchingColor && matchingColor.hex} text-white rounded-md shadow-md`}
-          >
-            <h1 className="text-xl text-center font-semibold">{item.text}</h1>
-            <h1 className="text-4xl text-center font-semibold">{item.value}</h1>
-            {item.amount && <h1 className="text-xl text-center font-semibold">Total Stock Amount</h1>}
-            <h1 className="text-4xl text-center font-semibold">{item?.amount}</h1>
-          </div>
-        );
-      })}
-    </div>
-    <div className="grid grid-cols-1 lg:grid-cols-2">
-      {/* <BarCharts monthlySale={monthlySale} /> */}
-    </div>
+        {statCard.map((item, idx) => {
+          const matchingColor = colors.find((color) => color.id === idx);
+          return (
+            <div
+              key={idx}
+              className={`px-4 py-10 ${
+                matchingColor && matchingColor.hex
+              } text-white rounded-md shadow-md`}
+            >
+              <h1 className="text-xl text-center font-semibold">{item.text}</h1>
+              <h1 className="text-2xl lg:text-4xl text-center font-semibold">
+                {item.value} <span className="text-sm lg:text-xl">{item.tag}</span>
+              </h1>
+            </div>
+          );
+        })}
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2">
+        {/* <BarCharts monthlySale={monthlySale} /> */}
+      </div>
     </div>
   );
 };

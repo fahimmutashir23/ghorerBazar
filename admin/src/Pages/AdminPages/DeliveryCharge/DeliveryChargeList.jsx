@@ -11,8 +11,10 @@ import useGetCollectionLength from "../../../Hooks/Apis/useGetCollectionLength";
 import { Paginator } from "primereact/paginator";
 import Loader2 from "../../../Utils/Loader2";
 import { useQuery } from "@tanstack/react-query";
+import useHasAccess from "@/Hooks/useHasAccess";
 
 const DeliveryChargeList = () => {
+  const [hasAccess] = useHasAccess();
   const [popOpen, setPopOpen] = useState(null);
   const axiosSecure = useAxiosSecure();
   const [loader, setLoader] = useState(false)
@@ -124,19 +126,19 @@ const DeliveryChargeList = () => {
                       } right-[14px] top-[24px] rounded-md rounded-tr-sm duration-300 origin-top-right`}
                     >
                       <ul className="text-black text-left">
-                        <li
+                        {hasAccess?.some((item) => item === "delivery-edit") && <li
                           onClick={() => handleUpdate(data)}
                           className="w-full p-2 font_standard transition-all flex items-center list_hover gap-2"
                         >
                           <BiEdit />
                           Update
-                        </li>
-                        <li
+                        </li>}
+                        {hasAccess?.some((item) => item === "delivery-delete") && <li
                           onClick={() => handleDelete(data._id)}
                           className="w-full p-2 font_standard transition-all flex items-center list_hover gap-2"
                         >
                           <MdDelete /> Delete
-                        </li>
+                        </li>}
                       </ul>
                     </div>
                   </button>

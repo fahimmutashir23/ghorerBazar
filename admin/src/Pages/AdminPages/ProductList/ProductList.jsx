@@ -12,8 +12,10 @@ import { Paginator } from "primereact/paginator";
 import Loader2 from "../../../Utils/Loader2";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import useHasAccess from "@/Hooks/useHasAccess";
 
 const ProductList = () => {
+  const [hasAccess] = useHasAccess();
   const [popOpen, setPopOpen] = useState(null);
   const axiosSecure = useAxiosSecure();
   const axiosPublic = useAxiosPublic();
@@ -156,7 +158,7 @@ const ProductList = () => {
                       } right-[14px] top-[24px] rounded-md rounded-tr-sm duration-300 origin-top-right`}
                     >
                       <ul className="text-black text-left">
-                        <Link
+                        {hasAccess?.some((item) => item === "product-edit") && <Link
                         to={`/admin/update-product`}
                         state={{data}}
                           onClick={() => handleUpdate(data)}
@@ -164,13 +166,13 @@ const ProductList = () => {
                         >
                           <BiEdit />
                           Update
-                        </Link>
-                        <li
+                        </Link>}
+                        {hasAccess?.some((item) => item === "product-delete") && <li
                           onClick={() => handleDelete(data._id)}
                           className="w-full p-2 font_standard transition-all flex items-center list_hover gap-2"
                         >
                           <MdDelete /> Delete
-                        </li>
+                        </li>}
                       </ul>
                     </div>
                   </button>

@@ -11,8 +11,10 @@ import { Paginator } from "primereact/paginator";
 import { BasicContext } from "@/ContextAPIs/BasicProvider";
 import { IoMdEye } from "react-icons/io";
 import InvoiceModal from "../Invoice/InvoiceModal";
+import useHasAccess from "@/Hooks/useHasAccess";
 
 const BookingsList = () => {
+  const [hasAccess] = useHasAccess();
   const [popOpen, setPopOpen] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const { setInvoiceId } = useContext(BasicContext);
@@ -220,13 +222,13 @@ const BookingsList = () => {
                       } right-[14px] top-[24px] rounded-md rounded-tr-sm duration-300 origin-top-right`}
                     >
                       <ul className="text-black text-left">
-                        <li
+                        {hasAccess?.some((item) => item === "bookings-delete") && <li
                           onClick={() => handleDelete(data._id)}
                           className="w-full p-2 font_standard transition-all flex items-center list_hover gap-2"
                         >
                           <MdDelete /> Delete
-                        </li>
-                        <li
+                        </li>}
+                        {hasAccess?.some((item) => item === "bookings-edit") &&<li
                           onClick={() =>
                             handleActiveInactive(data._id, data.status)
                           }
@@ -234,7 +236,7 @@ const BookingsList = () => {
                         >
                           <GrStatusUnknown />
                           {data.status === "pending" ? "Confirm" : "Pending"}
-                        </li>
+                        </li>} 
                         <li
                           onClick={() => openInvoice(data.invoiceId)}
                           className="w-full p-2 font_standard transition-all flex items-center list_hover gap-2"
