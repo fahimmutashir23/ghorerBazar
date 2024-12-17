@@ -39,7 +39,7 @@ const MenuBar = ({ setOpen, open }) => {
   // Disable body scroll when the menubar is open
   useEffect(() => {
     if (open) {
-      document.body.classList.add("no-scroll");
+      document.body.classList.add("no-scroll")
       return () => {
         document.body.classList.remove("no-scroll");
       };

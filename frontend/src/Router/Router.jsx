@@ -13,9 +13,7 @@ import ViewOrder from "@/Pages/AllPages/ViewOrder/ViewOrder";
 const Router = createBrowserRouter([
   {
     path: "/",
-    element: (
-          <Layout />
-    ),
+    element: <Layout />,
     errorElement: <ErrorPage />,
     children: [
       {
