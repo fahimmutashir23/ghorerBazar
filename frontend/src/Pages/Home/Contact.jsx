@@ -1,8 +1,9 @@
 import useAxiosPublic from "@/Hooks/useAxiosPublic";
-import contact from "../../assets/about/contact_icon.png";
+import contact from "../../assets/contact_animation.json";
 import PageHeader from "@/Shared/PageHeader";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import Lottie from "lottie-react";
 
 const Contact = () => {
   const axiosPublic = useAxiosPublic();
@@ -29,7 +30,8 @@ const Contact = () => {
       <PageHeader name={"Contact Us"} />
       <div className="flex flex-col lg:flex-row gap-4 items-center">
         <div className="lg:flex-1 flex justify-center">
-          <img src={contact} className="w-2/3" alt="" />
+          {/* <img src={contact} className="w-2/3" alt="" /> */}
+          <Lottie animationData={contact} loop={true} />;
         </div>
         <div className="lg:flex-1 mx-6 lg:mx-2">
           <form onSubmit={handleSubmit}>

@@ -62,10 +62,10 @@ const Contact = () => {
         </div>
       </div>
       <div className="overflow-x-auto pb-32 ">
-        <table className="table border border-blue-900">
+        <table className="w-full border border-blue-900">
           {/* head */}
-          <thead className="h-[40px]">
-            <tr className="uppercase text-center h-[40px] bg-gray-700 text-white font-bold ">
+          <thead className="py-2">
+            <tr className="uppercase text-center py-2 bg-gray-700 text-white font-bold ">
             <th className="text-lg border w-2/12">Name</th>
             <th className="text-lg border w-1/12">Phone</th>
               <th className="text-lg border">Message</th>

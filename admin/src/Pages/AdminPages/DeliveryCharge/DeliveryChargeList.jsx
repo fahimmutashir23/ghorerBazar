@@ -92,10 +92,10 @@ const DeliveryChargeList = () => {
         </div>
       </div>
       <div className="overflow-x-auto ">
-        <table className="table border border-blue-900">
+        <table className="w-full border border-blue-900">
           {/* head */}
-          <thead className="h-[40px]">
-            <tr className="uppercase text-center h-[40px] bg-gray-700 text-white font-bold ">
+          <thead className="py-2">
+            <tr className="uppercase text-center py-2 bg-gray-700 text-white font-bold ">
               <th className="text-lg border">City Name</th>
               <th className="text-lg border">Amount</th>
               <th className="text-lg border">Actions</th>

@@ -1,38 +1,40 @@
-[{
-  "_id": {
-    "$oid": "66805148b14f3bbff15d58f3"
+[
+  {
+    "_id": {
+      "$oid": "66805148b14f3bbff15d58f3"
+    },
+    "name": "Fahim Muntashir",
+    "phone": 1581868984,
+    "email": "fahim@gmail.com",
+    "password": "$2a$10$fGNtrqdp0ONwctmc4CgqdOUfNc09kvav7oWOsQI5ki1YwPkHN45Bu",
+    "role": "super admin",
+    "createdAt": {
+      "$date": "2024-06-29T18:24:08.330Z"
+    },
+    "updatedAt": {
+      "$date": "2024-06-29T18:24:08.330Z"
+    },
+    "__v": 0
   },
-  "name": "Fahim Muntashir",
-  "phone": 1581868984,
-  "email": "fahim@gmail.com",
-  "password": "$2a$10$fGNtrqdp0ONwctmc4CgqdOUfNc09kvav7oWOsQI5ki1YwPkHN45Bu",
-  "role": "super admin",
-  "createdAt": {
-    "$date": "2024-06-29T18:24:08.330Z"
-  },
-  "updatedAt": {
-    "$date": "2024-06-29T18:24:08.330Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "6723c171a10615e87e9c4e70"
-  },
-  "name": "MD FAHIM MUNTASHIR",
-  "phone": 1581868985,
-  "email": "mdfahim.muntashir28@gmail.com",
-  "gender": "Male",
-  "image": "dentist-1191671_1280-1730396529851.jpg",
-  "status": true,
-  "address": null,
-  "password": "$2a$10$y/kdbi0/URQssEn1HRu8OeAXWfVyIt/bbYqCb21wzjOF8qpiIbndW",
-  "role": "Admin",
-  "createdAt": {
-    "$date": "2024-10-31T17:42:09.886Z"
-  },
-  "updatedAt": {
-    "$date": "2024-10-31T17:42:09.886Z"
-  },
-  "__v": 0
-}]
+  {
+    "_id": {
+      "$oid": "6723c171a10615e87e9c4e70"
+    },
+    "name": "MD FAHIM MUNTASHIR",
+    "phone": 1581868985,
+    "email": "mdfahim.muntashir28@gmail.com",
+    "gender": "Male",
+    "image": "dentist-1191671_1280-1730396529851.jpg",
+    "status": true,
+    "address": null,
+    "password": "$2a$10$y/kdbi0/URQssEn1HRu8OeAXWfVyIt/bbYqCb21wzjOF8qpiIbndW",
+    "role": "Admin",
+    "createdAt": {
+      "$date": "2024-10-31T17:42:09.886Z"
+    },
+    "updatedAt": {
+      "$date": "2024-10-31T17:42:09.886Z"
+    },
+    "__v": 0
+  }
+]

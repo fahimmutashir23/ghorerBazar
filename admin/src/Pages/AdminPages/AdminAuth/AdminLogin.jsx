@@ -71,22 +71,22 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen max-w-xl mx-auto flex justify-center items-center w-full px-2">
+    <div className="min-h-screen max-w-lg mx-auto flex justify-center items-center w-full px-2">
       <div className="w-full">
-        <div className="w-full card shadow-xl bg-base-100 relative">
-          <div className="flex justify-center absolute -top-10">
+        <div className="w-full shadow-xl bg-base-100 relative">
+          {/* <div className="flex justify-center absolute -top-10">
             <img
               src=""
               className="w-1/5 rounded-full border-4 border-white"
               alt=""
             />
-          </div>
+          </div> */}
 
-          <h1 className="text-2xl text-center pt-14 lg:pt-[70px] pb-2 rounded-t-xl bg-gray-200 text-blue-700 lg:text-3xl font-semibold">
-            Welcome to <br /> Tech Hub
+          <h1 className="text-2xl text-center py-4 rounded-t-xl bg-gray-200 text-blue-700 lg:text-3xl font-semibold">
+            Welcome to <br /> Admin Panel
           </h1>
-          <form onSubmit={handleLogin} className="card-body">
-            <div className="form-control">
+          <form onSubmit={handleLogin} className="p-4 space-y-4">
+            <div className="">
               <label className="label">
                 <span className="font-semibold">Email *</span>
               </label>
@@ -94,11 +94,11 @@ const AdminLogin = () => {
                 type="email"
                 placeholder="Email"
                 name="email"
-                className="border h-12 bg-gray-100 focus:ring-0 px-4 focus:border w-full focus:outline-none"
+                className="border py-1 bg-gray-100 focus:ring-0 px-4 focus:border w-full focus:outline-none"
                 required
               />
             </div>
-            <div className="form-control">
+            <div className="">
               <label className="label">
                 <span className="font-semibold">Password *</span>
               </label>
@@ -106,7 +106,7 @@ const AdminLogin = () => {
                 type="password"
                 name="password"
                 placeholder="password"
-                className="border h-12 bg-gray-100 focus:ring-0 px-4 focus:border w-full focus:outline-none"
+                className="border py-1 bg-gray-100 focus:ring-0 px-4 focus:border w-full focus:outline-none"
                 required
               />
             </div>
@@ -123,12 +123,12 @@ const AdminLogin = () => {
               </div>
             </div>
             <div id="reader"></div>
-            <p>
+            {/* <p>
               If you are not an account please{" "}
               <Link className="text-blue-600" to="/admin/registration">
                 Register
               </Link>
-            </p>
+            </p> */}
           </form>
         </div>
       </div>

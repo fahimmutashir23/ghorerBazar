@@ -110,10 +110,10 @@ const UserList = () => {
       </div>
 
       <div className="overflow-x-auto pb-16">
-        <table className="table border">
+        <table className="w-full border">
           {/* head */}
           <thead className="h-[40px] bg-bg_slate text-_white">
-            <tr className="uppercase text-center h-[40px] font-bold">
+            <tr className="uppercase text-center py-2 font-bold">
               <th className="text-text_sm table_border border uppercase">
                 Serial
               </th>

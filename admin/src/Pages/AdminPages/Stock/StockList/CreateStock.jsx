@@ -201,7 +201,7 @@ const CreateStock = () => {
             </div>
           </div>
           <div className="overflow-x-auto">
-            <table className="table border border-blue-900">
+            <table className="w-full border border-blue-900">
               {/* head */}
               <thead className="">
                 <tr className="uppercase text-center bg-gray-700 text-white font-bold ">
