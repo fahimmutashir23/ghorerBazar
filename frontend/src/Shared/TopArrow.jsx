@@ -28,7 +28,7 @@ const TopArrow = () => {
 
   return (
     <div
-      className={`w-12 flex justify-center fixed right-0 bg-color_1 text-white py-2  transition-all duration-500 z-50 ${
+      className={`w-8 flex justify-center rounded-tl-md rounded-bl-md fixed right-0 bg-color_1 text-white py-1  transition-all duration-500 z-50 ${
         isVisible ? "bottom-14" : "-bottom-24"
       } `}
     >

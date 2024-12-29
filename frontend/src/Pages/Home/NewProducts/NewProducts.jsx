@@ -23,18 +23,18 @@ const NewProducts = () => {
           className="relative"
         >
           <CarouselContent className="flex gap-4 w-full">
-            <CarouselItem className="basis-1/1 lg:basis-1/2">
+            <CarouselItem className="basis-1/2 lg:basis-1/2">
               <Card />
             </CarouselItem>
-            <CarouselItem className="basis-1/1 lg:basis-1/2">
+            <CarouselItem className="basis-1/2 lg:basis-1/2">
               <Card />
             </CarouselItem>
-            <CarouselItem className="basis-1/1 lg:basis-1/2">
+            <CarouselItem className="basis-1/2 lg:basis-1/2">
               <Card />
             </CarouselItem>
           </CarouselContent>
-          <CarouselPrevious className="absolute -top-9 left-[240px] lg:left-[600px]" />
-          <CarouselNext className="absolute -top-9 right-0" />
+          <CarouselPrevious className="absolute -top-8 left-[0px] lg:left-[600px]" />
+          <CarouselNext className="absolute -top-8 right-0" />
         </Carousel>
       </div>
     </div>

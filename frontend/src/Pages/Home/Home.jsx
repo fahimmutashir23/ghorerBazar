@@ -12,6 +12,7 @@ import NewProducts from "./NewProducts/NewProducts";
 import SalesProducts from "./SalesProducts/SalesProducts";
 import Ads2 from "./Partial/Ads2";
 import Testimonial from "./Testimonial/Testimonial";
+import Blog from "./Blog/Blog";
 
 const Home = () => {
   const targetDate = "2024-06-01T23:59:59";
@@ -71,6 +72,7 @@ const Home = () => {
       {!isSmallScreen ? <AllProduct /> : <AllProducts />}
       <Ads2 banner={banner} />
       <Testimonial />
+      <Blog />
       <Contact />
     </div>
   );
