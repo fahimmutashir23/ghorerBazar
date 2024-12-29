@@ -13,7 +13,7 @@ const ProductCard = ({ product }) => {
             alt={product.name}
           />
         </div>
-        <div className="text-center text-[14.4px] px-[10px] pt-[10px] border-t-2 ">
+        <div className="text-center text-[14.4px] px-[10px] pt-[10px] border-t-2 flex flex-col items-center ">
           <h6 className="hover:text-[#008000] font-semibold">{product.name}</h6>
           {/* <p className="font-bold">{product.price}</p> */}
           <Rating value={product.reviews} readOnly cancel={false} />

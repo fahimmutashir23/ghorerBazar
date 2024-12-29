@@ -135,7 +135,7 @@ const PrintInvoice = ({ data }) => {
               <img src={logo} className="logo" alt="" />
             </h2>
             <h2 className="text-xl font-semibold">Ghuri</h2>
-            <p className="text-sm">Email: ghuri@gmail.com</p>
+            <p className="text-sm">Email: ghuribazarbd@gmail.com</p>
             <p className="text-sm">Phone: +880 1729-798079</p>
             <div className="mt-6">
               <p className="text-sm">

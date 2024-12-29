@@ -21,7 +21,7 @@ export default {
       colors: {
         color_1 : '#C80106', //main color red
         color_2 : '#C1D8C3', // ass light
-        color_3 : '#6A9C89', // ash dip
+        color_3 : '#24720E', // ash dip
         color_4 : '#FFE31A', // yellow
         text_primary : 'black',
         text_secondary : '#00964A',

@@ -8,6 +8,10 @@ import { useQuery } from "@tanstack/react-query";
 import AllProducts from "./Partial/SmallScreen/AllProducts";
 import useIsSmallScreen from "@/Hooks/useIsSmallScreen";
 import Contact from "./Contact";
+import NewProducts from "./NewProducts/NewProducts";
+import SalesProducts from "./SalesProducts/SalesProducts";
+import Ads2 from "./Partial/Ads2";
+import Testimonial from "./Testimonial/Testimonial";
 
 const Home = () => {
   const targetDate = "2024-06-01T23:59:59";
@@ -53,10 +57,20 @@ const Home = () => {
   if (isLoading) return <Loader2 />;
 
   return (
-    <div className="max-w-7xl mx-auto px-1 space-y-3">
+    <div className="max-w-7xl mx-auto px-1 space-y-5">
       <Banner banner={banner} />
       {isSmallScreen || <Ads banner={banner} />}
+      <div className="flex flex-col lg:flex-row gap-3 lg:gap-5">
+        <div className="lg:flex-1">
+          <NewProducts />
+        </div>
+        <div className="lg:flex-1">
+          <SalesProducts />
+        </div>
+      </div>
       {!isSmallScreen ? <AllProduct /> : <AllProducts />}
+      <Ads2 banner={banner} />
+      <Testimonial />
       <Contact />
     </div>
   );

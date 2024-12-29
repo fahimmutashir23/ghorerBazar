@@ -55,7 +55,7 @@ const AllProducts = () => {
       <PageHeader name={"All Product"} />
       <div
         ref={tabContainerRef}
-        className="flex overflow-x-auto gap-2 pb-2 scrollbar-thin scrollbar-thumb-gray-500 mt-2"
+        className="flex overflow-x-auto gap-2 pb-2 scrollbar-thin scrollbar-thumb-gray-500 mt-3"
       >
         <button
           onClick={() => handleCategoryClick(null)}
@@ -75,7 +75,7 @@ const AllProducts = () => {
           <button
             key={category._id}
             onClick={() => handleCategoryClick(category._id, index)}
-            className={`px-6 py-1 text-sm border bg-cover ${
+            className={`px-6 py-1 text-sm bg-cover ${
               activeCategory === category._id && "text-white"
             }`}
             style={{

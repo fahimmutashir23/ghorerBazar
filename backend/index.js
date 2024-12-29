@@ -9,8 +9,8 @@ const port = process.env.PORT || 5000;
 
 const corsOptions = {
   origin: [
-    'https://ghuri.net',
-    'https://admin.ghuri.net',
+    'http://ghuri.net',
+    'http://admin.ghuri.net',
     'http://localhost:5174',
     'http://localhost:5173',
   ],

@@ -16,7 +16,7 @@ const RelatedProduct = ({ id, setFetchProduct }) => {
   }, [id]);
 
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-5 gap-2 max-w-7xl mx-auto">
+    <div className="grid grid-cols-2 lg:grid-cols-5 gap-2 mt-3">
       {products?.map((product, idx) => (
         <RelatedCard key={idx} data={product} setFetchProduct={setFetchProduct} />
       ))}

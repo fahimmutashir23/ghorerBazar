@@ -35,9 +35,9 @@ const ImageZoom = ({image}) => {
       onMouseMove={handleMouseMove}
       onMouseOut={handleMouseOut}
     >
-      <img className="rounded-md object-cover" src={image} alt="Zoomable" />
+      <img className="h-full w-full object-contain" src={image} alt="Zoomable" />
       <div 
-        className="zoomed-image object-cover"
+        className="zoomed-image object-contain w-full h-full"
         style={{
             backgroundColor: "#fff",
           backgroundImage: `url(${image})`,

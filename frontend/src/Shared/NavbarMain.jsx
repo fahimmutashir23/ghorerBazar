@@ -68,9 +68,9 @@ const NavbarMain = () => {
       )}
 
       <div
-        className={`lg:hidden absolute top-[148px] ${
+        className={`lg:hidden absolute top-0 ${
           open ? "left-0" : "-left-[100%]"
-        } duration-300 z-30 w-4/5 md:3/5`}
+        } duration-300 z-30 w-full`}
       >
         <MenuBar setOpen={setOpen} open={open}></MenuBar>
       </div>

@@ -64,7 +64,7 @@ const AllProduct = () => {
   return (
     <div className="hidden lg:block">
       <PageHeader name={'All Product'} />
-      <div className="space-y-3 mt-2">
+      <div className="space-y-3 mt-3">
         {categories?.map((category, idx) => {
           const categoryProducts =
             productsByCat.find((p) => p.categoryId === category._id)

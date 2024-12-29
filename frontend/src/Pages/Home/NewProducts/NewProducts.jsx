@@ -1,0 +1,44 @@
+import PageHeader from "@/Shared/PageHeader";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/Components/ui/carousel";
+import Card from "./Card";
+
+const NewProducts = () => {
+  return (
+    <div className="w-full">
+      <div>
+        <PageHeader name={'New Product'} />
+      </div>
+      <div className="mt-4">
+        <Carousel
+          opts={{
+            align: "start",
+            loop: true,
+          }}
+          className="relative"
+        >
+          <CarouselContent className="flex gap-4 w-full">
+            <CarouselItem className="basis-1/1 lg:basis-1/2">
+              <Card />
+            </CarouselItem>
+            <CarouselItem className="basis-1/1 lg:basis-1/2">
+              <Card />
+            </CarouselItem>
+            <CarouselItem className="basis-1/1 lg:basis-1/2">
+              <Card />
+            </CarouselItem>
+          </CarouselContent>
+          <CarouselPrevious className="absolute -top-9 left-[240px] lg:left-[600px]" />
+          <CarouselNext className="absolute -top-9 right-0" />
+        </Carousel>
+      </div>
+    </div>
+  );
+};
+
+export default NewProducts;

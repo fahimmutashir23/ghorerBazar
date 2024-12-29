@@ -15,6 +15,9 @@ const DetailsTab = ({ singleProduct, reviews }) => {
             <Tab>
               <h2 className="font-bold text-text_large ">Review</h2>
             </Tab>
+            <Tab>
+              <h2 className="font-bold text-text_large ">Shipping Policy</h2>
+            </Tab>
           </TabList>
           <TabPanel>
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-3">
@@ -24,7 +27,7 @@ const DetailsTab = ({ singleProduct, reviews }) => {
                     <img
                       src={`${imgUrl.product}${item.img}`}
                       alt=""
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain"
                     />
                   </div>
                   <p>
@@ -37,6 +40,12 @@ const DetailsTab = ({ singleProduct, reviews }) => {
           </TabPanel>
           <TabPanel>
             <ReviewRating id={singleProduct._id} review={reviews} />
+          </TabPanel>
+          <TabPanel>
+              <li className="text-gray-700">sdlfkjsd</li>
+              <li className="text-gray-700">sdlfkjsd</li>
+              <li className="text-gray-700">sdlfkjsd</li>
+              <li className="text-gray-700">sdlfkjsd</li>
           </TabPanel>
         </Tabs>
       </div>

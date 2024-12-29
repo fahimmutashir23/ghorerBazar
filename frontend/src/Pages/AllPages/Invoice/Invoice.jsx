@@ -41,10 +41,9 @@ const Invoice = () => {
             <Logo w={10} />
           </h2>
           <h2 className="text-xl font-semibold">Ghuri</h2>
-          <p className="text-sm">Your Address Line 1</p>
-          <p className="text-sm">City, State, Zip Code</p>
-          <p className="text-sm">Email: your-email@example.com</p>
-          <p className="text-sm">Phone: (123) 456-7890</p>
+          <p className="text-sm">Ichapur, Kalihati, Tangail, Bangladesh</p>
+          <p className="text-sm">Email: ghuribazarbd@gmail.com</p>
+          <p className="text-sm">Phone: +880 1729-798079</p>
           <div className="mt-6">
             <p className="text-sm">
               <strong>Order ID: </strong>

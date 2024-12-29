@@ -6,6 +6,7 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import { Slider } from "@/Components/ui/slider";
 import { Link, useLocation } from "react-router-dom";
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
+import { RxCross1 } from "react-icons/rx";
 
 const MenuBar = ({ setOpen, open }) => {
   const location = useLocation();
@@ -32,14 +33,14 @@ const MenuBar = ({ setOpen, open }) => {
   };
 
   const handleClickCategory = (id) => {
-    setCategoryId([id])
+    setCategoryId([id]);
     setOpen(false);
-  }
+  };
 
   // Disable body scroll when the menubar is open
   useEffect(() => {
     if (open) {
-      document.body.classList.add("no-scroll")
+      document.body.classList.add("no-scroll");
       return () => {
         document.body.classList.remove("no-scroll");
       };
@@ -112,11 +113,15 @@ const MenuBar = ({ setOpen, open }) => {
       ) : (
         // All Category
         <div
-          className="bg-white h-[calc(100vh-135px)] overflow-y-auto flex flex-col justify-between"
+          className="bg-white h-screen overflow-y-auto flex flex-col justify-between"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="p-3">
-            <ul className="space-y-3 ">
+          <div className="px-3 pb-3">
+            <div className="py-3 border-b border-black flex justify-between">
+              <h1 className="text-xl font-bold">Menu</h1>
+              <RxCross1 onClick={() => setOpen(!open)} className="text-2xl" />
+            </div>
+            <ul className="space-y-3 mt-3">
               {categories.map((category, idx) => (
                 <li key={idx}>
                   <Link
@@ -130,7 +135,11 @@ const MenuBar = ({ setOpen, open }) => {
               ))}
             </ul>
           </div>
-          <Link to='/viewOrder' onClick={handleClose} className="bg-color_1 py-1 font-semibold text-white mb-3 flex justify-center items-center gap-1">
+          <Link
+            to="/viewOrder"
+            onClick={handleClose}
+            className="bg-color_1 py-1 font-semibold text-white mb-3 flex justify-center items-center gap-1"
+          >
             View Order
             <FaArrowUpRightFromSquare />
           </Link>

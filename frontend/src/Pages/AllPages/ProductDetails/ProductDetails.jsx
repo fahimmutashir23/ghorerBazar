@@ -13,6 +13,8 @@ import { BasicContext } from "@/ContextAPIs/BasicProvider";
 import useDeliveryCharge from "@/Hooks/useDeliveryCharge";
 import { imgUrl } from "@/Utils/imageUrl";
 import RelatedProduct from "./Partial/RelatedProduct";
+import { Rating } from "primereact/rating";
+import PageHeader from "@/Shared/PageHeader";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -94,17 +96,13 @@ const ProductDetails = () => {
 
   if (isLoading) return <Loader2 />;
 
-
   return (
     <>
       <div className="max-w-7xl mx-auto px-1">
         <div className="flex flex-col lg:flex-row items-start min-h-full gap-6">
           <div className="items-center w-full lg:w-[40%]">
-            <div className="border-2 rounded-md hover:border-green_color w-full h-72 overflow-hidden">
-              <ImageZoom
-                className="rounded-md w-full h-full object-contain"
-                image={`${imgUrl.product}${mainImg}`}
-              />
+            <div className="border-2 rounded-md hover:border-color_1  w-full h-64 lg:h-[400px] overflow-hidden">
+              <ImageZoom image={`${imgUrl.product}${mainImg}`} />
             </div>
 
             <div className="flex items-center justify-center m-3 gap-3 flex-row">
@@ -112,7 +110,7 @@ const ProductDetails = () => {
                 <button
                   onClick={() => setMainImg(img)}
                   key={idx}
-                  className={`h-20 w-20 border-2 rounded-md ${
+                  className={`h-20 w-20 border-2 rounded-md overflow-hidden ${
                     img === mainImg && "border-gray-700"
                   }`}
                 >
@@ -132,7 +130,10 @@ const ProductDetails = () => {
               <p className="font-bold text-2xl text-color_1">
                 {singleProduct?.name}
               </p>
-
+              <div className="flex items-center gap-2">
+                <Rating value={singleProduct.review} readOnly cancel={false} />
+                <p className="text-sm">O customer reviews</p>
+              </div>
               <div>
                 <hr className="my-3" />
                 <div className="w-full mb-3">
@@ -250,10 +251,13 @@ const ProductDetails = () => {
           singleProduct={singleProduct}
         />
       </div>
-      <RelatedProduct
-        id={singleProduct.category._id}
-        setFetchProduct={setFetchProduct}
-      />
+      <div className="max-w-7xl mx-auto">
+        <PageHeader name={"Related Products"} />
+        <RelatedProduct
+          id={singleProduct.category._id}
+          setFetchProduct={setFetchProduct}
+        />
+      </div>
     </>
   );
 };
