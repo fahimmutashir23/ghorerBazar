@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../Hooks/useAxiosPublic";
 import { url } from "../../connection";
+import logo from "../assets/logo/logo.jpg"
 
 const Logo = ({h, w}) => {
     const axiosPublic = useAxiosPublic();
@@ -17,7 +18,7 @@ const Logo = ({h, w}) => {
 
     return (
         <div>
-            <img src={`${imgUrl}${data}`} className={`h-${h} w-${w}`} alt="" />
+            <img src={logo} className={`h-${h} w-${w}`} alt="" />
         </div>
     );
 };

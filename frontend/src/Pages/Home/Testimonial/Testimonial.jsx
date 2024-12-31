@@ -4,7 +4,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel";
+} from "@/Components/ui/carousel";
 import PageHeader from "@/Shared/PageHeader";
 import { FaQuoteRight } from "react-icons/fa";
 
