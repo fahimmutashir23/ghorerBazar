@@ -11,6 +11,7 @@ import useGetCollectionLength from "@/Hooks/Apis/useGetCollectionLength";
 import { Paginator } from "primereact/paginator";
 import { IoAddCircleOutline, IoSearchSharp } from "react-icons/io5";
 import useHasAccess from "../../../Hooks/useHasAccess";
+import { button } from "@/Utils/Class/button";
 
 const UserList = () => {
   const [popOpen, setPopOpen] = useState(null);
@@ -89,7 +90,7 @@ const UserList = () => {
         <div className="flex flex-col md:flex-row md:items-center lg:gap-6 md:justify-between gap-2 md:gap-0 bg-gray-100 mb-2 w-full ">
           <div className="flex">
             <button
-              className={`text-text_lg bg-gray-700 text-white px-5 py-2 font-bold duration-500`}
+              className={button.tableButton}
             >
               All( {collectionData.user} )
             </button>
@@ -101,7 +102,7 @@ const UserList = () => {
           {hasAccess?.some(item => item === 'user-create') &&
             <button
           onClick={() => setIsOpen(true)}
-          className="text-text_lg bg-gray-700 text-white px-5 py-2 font-bold duration-500 flex items-center gap-2"
+          className={`${button.tableButton} flex items-center gap-2`}
         >
           <IoAddCircleOutline className="text-2xl font-bold" />
           <span>Add User</span>
@@ -113,8 +114,8 @@ const UserList = () => {
         <table className="w-full border">
           {/* head */}
           <thead className="h-[40px] bg-bg_slate text-_white">
-            <tr className="uppercase text-center py-2 font-bold">
-              <th className="text-text_sm table_border border uppercase">
+            <tr className="uppercase text-center  font-bold">
+              <th className="text-text_sm table_border border uppercase py-2">
                 Serial
               </th>
               <th className="text-text_sm table_border border uppercase">

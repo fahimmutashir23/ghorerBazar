@@ -5,6 +5,7 @@ import Loader from "../../../Utils/Loader";
 import useGetCollectionLength from "../../../Hooks/Apis/useGetCollectionLength";
 import { Paginator } from "primereact/paginator";
 import { IoSearchSharp } from "react-icons/io5";
+import { button } from "@/Utils/Class/button";
 
 const Contact = () => {
   const axiosSecure = useAxiosSecure();
@@ -50,7 +51,7 @@ const Contact = () => {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-0 bg-gray-100 mb-2 w-full ">
           <div className="flex flex-1">
             <button
-              className={`text-text_lg bg-gray-700 text-white px-5 py-2 font-bold duration-500`}
+              className={button.tableButton}
             >
               All( {collectionData.contact} )
             </button>

@@ -13,6 +13,7 @@ import Loader2 from "../../../Utils/Loader2";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import useHasAccess from "@/Hooks/useHasAccess";
+import { button } from "@/Utils/Class/button";
 
 const ProductList = () => {
   const [hasAccess] = useHasAccess();
@@ -84,7 +85,7 @@ const ProductList = () => {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-0 bg-gray-100 mb-2 w-full ">
           <div className="flex">
             <button
-              className={`text-text_lg bg-gray-700 text-white px-5 py-2 font-bold duration-500`}
+              className={button.tableButton}
             >
               All( {collectionData.product} )
             </button>
@@ -92,7 +93,7 @@ const ProductList = () => {
           {/* <AddProductModal collectionFetch={collectionFetch} loader={loader} setLoader={setLoader} fetchData={refetch} /> */}
           <Link
             to="/admin/add-product"
-            className="text-text_lg bg-gray-700 text-white px-5 py-2 font-bold duration-500 flex items-center gap-2"
+            className={`${button.tableButton} flex items-center gap-2`}
           >
             <IoAddCircleOutline className="text-2xl font-bold" />
             <span className="mt-1">Add Product</span>
@@ -102,9 +103,9 @@ const ProductList = () => {
       <div className="overflow-x-auto pb-32 ">
         <table className="w-full border border-blue-900">
           {/* head */}
-          <thead className="py-2">
-            <tr className="uppercase text-center py-2 bg-gray-700 text-white font-bold ">
-              <th className="text-lg border">Product Name</th>
+          <thead>
+            <tr className="uppercase text-center bg-gray-700 text-white font-bold ">
+              <th className="text-lg border py-1">Product Name</th>
               <th className="text-lg border">Product Category</th>
               <th className="text-lg border">Brand</th>
               <th className="text-lg border">Price</th>

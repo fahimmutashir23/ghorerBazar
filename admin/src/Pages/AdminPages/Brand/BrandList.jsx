@@ -81,7 +81,7 @@ const BrandList = () => {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-0 bg-gray-100 mb-2 w-full ">
           <div className="flex">
             <button
-              className={`text-text_lg bg-gray-700 text-white px-5 py-2 font-bold duration-500`}
+              className={button.tableButton}
             >
               All( {collectionData.brand} )
             </button>

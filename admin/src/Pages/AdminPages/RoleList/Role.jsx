@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import Loader from "../../../Utils/Loader";
 import { IoAddCircleOutline } from "react-icons/io5";
+import { button } from "@/Utils/Class/button";
 
 const Role = () => {
   const axiosSecure = useAxiosSecure();
@@ -38,7 +39,7 @@ const Role = () => {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-0 bg-gray-100 mb-2 w-full ">
           <div className="flex">
             <button
-              className={`text-text_lg bg-gray-700 text-white px-5 py-2 font-bold duration-500`}
+              className={button.tableButton}
             >
               All Role
             </button>
@@ -47,7 +48,7 @@ const Role = () => {
           (
             <Link
               to="/admin/createRole"
-              className={`text-text_lg bg-gray-700 text-white px-5 py-2 font-bold hover:bg-gray-800 duration-500 flex gap-2 items-center`}
+              className={`${button.tableButton} flex gap-2 items-center`}
             >
               <IoAddCircleOutline className="text-2xl font-bold" />
               <span>New Role</span>

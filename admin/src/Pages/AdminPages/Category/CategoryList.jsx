@@ -11,6 +11,7 @@ import useGetCollectionLength from "../../../Hooks/Apis/useGetCollectionLength";
 import { Paginator } from "primereact/paginator";
 import Loader2 from "../../../Utils/Loader2";
 import useGetProductCat from "@/Hooks/Apis/useGetProductCat";
+import { button } from "@/Utils/Class/button";
 
 const CategoryList = () => {
   const [popOpen, setPopOpen] = useState(null);
@@ -67,7 +68,7 @@ const CategoryList = () => {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-0 bg-gray-100 mb-2 w-full ">
           <div className="flex">
             <button
-              className={`text-text_lg bg-gray-700 text-white px-5 py-2 font-bold duration-500`}
+              className={button.tableButton}
             >
               All( {collectionData.category} )
             </button>
@@ -80,7 +81,7 @@ const CategoryList = () => {
           {/* head */}
           <thead className="py-2">
             <tr className="uppercase text-center py-2 bg-gray-700 text-white font-bold ">
-              <th className="text-lg border">Category Name</th>
+              <th className="text-lg border py-2">Category Name</th>
               <th className="text-lg border">Actions</th>
             </tr>
           </thead>

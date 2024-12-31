@@ -5,6 +5,7 @@ import { IoMdClose } from "react-icons/io";
 import { toast } from "react-toastify";
 import { IoAddCircleOutline } from "react-icons/io5";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import { button } from "@/Utils/Class/button";
 
 const AddDeliveryChargeModal = ({ fetchData, collectionFetch, setLoader }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -46,7 +47,7 @@ const AddDeliveryChargeModal = ({ fetchData, collectionFetch, setLoader }) => {
         <button
           type="button"
           onClick={() => setIsOpen(true)}
-          className="text-text_lg bg-gray-700 text-white px-5 py-2 font-bold duration-500 flex items-center gap-2"
+          className={`${button.tableButton} flex items-center gap-2`}
         >
           <IoAddCircleOutline className="text-2xl font-bold" />
           <span className="mt-1">Add Charge</span>

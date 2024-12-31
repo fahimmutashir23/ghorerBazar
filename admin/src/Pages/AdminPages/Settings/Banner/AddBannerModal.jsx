@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "/components/ui/select";
+import { button } from "@/Utils/Class/button";
 
 const AddBannerModal = ({ fetchData, setLoader, collectionFetch }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -58,7 +59,7 @@ const AddBannerModal = ({ fetchData, setLoader, collectionFetch }) => {
         <button
           type="button"
           onClick={() => setIsOpen(true)}
-          className="text-text_lg bg-gray-700 text-white px-5 py-2 font-bold duration-500 flex items-center gap-2"
+          className={`${button.tableButton} flex items-center gap-2`}
         >
           <IoAddCircleOutline className="text-2xl font-bold" />
           <span className="mt-1">Add Banner</span>

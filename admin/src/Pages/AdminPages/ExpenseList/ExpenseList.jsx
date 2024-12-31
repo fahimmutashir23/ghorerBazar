@@ -74,7 +74,7 @@ const ExpenseList = () => {
         <div className="flex flex-col md:flex-row md:items-center lg:gap-6 md:justify-between gap-2 md:gap-0 bg-gray-100 mb-2 w-full ">
           <div className="flex">
             <button
-              className={`text-text_lg bg-gray-700 text-white px-5 py-2 font-bold duration-500`}
+              className={button.tableButton}
             >
               All( {collectionData?.expense?.expense} )
             </button>
@@ -85,7 +85,7 @@ const ExpenseList = () => {
           </div>
           <Link
           to='/admin/expenseCreate'
-          className="text-text_lg bg-gray-700 text-white px-5 py-2 font-bold duration-500 flex items-center gap-2"
+          className={`${button.tableButton} flex items-center gap-2`}
         >
           <IoAddCircleOutline className="text-2xl font-bold" />
           <span>Add Expense</span>

@@ -12,6 +12,7 @@ import { BasicContext } from "@/ContextAPIs/BasicProvider";
 import { IoMdEye } from "react-icons/io";
 import InvoiceModal from "../Invoice/InvoiceModal";
 import useHasAccess from "@/Hooks/useHasAccess";
+import { button } from "@/Utils/Class/button";
 
 const BookingsList = () => {
   const [hasAccess] = useHasAccess();
@@ -99,7 +100,7 @@ const BookingsList = () => {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-0 bg-gray-100 mb-2 w-full ">
           <div className="flex flex-1">
             <button
-              className={`text-text_lg bg-gray-700 text-white px-5 py-2 font-bold duration-500`}
+              className={button.tableButton}
             >
               All( {collectionData.booking} )
             </button>
@@ -139,8 +140,8 @@ const BookingsList = () => {
         <table className="w-full border border-blue-900">
           {/* head */}
           <thead className="py-2">
-            <tr className="uppercase text-center py-2 bg-gray-700 text-white font-bold ">
-              <th className="text-lg border">Customer Name</th>
+            <tr className="uppercase text-center  bg-gray-700 text-white font-bold ">
+              <th className="text-lg border py-2">Customer Name</th>
               <th className="text-lg border">Mobile</th>
               <th className="text-lg border">Product Name</th>
               <th className="text-lg border">Category</th>

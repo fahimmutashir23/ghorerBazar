@@ -12,6 +12,7 @@ import { Paginator } from "primereact/paginator";
 import Loader2 from "../../../Utils/Loader2";
 import { useQuery } from "@tanstack/react-query";
 import useHasAccess from "@/Hooks/useHasAccess";
+import { button } from "@/Utils/Class/button";
 
 const DeliveryChargeList = () => {
   const [hasAccess] = useHasAccess();
@@ -83,7 +84,7 @@ const DeliveryChargeList = () => {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-0 bg-gray-100 mb-2 w-full ">
           <div className="flex">
             <button
-              className={`text-text_lg bg-gray-700 text-white px-5 py-2 font-bold duration-500`}
+              className={button.tableButton}
             >
               All( {collectionData.category} )
             </button>
@@ -96,7 +97,7 @@ const DeliveryChargeList = () => {
           {/* head */}
           <thead className="py-2">
             <tr className="uppercase text-center py-2 bg-gray-700 text-white font-bold ">
-              <th className="text-lg border">City Name</th>
+              <th className="text-lg border py-2">City Name</th>
               <th className="text-lg border">Amount</th>
               <th className="text-lg border">Actions</th>
             </tr>
