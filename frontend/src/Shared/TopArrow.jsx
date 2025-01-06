@@ -29,7 +29,7 @@ const TopArrow = () => {
   return (
     <div
       className={`w-8 flex justify-center rounded-tl-md rounded-bl-md fixed right-0 bg-color_1 text-white py-1  transition-all duration-500 z-50 ${
-        isVisible ? "bottom-14" : "-bottom-24"
+        isVisible ? "bottom-16" : "-bottom-24"
       } `}
     >
       <ul className="space-y-1 flex flex-col items-center">

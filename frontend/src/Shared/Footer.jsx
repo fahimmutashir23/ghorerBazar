@@ -3,7 +3,7 @@ import { FaPhoneVolume } from "react-icons/fa6";
 import Logo from "./Logo";
 
 const Footer = () => {
-  const phoneNumber = '+8801729798079'
+  const phoneNumber = '8801729798079'
   return (
     <div className="bg-color_2 py-4 md:py-10 px-2 lg:px-4">
       <div className="max-w-7xl mx-auto grid grid-cols-12 gap-4 lg:gap-10">
@@ -55,7 +55,7 @@ const Footer = () => {
           </ul>
           <div className="flex gap-4 mt-4 items-center">
             <a href="https://www.facebook.com/ghuri.net" target="_blank"><FaFacebook className="text-3xl" /></a>
-            <a href="https://wa.me/+880 1729-798079" target="_blank"><FaWhatsapp className="text-3xl" /></a>
+            <a href="https://wa.me/8801729798079" target="_blank"><FaWhatsapp className="text-3xl" /></a>
             <a href={`tel:${phoneNumber}`}><FaPhoneVolume className="text-3xl" /></a>
             <a href=""><FaYoutube className="text-4xl" /></a>
           </div>

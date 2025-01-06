@@ -6,12 +6,15 @@ import TopArrow from "@/Shared/TopArrow";
 import NavbarMain from "@/Shared/NavbarMain";
 import CartBar from "@/Components/CartBar";
 import { FaMagnifyingGlass } from "react-icons/fa6";
+import StickyFooter from "@/Shared/StickyFooter";
 
 const Layout = () => {
   return (
-    <div className="overflow-x-hidden bg-color_2">
-      <NavbarTop />
-      <NavbarMain />
+    <div className="bg-color_2">
+        <NavbarTop />
+      <div className="sticky top-0 z-50">
+        <NavbarMain />
+      </div>
       <div className="relative w-full lg:hidden">
         <input
           type="search"
@@ -41,6 +44,9 @@ const Layout = () => {
       </div> */}
       <div>
         <TopArrow />
+      </div>
+      <div className="fixed bottom-0 lg:hidden w-full z-50">
+        <StickyFooter />
       </div>
       <CartBar />
     </div>
